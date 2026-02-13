@@ -11,7 +11,7 @@ on:
       config_file:
         description: 'Test configuration file path'
         required: true
-        default: 'config/tests.yaml'
+        default: 'input-echo-demo/tests.yaml'
         type: string
 
 jobs:
@@ -82,5 +82,5 @@ jobs:
           else
             git commit -m "$COMMIT_MSG" -m "$COMMIT_BODY"
             git push origin $REPORT_BRANCH
-            echo "✅ Report pushed to $REPORT_BRANCH branch"
+            echo "Report pushed to $REPORT_BRANCH branch"
           fi
