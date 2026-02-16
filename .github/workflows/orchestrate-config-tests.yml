@@ -1,21 +1,24 @@
-name: Run Tests
+name: Run Configured Tests
 
 on: 
   workflow_dispatch:
     inputs:
-      demo:
-        description: 'Choose demo to run'     
+      report_branch:
+        description: 'Branch to push test reports to'
         required: true
-        default: 'input-echo-demo'
-        type: choice
-        options:
-          - input-echo-demo
+        default: 'grmp-reports'
+        type: string
+      config_file:
+        description: 'Test configuration file path'
+        required: true
+        default: 'input-echo-demo/tests.yaml'
+        type: string
 
 jobs:
   test:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write  # Changed from 'read' to allow pushing to report branch
       packages: read
     
     steps:
@@ -33,14 +36,60 @@ jobs:
           mkdir -p reports
           docker run --rm \
             -v /var/run/docker.sock:/var/run/docker.sock \
-            -v ${{ github.workspace }}/${{ github.event.inputs.demo }}/tests.yaml:/config/tests.yaml:ro \
+            -v ${{ github.workspace }}/${{ github.event.inputs.config_file }}:/config/tests.yaml:ro \
             -v ${{ github.workspace }}/reports:/reports:rw \
             -e REPORTS_HOST_PATH=${{ github.workspace }}/reports \
             ghcr.io/vliz-be-opsci/grmp-framework:main
       
-      - name: Upload test results
-        uses: actions/upload-artifact@v4
+      - name: Push report to branch
+        env:
+          INPUT_REPORT_BRANCH: ${{ github.event.inputs.report_branch }}
+          CONFIG_FILE: ${{ github.event.inputs.config_file }}
+          ACTOR: ${{ github.actor }}
+          WORKFLOW: ${{ github.workflow }}
+          RUN_ID: ${{ github.run_id }}
+          RUN_NUMBER: ${{ github.run_number }}
+          REF_NAME: ${{ github.ref_name }}
         if: always()
-        with:
-          name: test-results
-          path: reports/combined_report.xml
+        run: |
+          REPORT_BRANCH="$INPUT_REPORT_BRANCH"
+          
+          if [ ! -f "reports/combined_report.xml" ]; then
+            echo "Error: No report file found at reports/combined_report.xml"
+            exit 1
+          fi
+          
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
+          git fetch origin "$REPORT_BRANCH" 2>/dev/null || true
+          
+          if git ls-remote --heads origin "$REPORT_BRANCH" | grep -qF "$REPORT_BRANCH"; then
+            # Branch exists, check it out
+            git checkout "$REPORT_BRANCH"
+          else
+            git checkout --orphan "$REPORT_BRANCH"
+            git rm -rf . 2>/dev/null || true
+          fi
+          
+          git checkout ${{ github.sha }} -- dashboard/ 2>/dev/null || true
+          
+          cp reports/combined_report.xml report.xml
+          
+          git add report.xml
+          git add dashboard/ 2>/dev/null || true
+          
+          SHORT_SHA=$(echo "$GITHUB_SHA" | cut -c1-7)
+          COMMIT_MSG="Test run #${RUN_NUMBER} (${REF_NAME} @ ${SHORT_SHA})"
+          COMMIT_BODY="Config: ${CONFIG_FILE}
+          Triggered by: ${ACTOR}
+          Workflow: ${WORKFLOW}
+          Run ID: ${RUN_ID}"
+          
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "$COMMIT_MSG" -m "$COMMIT_BODY"
+            git push origin "$REPORT_BRANCH"
+            echo "Report pushed to $REPORT_BRANCH branch"
+          fi
