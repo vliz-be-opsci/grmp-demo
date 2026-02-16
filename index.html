@@ -696,7 +696,7 @@
         function detectMode() {
             const hostname = window.location.hostname;
             const protocol = window.location.protocol;
-            if (hostname.endsWith('github.io')) {
+            if ((hostname.endsWith('github.io')) || (hostname.startsWith('open-science.vliz.be'))) {
                 state.mode = 'github';
                 const pathParts = window.location.pathname.split('/').filter(p => p);
                 if (hostname.includes('.')) {
