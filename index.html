@@ -700,8 +700,10 @@
                 state.mode = 'github';
                 const pathParts = window.location.pathname.split('/').filter(p => p);
                 if (hostname.includes('.')) {
-                    state.repoOwner = hostname.split('.')[0];
-                    state.repoName = pathParts[0] || null;
+                    //state.repoOwner = hostname.split('.')[0];
+                    //state.repoName = pathParts[0] || null;
+                    state.repoOwner = 'vliz-be-opsci';
+                    state.repoName = 'grmp-demo';
                 }
                 return true;
             }
