@@ -1,0 +1,25 @@
+{
+  "generated_at": "2026-02-17T17:49:39.367367Z",
+  "runs": [
+    {
+      "commit_sha": "0bc993a5157cabee98fa8b18b8582b739e4b1d75",
+      "short_sha": "0bc993a",
+      "date": "2026-02-17T17:49:39.325655Z",
+      "run_number": 5,
+      "source_branch": "feat/orchestrate-workflow-rework",
+      "config_file": "input-echo-demo/tests.yaml",
+      "triggered_by": "stijndns",
+      "workflow_name": "Run Configured Tests",
+      "run_id": "22109418986",
+      "summary": {
+        "total_tests": 8,
+        "passed": 5,
+        "failed": 2,
+        "errors": 0,
+        "skipped": 1,
+        "pass_rate": 62.5,
+        "duration": 0.0001
+      }
+    }
+  ]
+}
