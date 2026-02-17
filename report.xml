@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <testsuites>
-	<testsuite name="input-echo-1" timestamp="2026-02-16T11:06:47.009683+00:00" tests="2" errors="0" failures="0" skipped="0" time="4.100799560546875e-05">
+	<testsuite name="input-echo-1" timestamp="2026-02-17T17:48:44.556315+00:00" tests="2" errors="0" failures="0" skipped="0" time="4.744529724121094e-05">
 		<properties>
 			<property name="url" value="https://brugge-ldes.geomobility.eu/observations"/>
 			<property name="max-redirects" value="3"/>
@@ -10,10 +10,10 @@
 			<property name="test_parameter_count" value="5"/>
 			<property name="empty_test_parameter_count" value="0"/>
 		</properties>
-		<testcase name="get_env_test" classname="input-echo-1" time="2.6226043701171875e-05"/>
-		<testcase name="check_emptiness_test" classname="input-echo-1" time="1.4781951904296875e-05"/>
+		<testcase name="get_env_test" classname="input-echo-1" time="3.123283386230469e-05"/>
+		<testcase name="check_emptiness_test" classname="input-echo-1" time="1.621246337890625e-05"/>
 	</testsuite>
-	<testsuite name="input-echo-2" timestamp="2026-02-16T11:06:47.991921+00:00" tests="2" errors="0" failures="0" skipped="0" time="3.6716461181640625e-05">
+	<testsuite name="input-echo-2" timestamp="2026-02-17T17:48:45.806750+00:00" tests="2" errors="0" failures="0" skipped="0" time="4.1484832763671875e-05">
 		<properties>
 			<property name="url" value="https://brugge-ldes.geomobility.eu/observations"/>
 			<property name="supports-content-types" value="['text/turtle', 'application/trig']"/>
@@ -21,10 +21,10 @@
 			<property name="test_parameter_count" value="3"/>
 			<property name="empty_test_parameter_count" value="0"/>
 		</properties>
-		<testcase name="get_env_test" classname="input-echo-2" time="2.3365020751953125e-05"/>
-		<testcase name="check_emptiness_test" classname="input-echo-2" time="1.33514404296875e-05"/>
+		<testcase name="get_env_test" classname="input-echo-2" time="2.7894973754882812e-05"/>
+		<testcase name="check_emptiness_test" classname="input-echo-2" time="1.3589859008789062e-05"/>
 	</testsuite>
-	<testsuite name="input-echo-3" timestamp="2026-02-16T11:06:49.163818+00:00" tests="2" errors="0" failures="1" skipped="0" time="4.029273986816406e-05">
+	<testsuite name="input-echo-3" timestamp="2026-02-17T17:48:47.056416+00:00" tests="2" errors="0" failures="1" skipped="0" time="4.5299530029296875e-05">
 		<properties>
 			<property name="url" value="None"/>
 			<property name="supports-content-types" value="['text/turtle', 'application/trig']"/>
@@ -32,16 +32,16 @@
 			<property name="test_parameter_count" value="3"/>
 			<property name="empty_test_parameter_count" value="1"/>
 		</properties>
-		<testcase name="get_env_test" classname="input-echo-3" time="2.4318695068359375e-05"/>
-		<testcase name="check_emptiness_test" classname="input-echo-3" time="1.5974044799804688e-05">
+		<testcase name="get_env_test" classname="input-echo-3" time="2.8848648071289062e-05"/>
+		<testcase name="check_emptiness_test" classname="input-echo-3" time="1.6450881958007812e-05">
 			<failure message="Empty test parameters found">url</failure>
 		</testcase>
 	</testsuite>
-	<testsuite name="input-echo-4" timestamp="2026-02-16T11:06:50.157173+00:00" tests="2" errors="0" failures="1" skipped="1" time="2.0265579223632812e-05">
+	<testsuite name="input-echo-4" timestamp="2026-02-17T17:48:48.439614+00:00" tests="2" errors="0" failures="1" skipped="1" time="2.47955322265625e-05">
 		<properties>
 			<property name="test_parameter_count" value="0"/>
 		</properties>
-		<testcase name="get_env_test" classname="input-echo-4" time="2.0265579223632812e-05">
+		<testcase name="get_env_test" classname="input-echo-4" time="2.47955322265625e-05">
 			<failure message="No test parameters found"/>
 		</testcase>
 		<testcase name="check_emptiness_test" classname="input-echo-4" time="0.0">
