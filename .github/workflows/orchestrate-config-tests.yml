@@ -8,7 +8,7 @@ on:
         required: true
         default: 'grmp-reports'
         type: string
-      config_file:
+      config_file_path:
         description: 'Test configuration file path'
         required: true
         default: 'input-echo-demo/tests.yaml'
@@ -32,19 +32,21 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       
       - name: Run tests
+        env:
+          config_file_path: ${{ github.event.inputs.config_file_path }}
         run: |
           mkdir -p reports
           docker run --rm \
             -v /var/run/docker.sock:/var/run/docker.sock \
-            -v ${{ github.workspace }}/${{ github.event.inputs.config_file }}:/config/tests.yaml:ro \
+            -v ${{ github.workspace }}/${config_file_path}:/config/tests.yaml:ro \
             -v ${{ github.workspace }}/reports:/reports:rw \
             -e REPORTS_HOST_PATH=${{ github.workspace }}/reports \
             ghcr.io/vliz-be-opsci/grmp-framework:main
-      
+
       - name: Push report to branch
         env:
           INPUT_REPORT_BRANCH: ${{ github.event.inputs.report_branch }}
-          CONFIG_FILE: ${{ github.event.inputs.config_file }}
+          CONFIG_FILE_PATH: ${{ github.event.inputs.config_file_path }}
           ACTOR: ${{ github.actor }}
           WORKFLOW: ${{ github.workflow }}
           RUN_ID: ${{ github.run_id }}
@@ -81,7 +83,7 @@ jobs:
           
           SHORT_SHA=$(echo "$GITHUB_SHA" | cut -c1-7)
           COMMIT_MSG="Test run #${RUN_NUMBER} (${REF_NAME} @ ${SHORT_SHA})"
-          COMMIT_BODY="Config: ${CONFIG_FILE}
+          COMMIT_BODY="Config: ${CONFIG_FILE_PATH}
           Triggered by: ${ACTOR}
           Workflow: ${WORKFLOW}
           Run ID: ${RUN_ID}"
