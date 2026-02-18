@@ -87,11 +87,12 @@ jobs:
           fi
           
           git checkout ${{ github.sha }} -- dashboard/ 2>/dev/null || true
-          
+          cp -a dashboard/. .
+                   
           cp reports/combined_report.xml report.xml
           
           git add report.xml
-          git add dashboard/ 2>/dev/null || true
+          git add index.html 2>/dev/null || true
           
           SHORT_SHA=$(echo "$GITHUB_SHA" | cut -c1-7)
           COMMIT_MSG="Test run #${RUN_NUMBER} (${REF_NAME} @ ${SHORT_SHA})"
