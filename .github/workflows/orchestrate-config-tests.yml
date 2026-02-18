@@ -85,9 +85,14 @@ jobs:
             git checkout --orphan "$REPORT_BRANCH"
             git rm -rf . 2>/dev/null || true
           fi
+
+
           
           git checkout ${{ github.sha }} -- dashboard/ 2>/dev/null || true
-          cp -a dashboard/. .
+          
+          if [ -d dashboard ]; then
+            cp -a dashboard/. .
+          fi
                    
           cp reports/combined_report.xml report.xml
           
