@@ -874,7 +874,7 @@
                 skipped += parseInt(suite.getAttribute('skipped') || 0);
                 totalTime += parseFloat(suite.getAttribute('time') || 0);
             });
-            const passed = totalTests - failed - errors - skipped;
+            const passed = Math.max(0, totalTests - failed - errors - skipped);
             return {
                 totalSuites: suites.length,
                 totalTests,
