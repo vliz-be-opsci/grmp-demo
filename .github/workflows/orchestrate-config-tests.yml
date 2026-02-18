@@ -92,6 +92,8 @@ jobs:
           
           if [ -d dashboard ]; then
             cp -a dashboard/. .
+            git rm -rf --cached dashboard/ 2>/dev/null || true
+            rm -rf dashboard/
           fi
                    
           cp reports/combined_report.xml report.xml
