@@ -39,7 +39,7 @@ jobs:
           docker run --rm \
             -v /var/run/docker.sock:/var/run/docker.sock \
             -v "${{ github.workspace }}/${config_file_path}":/config/tests.yaml:ro \
-            -v ${{ github.workspace }}/reports:/reports:rw \
+            -v "${{ github.workspace }}/reports":/reports:rw \
             -e REPORTS_HOST_PATH=${{ github.workspace }}/reports \
             ghcr.io/vliz-be-opsci/grmp-framework:main
 
@@ -153,13 +153,13 @@ jobs:
             suites = [root]
             
           for suite in suites:
-              total_tests += int(suite.get('tests', 0))
-              failures    += int(suite.get('failures', 0))
-              errors      += int(suite.get('errors', 0))
-              skipped     += int(suite.get('skipped', 0))
-              total_time  += float(suite.get('time', 0))
+              total_tests += int(suite.get('tests') or 0)
+              failures    += int(suite.get('failures') or 0)
+              errors      += int(suite.get('errors') or 0)
+              skipped     += int(suite.get('skipped') or 0)
+              total_time  += float(suite.get('time') or 0)
 
-          passed    = total_tests - failures - errors - skipped
+          passed    = max(0, total_tests - failures - errors - skipped)
           pass_rate = round((passed / total_tests * 100), 2) if total_tests > 0 else 0
 
           new_run = {
@@ -253,4 +253,3 @@ jobs:
             git push origin "${REPORT_BRANCH}"
             echo "runs.json committed to ${REPORT_BRANCH}"
           fi
-
