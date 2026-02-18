@@ -38,7 +38,7 @@ jobs:
           mkdir -p reports
           docker run --rm \
             -v /var/run/docker.sock:/var/run/docker.sock \
-            -v ${{ github.workspace }}/${config_file_path}:/config/tests.yaml:ro \
+            -v "${{ github.workspace }}/${config_file_path}":/config/tests.yaml:ro \
             -v ${{ github.workspace }}/reports:/reports:rw \
             -e REPORTS_HOST_PATH=${{ github.workspace }}/reports \
             ghcr.io/vliz-be-opsci/grmp-framework:main
@@ -108,7 +108,7 @@ jobs:
           echo "   Report commit SHA: ${REPORT_COMMIT_SHA}"
 
       - name: Parse report and generate run metadata
-        if: always()
+        if: success()
         env:
           CONFIG_FILE: ${{ github.event.inputs.config_file_path }}
           RUN_NUMBER: ${{ github.run_number }}
@@ -147,7 +147,12 @@ jobs:
           skipped     = 0
           total_time  = 0.0
 
-          for suite in root.findall('.//testsuite'):
+          # Handle case where root itself is a testsuite
+          suites = root.findall('.//testsuite')
+          if root.tag == 'testsuite' and not suites:
+            suites = [root]
+            
+          for suite in suites:
               total_tests += int(suite.get('tests', 0))
               failures    += int(suite.get('failures', 0))
               errors      += int(suite.get('errors', 0))
@@ -190,7 +195,7 @@ jobs:
           EOF
 
       - name: Update runs.json
-        if: always()
+        if: success()
         run: |
           python3 << 'EOF'
           import json
@@ -229,7 +234,7 @@ jobs:
           EOF
 
       - name: Commit runs.json to report branch
-        if: always()
+        if: success()
         env:
           REPORT_BRANCH: ${{ github.event.inputs.report_branch }}
           RUN_NUMBER: ${{ github.run_number }}
