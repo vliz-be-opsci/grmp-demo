@@ -45,7 +45,7 @@ jobs:
             -v /var/run/docker.sock:/var/run/docker.sock \
             -v "${{ github.workspace }}/${config_file_path}":/config/tests.yaml:ro \
             -v "${{ github.workspace }}/reports":/reports:rw \
-            -e REPORTS_HOST_PATH=${{ github.workspace }}/reports \
+            -e REPORTS_HOST_PATH="${{ github.workspace }}/reports" \
             ghcr.io/vliz-be-opsci/grmp-framework:main
 
       - name: Set up Python
@@ -263,15 +263,23 @@ jobs:
         if: success()
         env:
           REPORT_BRANCH: ${{ github.event.inputs.report_branch }}
-          LABEL: ${{ github.event.inputs.dashboard_label }}
+          DASHBOARD_LABEL: ${{ github.event.inputs.dashboard_label || github.repository }}
+          RUN_NUMBER: ${{ github.run_number }}
         run: |
-          # Use repository name as fallback if label not provided
-          DASHBOARD_LABEL="${LABEL:-${{ github.repository }}}"
-          
-          cat > config.json << EOF
-          {
-            "reportUrl": "https://raw.githubusercontent.com/${{ github.repository }}/${REPORT_BRANCH}/report.xml",
-            "runsUrl": "https://raw.githubusercontent.com/${{ github.repository }}/${REPORT_BRANCH}/runs.json",
-            "label": "${DASHBOARD_LABEL}"
+          python3 - << 'PYEOF'
+          import json, os
+          cfg = {
+              "reportUrl": "https://raw.githubusercontent.com/${{ github.repository }}/" + os.environ["REPORT_BRANCH"] + "/report.xml",
+              "runsUrl":   "https://raw.githubusercontent.com/${{ github.repository }}/" + os.environ["REPORT_BRANCH"] + "/runs.json",
+              "label":     os.environ["DASHBOARD_LABEL"],
           }
-          EOF
+          with open("config.json", "w") as f:
+              json.dump(cfg, f, indent=2)
+          PYEOF
+          
+          git add config.json
+          if ! git diff --staged --quiet; then
+            git commit -m "Update config.json for run #${RUN_NUMBER}"
+            git push origin "${REPORT_BRANCH}"
+            echo "config.json committed"
+          fi
