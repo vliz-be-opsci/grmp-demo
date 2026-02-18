@@ -85,13 +85,21 @@ jobs:
             git checkout --orphan "$REPORT_BRANCH"
             git rm -rf . 2>/dev/null || true
           fi
+
+
           
           git checkout ${{ github.sha }} -- dashboard/ 2>/dev/null || true
           
+          if [ -d dashboard ]; then
+            cp -a dashboard/. .
+            git rm -rf --cached dashboard/ 2>/dev/null || true
+            rm -rf dashboard/
+          fi
+                   
           cp reports/combined_report.xml report.xml
           
           git add report.xml
-          git add dashboard/ 2>/dev/null || true
+          git add index.html 2>/dev/null || true
           
           SHORT_SHA=$(echo "$GITHUB_SHA" | cut -c1-7)
           COMMIT_MSG="Test run #${RUN_NUMBER} (${REF_NAME} @ ${SHORT_SHA})"
