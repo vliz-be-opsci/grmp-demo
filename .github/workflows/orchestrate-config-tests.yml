@@ -250,7 +250,6 @@ jobs:
             exit 0
           fi
 
-          git pull --rebase origin "${REPORT_BRANCH}"
           git add runs.json
 
           if git diff --staged --quiet; then
@@ -279,7 +278,6 @@ jobs:
               json.dump(cfg, f, indent=2)
           PYEOF
 
-          git pull --rebase origin "${REPORT_BRANCH}"
           git add config.json
           if ! git diff --staged --quiet; then
             git commit -m "Update config.json for run #${RUN_NUMBER}"
