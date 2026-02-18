@@ -1054,7 +1054,8 @@
         function setStatusFilter(status) {
             state.filters.status = status;
             document.querySelectorAll('.filter-buttons button').forEach(btn => {
-                btn.classList.toggle('active', btn.textContent.toLowerCase() === status || (status === 'all' && btn.textContent === 'All'));
+                const text = btn.textContent.toLowerCase();
+                btn.classList.toggle('active', text === status || text === status + 's' || (status === 'all' && text === 'all'));
             });
             applyFilters();
         }
