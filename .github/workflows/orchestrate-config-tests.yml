@@ -55,6 +55,7 @@ jobs:
           python-version: '3.11'
 
       - name: Push report to branch
+        id: push_report
         env:
           INPUT_REPORT_BRANCH: ${{ github.event.inputs.report_branch }}
           CONFIG_FILE_PATH: ${{ github.event.inputs.config_file_path }}
@@ -113,7 +114,7 @@ jobs:
           echo "   Report commit SHA: ${REPORT_COMMIT_SHA}"
 
       - name: Parse report and generate run metadata
-        if: success()
+        if: steps.push_report.outcome == 'success'
         env:
           CONFIG_FILE: ${{ github.event.inputs.config_file_path }}
           RUN_NUMBER: ${{ github.run_number }}
@@ -200,7 +201,7 @@ jobs:
           EOF
 
       - name: Update runs.json
-        if: success()
+        if: steps.push_report.outcome == 'success'
         run: |
           python3 << 'EOF'
           import json
@@ -239,7 +240,7 @@ jobs:
           EOF
 
       - name: Commit runs.json to report branch
-        if: success()
+        if: steps.push_report.outcome == 'success'
         env:
           REPORT_BRANCH: ${{ github.event.inputs.report_branch }}
           RUN_NUMBER: ${{ github.run_number }}
@@ -249,6 +250,7 @@ jobs:
             exit 0
           fi
 
+          git pull --rebase origin "${REPORT_BRANCH}"
           git add runs.json
 
           if git diff --staged --quiet; then
@@ -259,8 +261,8 @@ jobs:
             echo "runs.json committed to ${REPORT_BRANCH}"
           fi
 
-      - name: Generate config.json for dashboard
-        if: success()
+      - name: Generate and commit config.json for dashboard
+        if: steps.push_report.outcome == 'success'
         env:
           REPORT_BRANCH: ${{ github.event.inputs.report_branch }}
           DASHBOARD_LABEL: ${{ github.event.inputs.dashboard_label || github.repository }}
@@ -276,7 +278,8 @@ jobs:
           with open("config.json", "w") as f:
               json.dump(cfg, f, indent=2)
           PYEOF
-          
+
+          git pull --rebase origin "${REPORT_BRANCH}"
           git add config.json
           if ! git diff --staged --quiet; then
             git commit -m "Update config.json for run #${RUN_NUMBER}"
