@@ -8,10 +8,15 @@ on:
         required: true
         default: 'grmp-reports'
         type: string
-      config_file:
+      config_file_path:
         description: 'Test configuration file path'
         required: true
         default: 'input-echo-demo/tests.yaml'
+        type: string
+      dashboard_label:
+        description: 'Label shown in dashboard header'
+        required: false
+        default: ''
         type: string
 
 jobs:
@@ -32,19 +37,28 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       
       - name: Run tests
+        env:
+          config_file_path: ${{ github.event.inputs.config_file_path }}
         run: |
           mkdir -p reports
           docker run --rm \
             -v /var/run/docker.sock:/var/run/docker.sock \
-            -v ${{ github.workspace }}/${{ github.event.inputs.config_file }}:/config/tests.yaml:ro \
-            -v ${{ github.workspace }}/reports:/reports:rw \
-            -e REPORTS_HOST_PATH=${{ github.workspace }}/reports \
+            -v "${{ github.workspace }}/${config_file_path}":/config/tests.yaml:ro \
+            -v "${{ github.workspace }}/reports":/reports:rw \
+            -e REPORTS_HOST_PATH="${{ github.workspace }}/reports" \
             ghcr.io/vliz-be-opsci/grmp-framework:main
-      
+
+      - name: Set up Python
+        if: always()
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
       - name: Push report to branch
+        id: push_report
         env:
           INPUT_REPORT_BRANCH: ${{ github.event.inputs.report_branch }}
-          CONFIG_FILE: ${{ github.event.inputs.config_file }}
+          CONFIG_FILE_PATH: ${{ github.event.inputs.config_file_path }}
           ACTOR: ${{ github.actor }}
           WORKFLOW: ${{ github.workflow }}
           RUN_ID: ${{ github.run_id }}
@@ -81,7 +95,7 @@ jobs:
           
           SHORT_SHA=$(echo "$GITHUB_SHA" | cut -c1-7)
           COMMIT_MSG="Test run #${RUN_NUMBER} (${REF_NAME} @ ${SHORT_SHA})"
-          COMMIT_BODY="Config: ${CONFIG_FILE}
+          COMMIT_BODY="Config: ${CONFIG_FILE_PATH}
           Triggered by: ${ACTOR}
           Workflow: ${WORKFLOW}
           Run ID: ${RUN_ID}"
@@ -92,4 +106,181 @@ jobs:
             git commit -m "$COMMIT_MSG" -m "$COMMIT_BODY"
             git push origin "$REPORT_BRANCH"
             echo "Report pushed to $REPORT_BRANCH branch"
+          fi
+
+          # Capture the SHA of the commit that now contains report.xml
+          REPORT_COMMIT_SHA=$(git rev-parse HEAD)
+          echo "REPORT_COMMIT_SHA=${REPORT_COMMIT_SHA}" >> $GITHUB_ENV
+          echo "   Report commit SHA: ${REPORT_COMMIT_SHA}"
+
+      - name: Parse report and generate run metadata
+        if: steps.push_report.outcome == 'success'
+        env:
+          CONFIG_FILE: ${{ github.event.inputs.config_file_path }}
+          RUN_NUMBER: ${{ github.run_number }}
+          REF_NAME: ${{ github.ref_name }}
+          ACTOR: ${{ github.actor }}
+          WORKFLOW_NAME: ${{ github.workflow }}
+          RUN_ID: ${{ github.run_id }}
+        run: |
+          python3 << 'EOF'
+          import xml.etree.ElementTree as ET
+          import json
+          import os
+          from datetime import datetime
+          from pathlib import Path
+
+          config_file   = os.environ['CONFIG_FILE']
+          run_number    = int(os.environ['RUN_NUMBER'])
+          ref_name      = os.environ['REF_NAME']
+          commit_sha    = os.environ['REPORT_COMMIT_SHA']
+          actor         = os.environ['ACTOR']
+          workflow_name = os.environ['WORKFLOW_NAME']
+          run_id        = os.environ['RUN_ID']
+
+          # Parse the XML report
+          report_path = Path('reports/combined_report.xml')
+          if not report_path.exists():
+              print(f"Report not found at {report_path}")
+              exit(1)
+
+          tree = ET.parse(report_path)
+          root = tree.getroot()
+
+          total_tests = 0
+          failures    = 0
+          errors      = 0
+          skipped     = 0
+          total_time  = 0.0
+
+          # Handle case where root itself is a testsuite
+          suites = root.findall('.//testsuite')
+          if root.tag == 'testsuite' and not suites:
+            suites = [root]
+            
+          for suite in suites:
+              total_tests += int(suite.get('tests') or 0)
+              failures    += int(suite.get('failures') or 0)
+              errors      += int(suite.get('errors') or 0)
+              skipped     += int(suite.get('skipped') or 0)
+              total_time  += float(suite.get('time') or 0)
+
+          passed    = max(0, total_tests - failures - errors - skipped)
+          pass_rate = round((passed / total_tests * 100), 2) if total_tests > 0 else 0
+
+          new_run = {
+              "commit_sha":    commit_sha,
+              "short_sha":     commit_sha[:7],
+              "date":          datetime.utcnow().isoformat() + "Z",
+              "run_number":    run_number,
+              "source_branch": ref_name,
+              "config_file":   config_file,
+              "triggered_by":  actor,
+              "workflow_name": workflow_name,
+              "run_id":        run_id,
+              "summary": {
+                  "total_tests": total_tests,
+                  "passed":      passed,
+                  "failed":      failures,
+                  "errors":      errors,
+                  "skipped":     skipped,
+                  "pass_rate":   pass_rate,
+                  "duration":    round(total_time, 4)
+              }
+          }
+
+          print(f"Parsed test report:")
+          print(f"   Total: {total_tests}, Passed: {passed}, Failed: {failures}")
+          print(f"   Pass rate: {pass_rate}%, Duration: {total_time:.2f}s")
+          print(f"   Report commit SHA: {commit_sha}")
+
+          with open('new_run.json', 'w') as f:
+              json.dump(new_run, f, indent=2)
+
+          print("Saved new_run.json")
+          EOF
+
+      - name: Update runs.json
+        if: steps.push_report.outcome == 'success'
+        run: |
+          python3 << 'EOF'
+          import json
+          from datetime import datetime
+          from pathlib import Path
+
+          runs_file    = Path('runs.json')
+          new_run_file = Path('new_run.json')
+
+          if not new_run_file.exists():
+              print("new_run.json not found, skipping runs.json update")
+              exit(1)
+
+          with open(new_run_file) as f:
+              new_run = json.load(f)
+
+          if runs_file.exists():
+              with open(runs_file) as f:
+                  data = json.load(f)
+          else:
+              data = {
+                  "generated_at": "",
+                  "runs": []
+              }
+
+          data["generated_at"] = datetime.utcnow().isoformat() + "Z"
+
+          # Prepend newest run and cap at 50
+          data["runs"].insert(0, new_run)
+          data["runs"] = data["runs"][:50]
+
+          with open(runs_file, 'w') as f:
+              json.dump(data, f, indent=2)
+
+          print(f"Updated runs.json ({len(data['runs'])} runs)")
+          EOF
+
+      - name: Commit runs.json to report branch
+        if: steps.push_report.outcome == 'success'
+        env:
+          REPORT_BRANCH: ${{ github.event.inputs.report_branch }}
+          RUN_NUMBER: ${{ github.run_number }}
+        run: |
+          if [ ! -f "runs.json" ]; then
+            echo "runs.json not found, skipping"
+            exit 0
+          fi
+
+          git add runs.json
+
+          if git diff --staged --quiet; then
+            echo "No changes to runs.json"
+          else
+            git commit -m "Update runs.json for run #${RUN_NUMBER}"
+            git push origin "${REPORT_BRANCH}"
+            echo "runs.json committed to ${REPORT_BRANCH}"
+          fi
+
+      - name: Generate and commit config.json for dashboard
+        if: steps.push_report.outcome == 'success'
+        env:
+          REPORT_BRANCH: ${{ github.event.inputs.report_branch }}
+          DASHBOARD_LABEL: ${{ github.event.inputs.dashboard_label || github.repository }}
+          RUN_NUMBER: ${{ github.run_number }}
+        run: |
+          python3 - << 'PYEOF'
+          import json, os
+          cfg = {
+              "reportUrl": "https://raw.githubusercontent.com/${{ github.repository }}/" + os.environ["REPORT_BRANCH"] + "/report.xml",
+              "runsUrl":   "https://raw.githubusercontent.com/${{ github.repository }}/" + os.environ["REPORT_BRANCH"] + "/runs.json",
+              "label":     os.environ["DASHBOARD_LABEL"],
+          }
+          with open("config.json", "w") as f:
+              json.dump(cfg, f, indent=2)
+          PYEOF
+
+          git add config.json
+          if ! git diff --staged --quiet; then
+            git commit -m "Update config.json for run #${RUN_NUMBER}"
+            git push origin "${REPORT_BRANCH}"
+            echo "config.json committed"
           fi
