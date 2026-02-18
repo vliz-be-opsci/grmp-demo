@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test Dashboard - Polished</title>
+    <title>Test Dashboard</title>
+    <link rel="icon" href="data:,">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Sora:wght@400;600;700&display=swap" rel="stylesheet">
@@ -623,11 +624,20 @@
             <p class="subtitle" id="subtitle">Initializing...</p>
         </header>
 
-        <div class="selector-panel" id="selectorPanel" class="hidden">
+        <!-- File input for Browse mode -->
+        <div class="selector-panel hidden" id="fileSelector">
             <div class="selector-header">
                 <h3>Select Test Report</h3>
             </div>
             <input type="file" id="fileInput" accept=".xml" onchange="loadLocalFile()">
+        </div>
+
+        <!-- Run selector for Remote mode with runs.json -->
+        <div class="selector-panel hidden" id="runSelectorPanel">
+            <div class="selector-header">
+                <h3>Select Test Run</h3>
+            </div>
+            <select id="runSelect" onchange="loadSelectedRun()" style="background:var(--bg-tertiary);border:1px solid var(--border-color);color:var(--text-primary);padding:0.75rem 1rem;border-radius:8px;font-size:0.875rem;font-family:'JetBrains Mono',monospace;width:100%;"></select>
         </div>
 
         <div id="statusContainer"></div>
@@ -685,64 +695,126 @@
 
     <script>
         const state = {
-            mode: null,
-            repoOwner: null,
-            repoName: null,
-            reportBranch: 'grmp-reports',
+            mode: null,   // 'remote' or 'browse'
+            config: null, // parsed config.json, or null
+            runs: null,   // parsed runs.json, or null
             testData: null,
             filters: { status: 'all', search: '', property: '', propertyValue: '' }
         };
 
-        function detectMode() {
-            const hostname = window.location.hostname;
-            const protocol = window.location.protocol;
-            if ((hostname.endsWith('github.io')) || (hostname.startsWith('open-science.vliz.be'))) {
-                state.mode = 'github';
-                const pathParts = window.location.pathname.split('/').filter(p => p);
-                if (hostname.includes('.')) {
-                    //state.repoOwner = hostname.split('.')[0];
-                    //state.repoName = pathParts[0] || null;
-                    state.repoOwner = 'vliz-be-opsci';
-                    state.repoName = 'grmp-demo';
-                }
-                return true;
+        // Attempt to load config.json from the same directory as the dashboard.
+        // Returns the parsed config object if successful, null otherwise.
+        async function loadConfig() {
+            try {
+                const response = await fetch('config.json', {
+                    cache: 'no-store'
+                });
+                if (!response.ok) return null;
+                return await response.json();
+            } catch (e) {
+                return null;
             }
-            if (protocol === 'file:' || hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '') {
-                state.mode = 'local';
-                return true;
-            }
-            state.mode = 'local';
-            return false;
         }
 
         async function init() {
-            detectMode();
             const modeIndicator = document.getElementById('modeIndicator');
             const subtitle = document.getElementById('subtitle');
-            
-            if (state.mode === 'github') {
-                modeIndicator.textContent = 'GitHub Pages';
+
+            const config = await loadConfig();
+
+            if (config && config.reportUrl) {
+                // Remote mode: config.json present with a reportUrl
+                state.mode = 'remote';
+                state.config = config;
+
+                modeIndicator.textContent = 'Remote';
                 modeIndicator.className = 'mode-indicator github';
-                if (state.repoOwner && state.repoName) {
-                    subtitle.textContent = `Repository: ${state.repoOwner}/${state.repoName}`;
-                    await loadLatestReport();
+                subtitle.textContent = config.label || config.reportUrl;
+
+                // If runsUrl is also configured, try to load run history first
+                if (config.runsUrl) {
+                    await loadRuns();
                 } else {
-                    subtitle.textContent = 'Could not detect repository from URL';
-                    showStatus('Error: Could not auto-detect repository.', 'error');
+                    await loadLatestReport();
                 }
             } else {
-                modeIndicator.textContent = 'Local Mode';
+                // Browse mode: no config.json, or reportUrl missing — user picks a file
+                state.mode = 'browse';
+
+                modeIndicator.textContent = 'Browse';
                 modeIndicator.className = 'mode-indicator local';
                 subtitle.textContent = 'Select an XML report file to view results';
-                document.getElementById('selectorPanel').classList.remove('hidden');
+                document.getElementById('fileSelector').classList.remove('hidden');
             }
         }
 
+        // Remote mode: load runs.json and populate the run selector dropdown
+        async function loadRuns() {
+            try {
+                const response = await fetch(state.config.runsUrl, {
+                    cache: 'no-store'
+                });
+                if (!response.ok) throw new Error(`Failed to fetch runs: ${response.status}`);
+                const data = await response.json();
+
+                // runs.json is a flat list of runs, newest first
+                const runs = data.runs || [];
+
+                if (runs.length === 0) {
+                    await loadLatestReport();
+                    return;
+                }
+
+                // Build and show the dropdown
+                const select = document.getElementById('runSelect');
+                select.innerHTML = runs.map((run, i) => {
+                    const date = new Date(run.date).toLocaleString();
+                    const s = run.summary;
+                    const label = `Run #${run.run_number} — ${run.source_branch} @ ${run.short_sha} — ${s.pass_rate}% passed — ${date}`;
+                    return `<option value="${i}">${label}</option>`;
+                }).join('');
+
+                state.sortedRuns = runs;
+
+                document.getElementById('runSelectorPanel').classList.remove('hidden');
+
+                await loadSelectedRun();
+
+            } catch (error) {
+                // runs.json failed — silently fall back to loading the latest report directly
+                await loadLatestReport();
+            }
+        }
+
+        // Remote mode: load the report for whichever run is selected in the dropdown
+        async function loadSelectedRun() {
+            const select = document.getElementById('runSelect');
+            const run = state.sortedRuns[parseInt(select.value)];
+
+            document.getElementById('loadingState').classList.remove('hidden');
+            document.getElementById('dashboardContent').classList.add('hidden');
+
+            try {
+                // Replace the branch/ref segment in reportUrl with the specific commit SHA
+                // e.g. .../grmp-reports/report.xml → .../abc1234/report.xml
+                const url = state.config.reportUrl.replace(/\/([^/]+)\/(report\.xml)$/, `/${run.commit_sha}/$2`);
+
+                const response = await fetch(url);
+                if (!response.ok) throw new Error(`Failed to fetch report: ${response.status}`);
+                const xmlText = await response.text();
+                parseAndDisplayTestResults(xmlText);
+                showStatus(`Loaded run #${run.run_number}`, 'success');
+            } catch (error) {
+                showStatus(`Error: ${error.message}`, 'error');
+                document.getElementById('loadingState').classList.add('hidden');
+            }
+        }
+
+        // Remote mode: load the latest report directly from reportUrl
         async function loadLatestReport() {
             document.getElementById('loadingState').classList.remove('hidden');
             try {
-                const url = `https://raw.githubusercontent.com/${state.repoOwner}/${state.repoName}/${state.reportBranch}/report.xml`;
-                const response = await fetch(url);
+                const response = await fetch(state.config.reportUrl);
                 if (!response.ok) throw new Error(`Failed to fetch report: ${response.status}`);
                 const xmlText = await response.text();
                 parseAndDisplayTestResults(xmlText);
