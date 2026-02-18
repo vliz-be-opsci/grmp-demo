@@ -13,6 +13,11 @@ on:
         required: true
         default: 'input-echo-demo/tests.yaml'
         type: string
+      dashboard_label:
+        description: 'Label shown in dashboard header'
+        required: false
+        default: ''
+        type: string
 
 jobs:
   test:
@@ -253,3 +258,20 @@ jobs:
             git push origin "${REPORT_BRANCH}"
             echo "runs.json committed to ${REPORT_BRANCH}"
           fi
+
+      - name: Generate config.json for dashboard
+        if: success()
+        env:
+          REPORT_BRANCH: ${{ github.event.inputs.report_branch }}
+          LABEL: ${{ github.event.inputs.dashboard_label }}
+        run: |
+          # Use repository name as fallback if label not provided
+          DASHBOARD_LABEL="${LABEL:-${{ github.repository }}}"
+          
+          cat > config.json << EOF
+          {
+            "reportUrl": "https://raw.githubusercontent.com/${{ github.repository }}/${REPORT_BRANCH}/report.xml",
+            "runsUrl": "https://raw.githubusercontent.com/${{ github.repository }}/${REPORT_BRANCH}/runs.json",
+            "label": "${DASHBOARD_LABEL}"
+          }
+          EOF
