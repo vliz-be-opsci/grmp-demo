@@ -43,7 +43,7 @@ jobs:
           mkdir -p reports
           docker run --rm \
             -v /var/run/docker.sock:/var/run/docker.sock \
-            -v "${{ github.workspace }}/${config_file_path}":/config/tests.yaml:ro \
+            -v "${{ github.workspace }}/${config_file_path}":/config:ro \
             -v "${{ github.workspace }}/reports":/reports:rw \
             -e REPORTS_HOST_PATH="${{ github.workspace }}/reports" \
             ghcr.io/vliz-be-opsci/grmp-framework:main
