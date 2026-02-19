@@ -8,10 +8,10 @@ on:
         required: true
         default: 'grmp-reports'
         type: string
-      config_file_path:
-        description: 'Test configuration file path'
+      config_directory:
+        description: 'Test configuration directory'
         required: true
-        default: 'input-echo-demo/tests.yaml'
+        default: 'input-echo-demo'
         type: string
       dashboard_label:
         description: 'Label shown in dashboard header'
@@ -38,12 +38,12 @@ jobs:
       
       - name: Run tests
         env:
-          config_file_path: ${{ github.event.inputs.config_file_path }}
+          config_directory: ${{ github.event.inputs.config_directory }}
         run: |
           mkdir -p reports
           docker run --rm \
             -v /var/run/docker.sock:/var/run/docker.sock \
-            -v "${{ github.workspace }}/${config_file_path}":/config/tests.yaml:ro \
+            -v "${{ github.workspace }}/${config_directory}":/config:ro \
             -v "${{ github.workspace }}/reports":/reports:rw \
             -e REPORTS_HOST_PATH="${{ github.workspace }}/reports" \
             ghcr.io/vliz-be-opsci/grmp-framework:main
@@ -58,7 +58,7 @@ jobs:
         id: push_report
         env:
           INPUT_REPORT_BRANCH: ${{ github.event.inputs.report_branch }}
-          CONFIG_FILE_PATH: ${{ github.event.inputs.config_file_path }}
+          config_directory: ${{ github.event.inputs.config_directory }}
           ACTOR: ${{ github.actor }}
           WORKFLOW: ${{ github.workflow }}
           RUN_ID: ${{ github.run_id }}
@@ -103,7 +103,7 @@ jobs:
           
           SHORT_SHA=$(echo "$GITHUB_SHA" | cut -c1-7)
           COMMIT_MSG="Test run #${RUN_NUMBER} (${REF_NAME} @ ${SHORT_SHA})"
-          COMMIT_BODY="Config: ${CONFIG_FILE_PATH}
+          COMMIT_BODY="Config: ${config_directory}
           Triggered by: ${ACTOR}
           Workflow: ${WORKFLOW}
           Run ID: ${RUN_ID}"
@@ -124,7 +124,7 @@ jobs:
       - name: Parse report and generate run metadata
         if: steps.push_report.outcome == 'success'
         env:
-          CONFIG_FILE: ${{ github.event.inputs.config_file_path }}
+          CONFIG_FILE: ${{ github.event.inputs.config_directory }}
           RUN_NUMBER: ${{ github.run_number }}
           REF_NAME: ${{ github.ref_name }}
           ACTOR: ${{ github.actor }}
