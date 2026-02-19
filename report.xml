@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <testsuites>
-	<testsuite name="input-echo-1" timestamp="2026-02-19T20:43:25.894614+00:00" tests="2" errors="0" failures="0" skipped="0" time="4.649162292480469e-05">
+	<testsuite name="input-echo-1" timestamp="2026-02-19T21:10:33.764169+00:00" tests="2" errors="0" failures="0" skipped="0" time="4.57763671875e-05">
 		<properties>
 			<property name="url" value="https://brugge-ldes.geomobility.eu/observations"/>
 			<property name="max-redirects" value="3"/>
@@ -12,9 +12,9 @@
 			<property name="empty_test_parameter_count" value="0"/>
 		</properties>
 		<testcase name="get_env_test" classname="input-echo-1" time="2.9802322387695312e-05"/>
-		<testcase name="check_emptiness_test" classname="input-echo-1" time="1.6689300537109375e-05"/>
+		<testcase name="check_emptiness_test" classname="input-echo-1" time="1.5974044799804688e-05"/>
 	</testsuite>
-	<testsuite name="input-echo-2" timestamp="2026-02-19T20:43:26.376433+00:00" tests="2" errors="0" failures="0" skipped="0" time="4.172325134277344e-05">
+	<testsuite name="input-echo-2" timestamp="2026-02-19T21:10:34.662207+00:00" tests="2" errors="0" failures="0" skipped="0" time="4.029273986816406e-05">
 		<properties>
 			<property name="url" value="https://brugge-ldes.geomobility.eu/observations"/>
 			<property name="supports-content-types" value="['text/turtle', 'application/trig']"/>
@@ -23,10 +23,10 @@
 			<property name="source_file" value="/config/tests.yaml"/>
 			<property name="empty_test_parameter_count" value="0"/>
 		</properties>
-		<testcase name="get_env_test" classname="input-echo-2" time="2.6226043701171875e-05"/>
-		<testcase name="check_emptiness_test" classname="input-echo-2" time="1.5497207641601562e-05"/>
+		<testcase name="get_env_test" classname="input-echo-2" time="2.5510787963867188e-05"/>
+		<testcase name="check_emptiness_test" classname="input-echo-2" time="1.4781951904296875e-05"/>
 	</testsuite>
-	<testsuite name="input-echo-3" timestamp="2026-02-19T20:43:26.872896+00:00" tests="2" errors="0" failures="1" skipped="0" time="4.601478576660156e-05">
+	<testsuite name="input-echo-3" timestamp="2026-02-19T21:10:35.438884+00:00" tests="2" errors="0" failures="1" skipped="0" time="4.291534423828125e-05">
 		<properties>
 			<property name="url" value="None"/>
 			<property name="supports-content-types" value="['text/turtle', 'application/trig']"/>
@@ -35,20 +35,97 @@
 			<property name="source_file" value="/config/tests.yaml"/>
 			<property name="empty_test_parameter_count" value="1"/>
 		</properties>
-		<testcase name="get_env_test" classname="input-echo-3" time="2.9802322387695312e-05"/>
-		<testcase name="check_emptiness_test" classname="input-echo-3" time="1.621246337890625e-05">
+		<testcase name="get_env_test" classname="input-echo-3" time="2.6464462280273438e-05"/>
+		<testcase name="check_emptiness_test" classname="input-echo-3" time="1.6450881958007812e-05">
 			<failure message="Empty test parameters found">url</failure>
 		</testcase>
 	</testsuite>
-	<testsuite name="input-echo-4" timestamp="2026-02-19T20:43:27.343884+00:00" tests="2" errors="0" failures="1" skipped="1" time="2.2172927856445312e-05">
+	<testsuite name="input-echo-4" timestamp="2026-02-19T21:10:36.378462+00:00" tests="2" errors="0" failures="1" skipped="1" time="2.2649765014648438e-05">
 		<properties>
 			<property name="test_parameter_count" value="0"/>
 			<property name="source_file" value="/config/tests.yaml"/>
 		</properties>
-		<testcase name="get_env_test" classname="input-echo-4" time="2.2172927856445312e-05">
+		<testcase name="get_env_test" classname="input-echo-4" time="2.2649765014648438e-05">
 			<failure message="No test parameters found"/>
 		</testcase>
 		<testcase name="check_emptiness_test" classname="input-echo-4" time="0.0">
+			<skipped message="Failure or error within the get_env_test"/>
+		</testcase>
+	</testsuite>
+	<testsuite name="input-echo-standard" timestamp="2026-02-19T21:10:37.187046+00:00" tests="2" errors="0" failures="0" skipped="0" time="4.5299530029296875e-05">
+		<properties>
+			<property name="url" value="https://brugge-ldes.geomobility.eu/observations"/>
+			<property name="max-redirects" value="3"/>
+			<property name="timeout" value="10"/>
+			<property name="check-http-availability" value="False"/>
+			<property name="check-https-availability" value="True"/>
+			<property name="test_parameter_count" value="5"/>
+			<property name="source_file" value="/config/tests_alice/grmp_config.yaml"/>
+			<property name="empty_test_parameter_count" value="0"/>
+		</properties>
+		<testcase name="get_env_test" classname="input-echo-standard" time="2.8848648071289062e-05"/>
+		<testcase name="check_emptiness_test" classname="input-echo-standard" time="1.6450881958007812e-05"/>
+	</testsuite>
+	<testsuite name="input-echo-alice" timestamp="2026-02-19T21:10:38.120545+00:00" tests="2" errors="0" failures="0" skipped="0" time="3.790855407714844e-05">
+		<properties>
+			<property name="supports-content-types" value="['application/trig']"/>
+			<property name="check-response-body-conformity" value="True"/>
+			<property name="test_parameter_count" value="2"/>
+			<property name="source_file" value="/config/tests_alice/grmp_config.yaml"/>
+			<property name="empty_test_parameter_count" value="0"/>
+		</properties>
+		<testcase name="get_env_test" classname="input-echo-alice" time="2.4080276489257812e-05"/>
+		<testcase name="check_emptiness_test" classname="input-echo-alice" time="1.3828277587890625e-05"/>
+	</testsuite>
+	<testsuite name="input-echo-standard(2)" timestamp="2026-02-19T21:10:38.907352+00:00" tests="2" errors="0" failures="0" skipped="0" time="4.3392181396484375e-05">
+		<properties>
+			<property name="url" value="https://brugge-ldes.geomobility.eu/observations"/>
+			<property name="max-redirects" value="3"/>
+			<property name="timeout" value="10"/>
+			<property name="check-http-availability" value="False"/>
+			<property name="check-https-availability" value="True"/>
+			<property name="test_parameter_count" value="5"/>
+			<property name="source_file" value="/config/tests_bob/grmp_conf.yaml"/>
+			<property name="empty_test_parameter_count" value="0"/>
+		</properties>
+		<testcase name="get_env_test" classname="input-echo-standard(2)" time="2.8371810913085938e-05"/>
+		<testcase name="check_emptiness_test" classname="input-echo-standard(2)" time="1.5020370483398438e-05"/>
+	</testsuite>
+	<testsuite name="input-echo-standard-2" timestamp="2026-02-19T21:10:39.703093+00:00" tests="2" errors="0" failures="0" skipped="0" time="4.3392181396484375e-05">
+		<properties>
+			<property name="url" value="https://brugge-ldes.geomobility.eu/observations"/>
+			<property name="supports-content-types" value="['text/turtle', 'application/trig']"/>
+			<property name="check-response-body-conformity" value="True"/>
+			<property name="test_parameter_count" value="3"/>
+			<property name="source_file" value="/config/tests_bob/grmp_conf.yaml"/>
+			<property name="empty_test_parameter_count" value="0"/>
+		</properties>
+		<testcase name="get_env_test" classname="input-echo-standard-2" time="2.86102294921875e-05"/>
+		<testcase name="check_emptiness_test" classname="input-echo-standard-2" time="1.4781951904296875e-05"/>
+	</testsuite>
+	<testsuite name="input-echo-fail" timestamp="2026-02-19T21:10:40.481814+00:00" tests="2" errors="0" failures="1" skipped="0" time="4.601478576660156e-05">
+		<properties>
+			<property name="url" value="None"/>
+			<property name="supports-content-types" value="['text/turtle', 'application/trig']"/>
+			<property name="check-response-body-conformity" value="True"/>
+			<property name="test_parameter_count" value="3"/>
+			<property name="source_file" value="/config/tests_bob/grmp_conf.yaml"/>
+			<property name="empty_test_parameter_count" value="1"/>
+		</properties>
+		<testcase name="get_env_test" classname="input-echo-fail" time="2.86102294921875e-05"/>
+		<testcase name="check_emptiness_test" classname="input-echo-fail" time="1.7404556274414062e-05">
+			<failure message="Empty test parameters found">url</failure>
+		</testcase>
+	</testsuite>
+	<testsuite name="input-echo-skip" timestamp="2026-02-19T21:10:41.284230+00:00" tests="2" errors="0" failures="1" skipped="1" time="2.0742416381835938e-05">
+		<properties>
+			<property name="test_parameter_count" value="0"/>
+			<property name="source_file" value="/config/tests_bob/grmp_conf.yaml"/>
+		</properties>
+		<testcase name="get_env_test" classname="input-echo-skip" time="2.0742416381835938e-05">
+			<failure message="No test parameters found"/>
+		</testcase>
+		<testcase name="check_emptiness_test" classname="input-echo-skip" time="0.0">
 			<skipped message="Failure or error within the get_env_test"/>
 		</testcase>
 	</testsuite>
