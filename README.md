@@ -7,3 +7,4 @@ The orchestrator can be found [HERE](https://github.com/vliz-be-opsci/grmp-frame
 Currently, the following demos are available:
 
 1) input-echo-demo
+2) resource-analyses
