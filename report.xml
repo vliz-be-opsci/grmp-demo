@@ -1,142 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <testsuites>
-	<testsuite name="input-echo-1" timestamp="2026-02-23T09:49:46.299013+00:00" tests="2" errors="0" failures="0" skipped="0" time="7.295608520507812e-05">
-		<properties>
-			<property name="url" value="https://brugge-ldes.geomobility.eu/observations"/>
-			<property name="max-redirects" value="3"/>
-			<property name="timeout" value="10"/>
-			<property name="check-http-availability" value="False"/>
-			<property name="check-https-availability" value="True"/>
-			<property name="test_parameter_count" value="5"/>
-			<property name="source_file" value="/config/tests.yaml"/>
-			<property name="empty_test_parameter_count" value="0"/>
-		</properties>
-		<testcase name="get_env_test" classname="input-echo-1" time="5.054473876953125e-05"/>
-		<testcase name="check_emptiness_test" classname="input-echo-1" time="2.2411346435546875e-05"/>
-	</testsuite>
-	<testsuite name="input-echo-2" timestamp="2026-02-23T09:49:47.190001+00:00" tests="2" errors="0" failures="0" skipped="0" time="5.698204040527344e-05">
-		<properties>
-			<property name="url" value="https://brugge-ldes.geomobility.eu/observations"/>
-			<property name="supports-content-types" value="['text/turtle', 'application/trig']"/>
-			<property name="check-response-body-conformity" value="True"/>
-			<property name="test_parameter_count" value="3"/>
-			<property name="source_file" value="/config/tests.yaml"/>
-			<property name="empty_test_parameter_count" value="0"/>
-		</properties>
-		<testcase name="get_env_test" classname="input-echo-2" time="3.7670135498046875e-05"/>
-		<testcase name="check_emptiness_test" classname="input-echo-2" time="1.9311904907226562e-05"/>
-	</testsuite>
-	<testsuite name="input-echo-3" timestamp="2026-02-23T09:49:48.061394+00:00" tests="2" errors="0" failures="1" skipped="0" time="6.127357482910156e-05">
-		<properties>
-			<property name="url" value="None"/>
-			<property name="supports-content-types" value="['text/turtle', 'application/trig']"/>
-			<property name="check-response-body-conformity" value="True"/>
-			<property name="test_parameter_count" value="3"/>
-			<property name="source_file" value="/config/tests.yaml"/>
-			<property name="empty_test_parameter_count" value="1"/>
-		</properties>
-		<testcase name="get_env_test" classname="input-echo-3" time="3.910064697265625e-05"/>
-		<testcase name="check_emptiness_test" classname="input-echo-3" time="2.2172927856445312e-05">
-			<failure message="Empty test parameters found">url</failure>
-			<system-out>Found empty value: TEST_URL = None
+	<testsuite name="resource-availability-external" timestamp="2026-03-02T12:52:14.189881+00:00" tests="6" errors="0" failures="1" skipped="0" time="1.7955400943756104">
+		<testcase name="dns_resolution [https://brugge-ldes.geomobility.eu/observations]" classname="resource-availability-external" time="0.09734702110290527">
+			<system-out>Resolving hostname: brugge-ldes.geomobility.eu
+resolved_ip: 40.85.76.196
 </system-out>
-			<system-err/>
 		</testcase>
-	</testsuite>
-	<testsuite name="input-echo-4" timestamp="2026-02-23T09:49:48.889417+00:00" tests="2" errors="0" failures="1" skipped="1" time="2.8371810913085938e-05">
 		<properties>
-			<property name="test_parameter_count" value="0"/>
-			<property name="source_file" value="/config/tests.yaml"/>
+			<property name="verify_ssl" value="True"/>
+			<property name="urls" value="https://brugge-ldes.geomobility.eu/observations, https://ldes.telraam-api.net/locations"/>
+			<property name="hostnames" value="brugge-ldes.geomobility.eu, ldes.telraam-api.net"/>
+			<property name="providence" value="/config/external_test_resources/grmp_conf.yaml"/>
 		</properties>
-		<testcase name="get_env_test" classname="input-echo-4" time="2.8371810913085938e-05">
-			<failure message="No test parameters found"/>
-			<system-out/>
-			<system-err/>
-		</testcase>
-		<testcase name="check_emptiness_test" classname="input-echo-4" time="0.0">
-			<skipped message="Failure or error within the get_env_test"/>
-		</testcase>
-	</testsuite>
-	<testsuite name="input-echo-standard" timestamp="2026-02-23T09:49:49.692514+00:00" tests="2" errors="0" failures="0" skipped="0" time="6.842613220214844e-05">
-		<properties>
-			<property name="url" value="https://brugge-ldes.geomobility.eu/observations"/>
-			<property name="max-redirects" value="3"/>
-			<property name="timeout" value="10"/>
-			<property name="check-http-availability" value="False"/>
-			<property name="check-https-availability" value="True"/>
-			<property name="test_parameter_count" value="5"/>
-			<property name="source_file" value="/config/tests_alice/grmp_config.yaml"/>
-			<property name="empty_test_parameter_count" value="0"/>
-		</properties>
-		<testcase name="get_env_test" classname="input-echo-standard" time="4.76837158203125e-05"/>
-		<testcase name="check_emptiness_test" classname="input-echo-standard" time="2.0742416381835938e-05"/>
-	</testsuite>
-	<testsuite name="input-echo-alice" timestamp="2026-02-23T09:49:50.576296+00:00" tests="2" errors="0" failures="0" skipped="0" time="5.7220458984375e-05">
-		<properties>
-			<property name="supports-content-types" value="['application/trig']"/>
-			<property name="check-response-body-conformity" value="True"/>
-			<property name="test_parameter_count" value="2"/>
-			<property name="source_file" value="/config/tests_alice/grmp_config.yaml"/>
-			<property name="empty_test_parameter_count" value="0"/>
-		</properties>
-		<testcase name="get_env_test" classname="input-echo-alice" time="3.886222839355469e-05"/>
-		<testcase name="check_emptiness_test" classname="input-echo-alice" time="1.8358230590820312e-05"/>
-	</testsuite>
-	<testsuite name="input-echo-standard(2)" timestamp="2026-02-23T09:49:51.464865+00:00" tests="2" errors="0" failures="0" skipped="0" time="6.508827209472656e-05">
-		<properties>
-			<property name="url" value="https://brugge-ldes.geomobility.eu/observations"/>
-			<property name="max-redirects" value="3"/>
-			<property name="timeout" value="10"/>
-			<property name="check-http-availability" value="False"/>
-			<property name="check-https-availability" value="True"/>
-			<property name="test_parameter_count" value="5"/>
-			<property name="source_file" value="/config/tests_bob/grmp_conf.yaml"/>
-			<property name="empty_test_parameter_count" value="0"/>
-		</properties>
-		<testcase name="get_env_test" classname="input-echo-standard(2)" time="4.410743713378906e-05"/>
-		<testcase name="check_emptiness_test" classname="input-echo-standard(2)" time="2.09808349609375e-05"/>
-	</testsuite>
-	<testsuite name="input-echo-standard-2" timestamp="2026-02-23T09:49:52.369008+00:00" tests="2" errors="0" failures="0" skipped="0" time="6.031990051269531e-05">
-		<properties>
-			<property name="url" value="https://brugge-ldes.geomobility.eu/observations"/>
-			<property name="supports-content-types" value="['text/turtle', 'application/trig']"/>
-			<property name="check-response-body-conformity" value="True"/>
-			<property name="test_parameter_count" value="3"/>
-			<property name="source_file" value="/config/tests_bob/grmp_conf.yaml"/>
-			<property name="empty_test_parameter_count" value="0"/>
-		</properties>
-		<testcase name="get_env_test" classname="input-echo-standard-2" time="4.100799560546875e-05"/>
-		<testcase name="check_emptiness_test" classname="input-echo-standard-2" time="1.9311904907226562e-05"/>
-	</testsuite>
-	<testsuite name="input-echo-fail" timestamp="2026-02-23T09:49:53.267712+00:00" tests="2" errors="0" failures="1" skipped="0" time="6.341934204101562e-05">
-		<properties>
-			<property name="url" value="None"/>
-			<property name="supports-content-types" value="['text/turtle', 'application/trig']"/>
-			<property name="check-response-body-conformity" value="True"/>
-			<property name="test_parameter_count" value="3"/>
-			<property name="source_file" value="/config/tests_bob/grmp_conf.yaml"/>
-			<property name="empty_test_parameter_count" value="1"/>
-		</properties>
-		<testcase name="get_env_test" classname="input-echo-fail" time="4.100799560546875e-05"/>
-		<testcase name="check_emptiness_test" classname="input-echo-fail" time="2.2411346435546875e-05">
-			<failure message="Empty test parameters found">url</failure>
-			<system-out>Found empty value: TEST_URL = None
+		<testcase name="http_availability [https://brugge-ldes.geomobility.eu/observations]" classname="resource-availability-external" time="0.6482827663421631">
+			<system-out>response_time_s: 0.648
+status_code: 301
+redirects_to: https://brugge-ldes.geomobility.eu/observations
+OK: HTTP endpoint reachable (redirects to HTTPS)
 </system-out>
-			<system-err/>
 		</testcase>
-	</testsuite>
-	<testsuite name="input-echo-skip" timestamp="2026-02-23T09:49:54.137562+00:00" tests="2" errors="0" failures="1" skipped="1" time="3.218650817871094e-05">
-		<properties>
-			<property name="test_parameter_count" value="0"/>
-			<property name="source_file" value="/config/tests_bob/grmp_conf.yaml"/>
-		</properties>
-		<testcase name="get_env_test" classname="input-echo-skip" time="3.218650817871094e-05">
-			<failure message="No test parameters found"/>
-			<system-out/>
-			<system-err/>
+		<testcase name="https_availability [https://brugge-ldes.geomobility.eu/observations]" classname="resource-availability-external" time="0.2518148422241211">
+			<failure message="HTTPS availability check failed">HTTPSConnectionPool(host='brugge-ldes.geomobility.eu', port=443): Max retries exceeded with url: /observations (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1016)')))</failure>
+			<system-out>response_time_s: 0.252
+</system-out>
+			<system-err>Checking HTTPS availability for: https://brugge-ldes.geomobility.eu/observations
+Timeout: 10s, Max redirects: 3, Verify SSL: True
+Availability check failed: HTTPSConnectionPool(host='brugge-ldes.geomobility.eu', port=443): Max retries exceeded with url: /observations (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1016)')))
+</system-err>
 		</testcase>
-		<testcase name="check_emptiness_test" classname="input-echo-skip" time="0.0">
-			<skipped message="Failure or error within the get_env_test"/>
+		<testcase name="dns_resolution [https://ldes.telraam-api.net/locations]" classname="resource-availability-external" time="0.10127878189086914">
+			<system-out>Resolving hostname: ldes.telraam-api.net
+resolved_ip: 188.245.154.88
+</system-out>
+		</testcase>
+		<testcase name="http_availability [https://ldes.telraam-api.net/locations]" classname="resource-availability-external" time="0.2806739807128906">
+			<system-out>response_time_s: 0.281
+status_code: 301
+redirects_to: https://ldes.telraam-api.net/locations
+OK: HTTP endpoint reachable (redirects to HTTPS)
+</system-out>
+		</testcase>
+		<testcase name="https_availability [https://ldes.telraam-api.net/locations]" classname="resource-availability-external" time="0.41614270210266113">
+			<system-out>response_time_s: 0.416
+status_code: 200
+OK: HTTPS available, status 200 in 0.416s
+</system-out>
 		</testcase>
 	</testsuite>
 </testsuites>
