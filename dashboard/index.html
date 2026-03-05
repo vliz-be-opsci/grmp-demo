@@ -654,8 +654,8 @@
                 <h3>Filters</h3>
                 <div class="filter-row">
                     <div>
-                        <label>Status</label>
-                        <div class="filter-buttons">
+                        <label>Testsuite Status</label>
+                        <div class="filter-buttons" id="suiteStatusButtons">
                             <button class="btn-secondary active" onclick="setStatusFilter('all')">All</button>
                             <button class="btn-secondary" onclick="setStatusFilter('passed')">Passed</button>
                             <button class="btn-secondary" onclick="setStatusFilter('failed')">Failed</button>
@@ -666,6 +666,18 @@
                     <div>
                         <label for="searchInput">Search Tests</label>
                         <input type="search" id="searchInput" placeholder="Search by test or suite name..." oninput="applyFilters()">
+                    </div>
+                </div>
+                <div class="filter-row" style="margin-top: 1rem;">
+                    <div>
+                        <label>Testcase Status</label>
+                        <div class="filter-buttons" id="caseStatusButtons">
+                            <button class="btn-secondary active" onclick="setCaseStatusFilter('all')">All</button>
+                            <button class="btn-secondary" onclick="setCaseStatusFilter('passed')">Passed</button>
+                            <button class="btn-secondary" onclick="setCaseStatusFilter('failed')">Failed</button>
+                            <button class="btn-secondary" onclick="setCaseStatusFilter('error')">Errors</button>
+                            <button class="btn-secondary" onclick="setCaseStatusFilter('skipped')">Skipped</button>
+                        </div>
                     </div>
                 </div>
                 <div class="filter-row" style="margin-top: 1rem;">
@@ -699,7 +711,7 @@
             config: null, // parsed config.json, or null
             runs: null,   // parsed runs.json, or null
             testData: null,
-            filters: { status: 'all', search: '', property: '', propertyValue: '' }
+            filters: { status: 'all', caseStatus: 'all', search: '', property: '', propertyValue: '' }
         };
 
         // Attempt to load config.json from the same directory as the dashboard.
@@ -1029,6 +1041,7 @@
             if (!state.testData) return [];
             let suites = state.testData.suites;
             if (state.filters.status !== 'all') suites = suites.filter(s => s.status === state.filters.status);
+            if (state.filters.caseStatus !== 'all') suites = suites.filter(s => s.testCases.some(t => t.status === state.filters.caseStatus));
             if (state.filters.search) {
                 const search = state.filters.search.toLowerCase();
                 suites = suites.filter(s => s.name.toLowerCase().includes(search) || s.testCases.some(t => t.name.toLowerCase().includes(search)));
@@ -1053,7 +1066,16 @@
 
         function setStatusFilter(status) {
             state.filters.status = status;
-            document.querySelectorAll('.filter-buttons button').forEach(btn => {
+            document.querySelectorAll('#suiteStatusButtons button').forEach(btn => {
+                const text = btn.textContent.toLowerCase();
+                btn.classList.toggle('active', text === status || text === status + 's' || (status === 'all' && text === 'all'));
+            });
+            applyFilters();
+        }
+
+        function setCaseStatusFilter(status) {
+            state.filters.caseStatus = status;
+            document.querySelectorAll('#caseStatusButtons button').forEach(btn => {
                 const text = btn.textContent.toLowerCase();
                 btn.classList.toggle('active', text === status || text === status + 's' || (status === 'all' && text === 'all'));
             });
