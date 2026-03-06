@@ -10,3 +10,12 @@ tests:
       verify-ssl: true
       check-http-availability: true
       check-https-availability: true
+
+  certificates-external:
+    image: ghcr.io/vliz-be-opsci/grmp-test-implementations-check-certificate:main
+    config:
+      urls: 
+        - https://brugge-ldes.geomobility.eu/observations
+        - https://ldes.telraam-api.net/locations
+      timeout: 10
+      certificate-expiry-days: 30
