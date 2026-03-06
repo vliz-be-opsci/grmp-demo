@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <testsuites>
-	<testsuite name="resource-availability-external" timestamp="2026-03-02T12:52:14.189881+00:00" tests="6" errors="0" failures="1" skipped="0" time="1.7955400943756104">
-		<testcase name="dns_resolution [https://brugge-ldes.geomobility.eu/observations]" classname="resource-availability-external" time="0.09734702110290527">
+	<testsuite name="resource-availability-external" timestamp="2026-03-06T11:30:27.227906+00:00" tests="6" errors="0" failures="1" skipped="0" time="2.18882155418396">
+		<testcase name="dns_resolution [https://brugge-ldes.geomobility.eu/observations]" classname="resource-availability-external" time="0.15775132179260254">
 			<system-out>Resolving hostname: brugge-ldes.geomobility.eu
 resolved_ip: 40.85.76.196
 </system-out>
@@ -12,39 +12,63 @@ resolved_ip: 40.85.76.196
 			<property name="hostnames" value="brugge-ldes.geomobility.eu, ldes.telraam-api.net"/>
 			<property name="providence" value="/config/external_test_resources/grmp_conf.yaml"/>
 		</properties>
-		<testcase name="http_availability [https://brugge-ldes.geomobility.eu/observations]" classname="resource-availability-external" time="0.6482827663421631">
-			<system-out>response_time_s: 0.648
+		<testcase name="http_availability [https://brugge-ldes.geomobility.eu/observations]" classname="resource-availability-external" time="0.44652366638183594">
+			<system-out>response_time_s: 0.447
 status_code: 301
 redirects_to: https://brugge-ldes.geomobility.eu/observations
 OK: HTTP endpoint reachable (redirects to HTTPS)
 </system-out>
 		</testcase>
-		<testcase name="https_availability [https://brugge-ldes.geomobility.eu/observations]" classname="resource-availability-external" time="0.2518148422241211">
+		<testcase name="https_availability [https://brugge-ldes.geomobility.eu/observations]" classname="resource-availability-external" time="0.7150959968566895">
 			<failure message="HTTPS availability check failed">HTTPSConnectionPool(host='brugge-ldes.geomobility.eu', port=443): Max retries exceeded with url: /observations (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1016)')))</failure>
-			<system-out>response_time_s: 0.252
+			<system-out>response_time_s: 0.715
 </system-out>
 			<system-err>Checking HTTPS availability for: https://brugge-ldes.geomobility.eu/observations
 Timeout: 10s, Max redirects: 3, Verify SSL: True
 Availability check failed: HTTPSConnectionPool(host='brugge-ldes.geomobility.eu', port=443): Max retries exceeded with url: /observations (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1016)')))
 </system-err>
 		</testcase>
-		<testcase name="dns_resolution [https://ldes.telraam-api.net/locations]" classname="resource-availability-external" time="0.10127878189086914">
+		<testcase name="dns_resolution [https://ldes.telraam-api.net/locations]" classname="resource-availability-external" time="0.045307159423828125">
 			<system-out>Resolving hostname: ldes.telraam-api.net
 resolved_ip: 188.245.154.88
 </system-out>
 		</testcase>
-		<testcase name="http_availability [https://ldes.telraam-api.net/locations]" classname="resource-availability-external" time="0.2806739807128906">
-			<system-out>response_time_s: 0.281
+		<testcase name="http_availability [https://ldes.telraam-api.net/locations]" classname="resource-availability-external" time="0.35454821586608887">
+			<system-out>response_time_s: 0.355
 status_code: 301
 redirects_to: https://ldes.telraam-api.net/locations
 OK: HTTP endpoint reachable (redirects to HTTPS)
 </system-out>
 		</testcase>
-		<testcase name="https_availability [https://ldes.telraam-api.net/locations]" classname="resource-availability-external" time="0.41614270210266113">
-			<system-out>response_time_s: 0.416
+		<testcase name="https_availability [https://ldes.telraam-api.net/locations]" classname="resource-availability-external" time="0.46959519386291504">
+			<system-out>response_time_s: 0.470
 status_code: 200
-OK: HTTPS available, status 200 in 0.416s
+OK: HTTPS available, status 200 in 0.470s
 </system-out>
 		</testcase>
+	</testsuite>
+	<testsuite name="certificates-external" timestamp="2026-03-06T11:30:30.956260+00:00" tests="2" errors="0" failures="1" skipped="0" time="0.9980778694152832">
+		<testcase name="certificate_expiry [https://brugge-ldes.geomobility.eu/observations]" classname="certificates-external" time="0.5568327903747559">
+			<failure message="Certificate has expired">Certificate expired on 2026-02-16T23:59:59+00:00</failure>
+			<system-out>Checking certificate expiry for: brugge-ldes.geomobility.eu:443
+expiry: 2026-02-16T23:59:59+00:00
+status: expired
+Certificate expired on 2026-02-16T23:59:59+00:00
+</system-out>
+		</testcase>
+		<testcase name="certificate_expiry [https://ldes.telraam-api.net/locations]" classname="certificates-external" time="0.44124507904052734">
+			<system-out>Checking certificate expiry for: ldes.telraam-api.net:443
+expiry: 2026-04-18T15:53:01+00:00
+status: ok
+Certificate valid for 43 more day(s) (expiry: 2026-04-18T15:53:01+00:00)
+</system-out>
+		</testcase>
+		<properties>
+			<property name="urls" value="https://brugge-ldes.geomobility.eu/observations, https://ldes.telraam-api.net/locations"/>
+			<property name="hostnames" value="brugge-ldes.geomobility.eu, ldes.telraam-api.net"/>
+			<property name="timeout" value="10"/>
+			<property name="certificate-expiry-days" value="30"/>
+			<property name="providence" value="/config/external_test_resources/grmp_conf.yaml"/>
+		</properties>
 	</testsuite>
 </testsuites>
