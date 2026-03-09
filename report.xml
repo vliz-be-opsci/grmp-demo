@@ -1,11 +1,159 @@
 <?xml version="1.0" encoding="utf-8"?>
 <testsuites>
-	<testsuite name="shacl-example" timestamp="2026-03-09T11:36:58.085589+00:00" tests="1" errors="0" failures="0" skipped="1" time="0.0">
-		<testcase name="shacl_validation" classname="shacl-example" time="0.0">
-			<skipped message="No data_urls or shapes_url configured"/>
+	<testsuite name="resource-availability-external" timestamp="2026-03-09T23:08:11.504913+00:00" tests="6" errors="0" failures="1" skipped="0" time="2.049865245819092">
+		<testcase name="dns_resolution [https://brugge-ldes.geomobility.eu/observations]" classname="resource-availability-external" time="0.27181458473205566">
+			<system-out>Resolving hostname: brugge-ldes.geomobility.eu
+resolved_ip: 40.85.76.196
+</system-out>
 		</testcase>
 		<properties>
-			<property name="providence" value="/config/tests.yaml"/>
+			<property name="verify_ssl" value="True"/>
+			<property name="urls" value="https://brugge-ldes.geomobility.eu/observations, https://ldes.telraam-api.net/locations"/>
+			<property name="hostnames" value="brugge-ldes.geomobility.eu, ldes.telraam-api.net"/>
+			<property name="providence" value="/config/external_test_resources/grmp_conf.yaml"/>
+		</properties>
+		<testcase name="http_availability [https://brugge-ldes.geomobility.eu/observations]" classname="resource-availability-external" time="0.4493253231048584">
+			<system-out>response_time_s: 0.449
+status_code: 301
+redirects_to: https://brugge-ldes.geomobility.eu/observations
+OK: HTTP endpoint reachable (redirects to HTTPS)
+</system-out>
+		</testcase>
+		<testcase name="https_availability [https://brugge-ldes.geomobility.eu/observations]" classname="resource-availability-external" time="0.4271407127380371">
+			<failure message="HTTPS availability check failed">HTTPSConnectionPool(host='brugge-ldes.geomobility.eu', port=443): Max retries exceeded with url: /observations (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1016)')))</failure>
+			<system-out>response_time_s: 0.427
+</system-out>
+			<system-err>Checking HTTPS availability for: https://brugge-ldes.geomobility.eu/observations
+Timeout: 10s, Max redirects: 3, Verify SSL: True
+Availability check failed: HTTPSConnectionPool(host='brugge-ldes.geomobility.eu', port=443): Max retries exceeded with url: /observations (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1016)')))
+</system-err>
+		</testcase>
+		<testcase name="dns_resolution [https://ldes.telraam-api.net/locations]" classname="resource-availability-external" time="0.024121522903442383">
+			<system-out>Resolving hostname: ldes.telraam-api.net
+resolved_ip: 188.245.154.88
+</system-out>
+		</testcase>
+		<testcase name="http_availability [https://ldes.telraam-api.net/locations]" classname="resource-availability-external" time="0.35192131996154785">
+			<system-out>response_time_s: 0.352
+status_code: 301
+redirects_to: https://ldes.telraam-api.net/locations
+OK: HTTP endpoint reachable (redirects to HTTPS)
+</system-out>
+		</testcase>
+		<testcase name="https_availability [https://ldes.telraam-api.net/locations]" classname="resource-availability-external" time="0.5255417823791504">
+			<system-out>response_time_s: 0.526
+status_code: 200
+OK: HTTPS available, status 200 in 0.526s
+</system-out>
+		</testcase>
+	</testsuite>
+	<testsuite name="certificates-external" timestamp="2026-03-09T23:08:15.609790+00:00" tests="2" errors="0" failures="1" skipped="0" time="0.8369786739349365">
+		<testcase name="certificate_expiry [https://brugge-ldes.geomobility.eu/observations]" classname="certificates-external" time="0.4535849094390869">
+			<failure message="Certificate has expired">Certificate expired on 2026-02-16T23:59:59+00:00</failure>
+			<system-out>Checking certificate expiry for: brugge-ldes.geomobility.eu:443
+expiry: 2026-02-16T23:59:59+00:00
+status: expired
+Certificate expired on 2026-02-16T23:59:59+00:00
+</system-out>
+		</testcase>
+		<testcase name="certificate_expiry [https://ldes.telraam-api.net/locations]" classname="certificates-external" time="0.3833937644958496">
+			<system-out>Checking certificate expiry for: ldes.telraam-api.net:443
+expiry: 2026-04-18T15:53:01+00:00
+status: ok
+Certificate valid for 39 more day(s) (expiry: 2026-04-18T15:53:01+00:00)
+</system-out>
+		</testcase>
+		<properties>
+			<property name="urls" value="https://brugge-ldes.geomobility.eu/observations, https://ldes.telraam-api.net/locations"/>
+			<property name="hostnames" value="brugge-ldes.geomobility.eu, ldes.telraam-api.net"/>
+			<property name="timeout" value="10"/>
+			<property name="certificate-expiry-days" value="30"/>
+			<property name="providence" value="/config/external_test_resources/grmp_conf.yaml"/>
+		</properties>
+	</testsuite>
+	<testsuite name="cors-compliance-external-basic" timestamp="2026-03-09T23:08:20.218093+00:00" tests="3" errors="0" failures="0" skipped="0" time="2.2579474449157715">
+		<testcase name="access_control_allow_origin [http://edan.si.edu/saam/sparql] [lenient]" classname="cors-compliance-external-basic" time="0.6221663951873779">
+			<system-out>OPTIONS http://edan.si.edu/saam/sparql with Origin: https://vliz.be
+Followed 1 redirect(s) to https://edan.si.edu/saam/sparql
+access-control-allow-origin: '*'
+</system-out>
+		</testcase>
+		<testcase name="access_control_allow_origin [http://vocab.nerc.ac.uk/sparql/sparql] [lenient]" classname="cors-compliance-external-basic" time="0.691972017288208">
+			<system-out>OPTIONS http://vocab.nerc.ac.uk/sparql/sparql with Origin: https://vliz.be
+access-control-allow-origin: '*'
+</system-out>
+		</testcase>
+		<testcase name="access_control_allow_origin [https://linked.bodc.ac.uk/sdn/edios/sparql/sparql] [lenient]" classname="cors-compliance-external-basic" time="0.9438090324401855">
+			<system-out>OPTIONS https://linked.bodc.ac.uk/sdn/edios/sparql/sparql with Origin: https://vliz.be
+access-control-allow-origin: '*'
+</system-out>
+		</testcase>
+		<properties>
+			<property name="urls" value="http://edan.si.edu/saam/sparql, http://vocab.nerc.ac.uk/sparql/sparql, https://linked.bodc.ac.uk/sdn/edios/sparql/sparql"/>
+			<property name="hostnames" value="edan.si.edu, vocab.nerc.ac.uk, linked.bodc.ac.uk"/>
+			<property name="timeout" value="30"/>
+			<property name="https-redirect" value="false"/>
+			<property name="probe-origin" value="https://vliz.be"/>
+			<property name="provenance" value="/config/external_test_resources/grmp_conf.yaml"/>
+		</properties>
+	</testsuite>
+	<testsuite name="cors-compliance-external-advanced" timestamp="2026-03-09T23:08:31.806907+00:00" tests="8" errors="0" failures="4" skipped="0" time="10.500061511993408">
+		<testcase name="access_control_allow_origin [https://sparql.ifremer.fr/csr/query] [*]" classname="cors-compliance-external-advanced" time="1.3048622608184814">
+			<failure message="access-control-allow-origin does not allow all origins">Expected '*' but got 'https://vliz.be'</failure>
+			<system-out>OPTIONS https://sparql.ifremer.fr/csr/query with Origin: https://vliz.be
+access-control-allow-origin: 'https://vliz.be'
+</system-out>
+		</testcase>
+		<testcase name="access_control_allow_methods [https://sparql.ifremer.fr/csr/query]" classname="cors-compliance-external-advanced" time="1.1499171257019043">
+			<system-out>OPTIONS https://sparql.ifremer.fr/csr/query (checking allow-methods)
+access-control-allow-methods: 'GET,POST,DELETE,PUT,HEAD,OPTIONS,PATCH'
+</system-out>
+		</testcase>
+		<testcase name="access_control_expose_headers [https://sparql.ifremer.fr/csr/query]" classname="cors-compliance-external-advanced" time="1.0794737339019775">
+			<system-out>GET https://sparql.ifremer.fr/csr/query (checking expose-headers)
+access-control-expose-headers: 'Access-Control-Allow-Origin,Access-Control-Allow-Credentials'
+</system-out>
+		</testcase>
+		<testcase name="https_redirect [https://sparql.ifremer.fr/csr/query]" classname="cors-compliance-external-advanced" time="1.7279679775238037">
+			<failure message="CORS header missing in redirect chain">'access-control-allow-origin' absent from response at http://sparql.ifremer.fr/csr/query</failure>
+			<system-out>GET http://sparql.ifremer.fr/csr/query (checking https redirect)
+HTTP→HTTPS redirect: http://sparql.ifremer.fr/csr/query → https://sparql.ifremer.fr/csr/query (301)
+access-control-allow-origin at http://sparql.ifremer.fr/csr/query: ''
+</system-out>
+		</testcase>
+		<testcase name="access_control_allow_origin [https://sparql.ifremer.fr/sextant_seadatanet/query] [*]" classname="cors-compliance-external-advanced" time="0.885673999786377">
+			<failure message="access-control-allow-origin does not allow all origins">Expected '*' but got 'https://vliz.be'</failure>
+			<system-out>OPTIONS https://sparql.ifremer.fr/sextant_seadatanet/query with Origin: https://vliz.be
+access-control-allow-origin: 'https://vliz.be'
+</system-out>
+		</testcase>
+		<testcase name="access_control_allow_methods [https://sparql.ifremer.fr/sextant_seadatanet/query]" classname="cors-compliance-external-advanced" time="0.9647798538208008">
+			<system-out>OPTIONS https://sparql.ifremer.fr/sextant_seadatanet/query (checking allow-methods)
+access-control-allow-methods: 'GET,POST,DELETE,PUT,HEAD,OPTIONS,PATCH'
+</system-out>
+		</testcase>
+		<testcase name="access_control_expose_headers [https://sparql.ifremer.fr/sextant_seadatanet/query]" classname="cors-compliance-external-advanced" time="0.880101203918457">
+			<system-out>GET https://sparql.ifremer.fr/sextant_seadatanet/query (checking expose-headers)
+access-control-expose-headers: 'Access-Control-Allow-Origin,Access-Control-Allow-Credentials'
+</system-out>
+		</testcase>
+		<testcase name="https_redirect [https://sparql.ifremer.fr/sextant_seadatanet/query]" classname="cors-compliance-external-advanced" time="2.5072853565216064">
+			<failure message="CORS header missing in redirect chain">'access-control-allow-origin' absent from response at http://sparql.ifremer.fr/sextant_seadatanet/query</failure>
+			<system-out>GET http://sparql.ifremer.fr/sextant_seadatanet/query (checking https redirect)
+HTTP→HTTPS redirect: http://sparql.ifremer.fr/sextant_seadatanet/query → https://sparql.ifremer.fr/sextant_seadatanet/query (301)
+access-control-allow-origin at http://sparql.ifremer.fr/sextant_seadatanet/query: ''
+</system-out>
+		</testcase>
+		<properties>
+			<property name="urls" value="https://sparql.ifremer.fr/csr/query, https://sparql.ifremer.fr/sextant_seadatanet/query"/>
+			<property name="hostnames" value="sparql.ifremer.fr"/>
+			<property name="timeout" value="10"/>
+			<property name="access-control-allow-origin" value="*"/>
+			<property name="access-control-allow-methods" value="GET, HEAD, OPTIONS"/>
+			<property name="access-control-expose-headers" value="access-control-allow-credentials, access-control-allow-origin"/>
+			<property name="https-redirect" value="true"/>
+			<property name="probe-origin" value="https://vliz.be"/>
+			<property name="provenance" value="/config/external_test_resources/grmp_conf.yaml"/>
 		</properties>
 	</testsuite>
 </testsuites>
