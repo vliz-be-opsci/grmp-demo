@@ -8,3 +8,4 @@ Currently, the following demos are available:
 
 1) input-echo-demo
 2) resource-analyses
+3) shacl-example
