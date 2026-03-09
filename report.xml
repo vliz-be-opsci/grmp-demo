@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <testsuites>
-	<testsuite name="shacl-example" timestamp="2026-03-09T10:57:05.455924+00:00" tests="1" errors="0" failures="0" skipped="1" time="0.0">
+	<testsuite name="shacl-example" timestamp="2026-03-09T11:36:58.085589+00:00" tests="1" errors="0" failures="0" skipped="1" time="0.0">
 		<testcase name="shacl_validation" classname="shacl-example" time="0.0">
 			<skipped message="No data_urls or shapes_url configured"/>
 		</testcase>
