@@ -19,3 +19,28 @@ tests:
         - https://ldes.telraam-api.net/locations
       timeout: 10
       certificate-expiry-days: 30
+
+  cors-compliance-external-basic:
+    image: ghcr.io/vliz-be-opsci/grmp-test-implementations-cors-compliance:main
+    config:
+      urls: 
+        - http://edan.si.edu/saam/sparql
+        - http://vocab.nerc.ac.uk/sparql/sparql
+        - https://linked.bodc.ac.uk/sdn/edios/sparql/sparql
+
+  cors-compliance-external-advanced:
+    image: ghcr.io/vliz-be-opsci/grmp-test-implementations-cors-compliance:main
+    config:
+      urls:
+        - https://sparql.ifremer.fr/csr/query
+        - https://sparql.ifremer.fr/sextant_seadatanet/query
+      timeout: 10
+      access-control-allow-origin: '*'
+      access-control-allow-methods:
+        - GET
+        - HEAD
+        - OPTIONS
+      access-control-expose-headers:
+        - access-control-allow-credentials
+        - access-control-allow-origin
+      https-redirect: true
