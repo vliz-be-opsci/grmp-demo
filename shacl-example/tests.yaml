@@ -4,5 +4,5 @@ tests:
     config:
       TEST_SHAPES_URL: "https://raw.githubusercontent.com/SEMICeu/dcat-ap_shacl/master/shacl/dcat-ap.shapes.ttl"
       TEST_DATA_URLS:
-        - "https://www.w3.org/TR/shacl/shacl.ttl"  # Example RDF data; replace with your own TTL/RDF URL(s)
+        - "https://data.emobon.embrc.eu/metadata.ttl"  # Example RDF data; replace with your own TTL/RDF URL(s)
       TEST_TIMEOUT: 60  # Optional: timeout in seconds
