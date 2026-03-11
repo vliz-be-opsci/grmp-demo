@@ -1,6 +1,26 @@
 {
-  "generated_at": "2026-03-11T08:55:49.291825Z",
+  "generated_at": "2026-03-11T08:59:52.761261Z",
   "runs": [
+    {
+      "commit_sha": "796043e24bb57ca9d8320bac9534dd54b83fb44c",
+      "short_sha": "796043e",
+      "date": "2026-03-11T08:59:52.717957Z",
+      "run_number": 26,
+      "source_branch": "main",
+      "config_file": "shacl-example",
+      "triggered_by": "cedricdcc",
+      "workflow_name": "Run Configured Tests",
+      "run_id": "22944654500",
+      "summary": {
+        "total_tests": 1,
+        "passed": 1,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "pass_rate": 100.0,
+        "duration": 0.5456
+      }
+    },
     {
       "commit_sha": "94ad540b6c3319486c6504568f3b6ed5c13a30fa",
       "short_sha": "94ad540",
