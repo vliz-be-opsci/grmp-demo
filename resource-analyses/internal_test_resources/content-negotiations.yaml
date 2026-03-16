@@ -1,0 +1,10 @@
+tests:
+  content-negotiation-internal:
+    image: ghcr.io/vliz-be-opsci/grmp-test-implementations-content-negotiation:main
+    config:
+      urls:
+        - http://marineregions.org/feed
+      accept-headers:
+        - text/turtle
+        - application/ld+json, application/trig;q=0.98, text/turtle;q=0.95, application/n-quads;q=0.9, application/n-triples;q=0.9, application/rdf+xml;q=0.5, text/html;q=0.3, */*;q=0.1
+      check-response-body: True
