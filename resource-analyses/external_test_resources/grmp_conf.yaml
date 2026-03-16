@@ -27,6 +27,7 @@ tests:
         - http://edan.si.edu/saam/sparql
         - http://vocab.nerc.ac.uk/sparql/sparql
         - https://linked.bodc.ac.uk/sdn/edios/sparql/sparql
+        - https://sparql.ifremer.fr/csr/query
 
   cors-compliance-external-advanced:
     image: ghcr.io/vliz-be-opsci/grmp-test-implementations-cors-compliance:main
@@ -44,3 +45,11 @@ tests:
         - access-control-allow-credentials
         - access-control-allow-origin
       https-redirect: true
+
+  cors-compliance-external-prevent-masked-errors:
+    image: ghcr.io/vliz-be-opsci/grmp-test-implementations-cors-compliance:main
+    config:
+      urls: 
+        - http://edan.si.edu/saam/sparql
+      probe-origin: http://edan.si.edu
+
