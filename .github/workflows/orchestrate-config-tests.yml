@@ -46,6 +46,10 @@ jobs:
             -v "${{ github.workspace }}/${config_directory}":/config:ro \
             -v "${{ github.workspace }}/reports":/reports:rw \
             -e REPORTS_HOST_PATH="${{ github.workspace }}/reports" \
+            -e GITHUB_SERVER_URL="${{ github.server_url }}" \
+            -e GITHUB_REPOSITORY="${{ github.repository }}" \
+            -e GITHUB_SHA="${{ github.sha }}" \
+            -e CONFIG_DIRECTORY="${config_directory}" \
             ghcr.io/vliz-be-opsci/grmp-framework:main
 
       - name: Set up Python
