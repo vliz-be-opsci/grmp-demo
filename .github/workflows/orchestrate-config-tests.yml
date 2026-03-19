@@ -209,6 +209,7 @@ jobs:
 
       - name: Create or update issues for failing test suites
         if: steps.push_report.outcome == 'success'
+        continue-on-error: true
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           RUN_NUMBER: ${{ github.run_number }}
