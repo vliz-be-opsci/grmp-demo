@@ -264,6 +264,10 @@ jobs:
                   json.dumps(props, sort_keys=True).encode()
               ).hexdigest()[:8]
 
+          def escape_md_table(text):
+              """Escape pipe and newline characters for markdown table cells."""
+              return str(text).replace('|', '\\|').replace('\n', ' ')
+
           def make_cases_table(suite):
               rows = []
               for tc in suite.findall('testcase'):
@@ -276,7 +280,7 @@ jobs:
                       status, msg = 'skipped', tc.find('skipped').get('message', '')
                   else:
                       status, msg = 'passed', ''
-                  rows.append(f'| `{name}` | {status} | {msg} |')
+                  rows.append(f'| `{escape_md_table(name)}` | {status} | {escape_md_table(msg)} |')
               return (
                   '| Test case | Status | Message |\n'
                   '| --- | --- | --- |\n'
@@ -284,7 +288,7 @@ jobs:
               )
 
           def make_props_table(props):
-              rows = [f'| `{k}` | {v} |' for k, v in sorted(props.items())]
+              rows = [f'| `{escape_md_table(k)}` | {escape_md_table(v)} |' for k, v in sorted(props.items())]
               return (
                   '| Property | Value |\n'
                   '| --- | --- |\n'
