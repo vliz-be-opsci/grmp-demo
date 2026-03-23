@@ -227,7 +227,7 @@ jobs:
           import xml.etree.ElementTree as ET
           from pathlib import Path
 
-          EXCLUDE_FROM_HASH = {'provenance'}
+          EXCLUDE_FROM_HASH = {'provenance', 'create-issue'}
           ISSUE_LABEL = 'grmp-test-failure'
 
           run_number = os.environ['RUN_NUMBER']
@@ -314,6 +314,18 @@ jobs:
               total      = int(suite.get('tests') or 0)
               skipped    = int(suite.get('skipped') or 0)
               passed     = max(0, total - failures - errors - skipped)
+
+              # Read create-issue directly from raw properties before hash filtering
+              props_elem_raw = suite.find('properties')
+              create_issue = False
+              if props_elem_raw is not None:
+                  for prop in props_elem_raw.findall('property'):
+                      if prop.get('name') == 'create-issue':
+                          create_issue = prop.get('value', 'false').lower() == 'true'
+
+              if not create_issue:
+                  print(f'Skipping issue management for {suite_name}: create-issue is not set')
+                  continue
 
               props        = get_props(suite)
               issue_title  = f'[GRMP] {suite_name} #{config_hash(props)}'
