@@ -2,6 +2,7 @@ tests:
   resource-availability-external:
     image: ghcr.io/vliz-be-opsci/grmp-test-implementations-resource-availability:main
     config:
+      create-issue: true
       urls: 
         - https://brugge-ldes.geomobility.eu/observations
         - https://ldes.telraam-api.net/locations
@@ -10,6 +11,7 @@ tests:
       verify-ssl: true
       check-http-availability: true
       check-https-availability: true
+
 
   certificates-external:
     image: ghcr.io/vliz-be-opsci/grmp-test-implementations-check-certificate:main

@@ -23,8 +23,9 @@ jobs:
   test:
     runs-on: ubuntu-latest
     permissions:
-      contents: write  # Changed from 'read' to allow pushing to report branch
+      contents: write
       packages: read
+      issues: write
     
     steps:
       - uses: actions/checkout@v4
@@ -83,15 +84,12 @@ jobs:
           git fetch origin "$REPORT_BRANCH" 2>/dev/null || true
           
           if git ls-remote --heads origin "$REPORT_BRANCH" | grep -qF "$REPORT_BRANCH"; then
-            # Branch exists, check it out
             git checkout "$REPORT_BRANCH"
           else
             git checkout --orphan "$REPORT_BRANCH"
             git rm -rf . 2>/dev/null || true
           fi
 
-
-          
           git checkout ${{ github.sha }} -- dashboard/ 2>/dev/null || true
           
           if [ -d dashboard ]; then
@@ -120,7 +118,6 @@ jobs:
             echo "Report pushed to $REPORT_BRANCH branch"
           fi
 
-          # Capture the SHA of the commit that now contains report.xml
           REPORT_COMMIT_SHA=$(git rev-parse HEAD)
           echo "REPORT_COMMIT_SHA=${REPORT_COMMIT_SHA}" >> $GITHUB_ENV
           echo "   Report commit SHA: ${REPORT_COMMIT_SHA}"
@@ -150,7 +147,6 @@ jobs:
           workflow_name = os.environ['WORKFLOW_NAME']
           run_id        = os.environ['RUN_ID']
 
-          # Parse the XML report
           report_path = Path('reports/combined_report.xml')
           if not report_path.exists():
               print(f"Report not found at {report_path}")
@@ -165,11 +161,10 @@ jobs:
           skipped     = 0
           total_time  = 0.0
 
-          # Handle case where root itself is a testsuite
           suites = root.findall('.//testsuite')
           if root.tag == 'testsuite' and not suites:
-            suites = [root]
-            
+              suites = [root]
+
           for suite in suites:
               total_tests += int(suite.get('tests') or 0)
               failures    += int(suite.get('failures') or 0)
@@ -212,6 +207,179 @@ jobs:
           print("Saved new_run.json")
           EOF
 
+      - name: Create or update issues for failing test suites
+        if: steps.push_report.outcome == 'success'
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RUN_NUMBER: ${{ github.run_number }}
+          RUN_ID: ${{ github.run_id }}
+          REF_NAME: ${{ github.ref_name }}
+          SERVER_URL: ${{ github.server_url }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          python3 << 'EOF'
+          import hashlib
+          import json
+          import os
+          import subprocess
+          import sys
+          import xml.etree.ElementTree as ET
+          from pathlib import Path
+
+          EXCLUDE_FROM_HASH = {'provenance', 'create-issue'}
+          ISSUE_LABEL = 'grmp-test-failure'
+
+          run_number = os.environ['RUN_NUMBER']
+          run_id     = os.environ['RUN_ID']
+          ref_name   = os.environ['REF_NAME']
+          server_url = os.environ['SERVER_URL']
+          repository = os.environ['REPOSITORY']
+          run_url    = f"{server_url}/{repository}/actions/runs/{run_id}"
+
+          report_path = Path('reports/combined_report.xml')
+          if not report_path.exists():
+              print("Report not found, skipping issue management")
+              sys.exit(0)
+
+          tree = ET.parse(report_path)
+          root = tree.getroot()
+          suites = root.findall('.//testsuite')
+          if root.tag == 'testsuite' and not suites:
+              suites = [root]
+
+          def get_props(suite):
+              props = {}
+              props_elem = suite.find('properties')
+              if props_elem is not None:
+                  for prop in props_elem.findall('property'):
+                      k = prop.get('name', '')
+                      v = prop.get('value', '')
+                      if k and k not in EXCLUDE_FROM_HASH:
+                          props[k] = v
+              return props
+
+          def config_hash(props):
+              return hashlib.sha256(
+                  json.dumps(props, sort_keys=True).encode()
+              ).hexdigest()[:8]
+
+          def escape_md_table(text):
+              """Escape pipe and newline characters for markdown table cells."""
+              return str(text).replace('|', '\\|').replace('\n', ' ')
+
+          def make_cases_table(suite):
+              rows = []
+              for tc in suite.findall('testcase'):
+                  name = tc.get('name', 'unknown')
+                  if tc.find('failure') is not None:
+                      status, msg = 'failure', tc.find('failure').get('message', '')
+                  elif tc.find('error') is not None:
+                      status, msg = 'error', tc.find('error').get('message', '')
+                  elif tc.find('skipped') is not None:
+                      status, msg = 'skipped', tc.find('skipped').get('message', '')
+                  else:
+                      status, msg = 'passed', ''
+                  rows.append(f'| `{escape_md_table(name)}` | {status} | {escape_md_table(msg)} |')
+              return (
+                  '| Test case | Status | Message |\n'
+                  '| --- | --- | --- |\n'
+                  + '\n'.join(rows)
+              )
+
+          def make_props_table(props):
+              rows = [f'| `{escape_md_table(k)}` | {escape_md_table(v)} |' for k, v in sorted(props.items())]
+              return (
+                  '| Property | Value |\n'
+                  '| --- | --- |\n'
+                  + '\n'.join(rows)
+              )
+
+          def find_open_issue(title):
+              result = subprocess.run(
+                  ['gh', 'issue', 'list', '--state', 'open',
+                   '--search', title, '--json', 'number,title'],
+                  capture_output=True, text=True, check=True
+              )
+              matches = [
+                  i for i in json.loads(result.stdout or '[]')
+                  if i['title'] == title
+              ]
+              return matches[0]['number'] if matches else None
+
+          for suite in suites:
+              suite_name = suite.get('name', 'unknown')
+              failures   = int(suite.get('failures') or 0)
+              errors     = int(suite.get('errors') or 0)
+              total      = int(suite.get('tests') or 0)
+              skipped    = int(suite.get('skipped') or 0)
+              passed     = max(0, total - failures - errors - skipped)
+
+              # Read create-issue directly from raw properties before hash filtering
+              props_elem_raw = suite.find('properties')
+              create_issue = False
+              if props_elem_raw is not None:
+                  for prop in props_elem_raw.findall('property'):
+                      if prop.get('name') == 'create-issue':
+                          create_issue = prop.get('value', 'false').lower() == 'true'
+
+              if not create_issue:
+                  print(f'Skipping issue management for {suite_name}: create-issue is not set')
+                  continue
+
+              props        = get_props(suite)
+              issue_title  = f'[GRMP] {suite_name} #{config_hash(props)}'
+              issue_number = find_open_issue(issue_title)
+              summary      = (
+                  f'{passed}/{total} passed, '
+                  f'{failures} failed, '
+                  f'{errors} errored'
+              )
+
+              if failures > 0 or errors > 0:
+                  if issue_number:
+                      body = (
+                          f'Still failing in run #{run_number} ({ref_name})'
+                          f' — {summary}.\n\n'
+                          f'[View run]({run_url})\n\n'
+                          f'### Test cases\n\n{make_cases_table(suite)}\n'
+                      )
+                      subprocess.run(
+                          ['gh', 'issue', 'comment', str(issue_number), '--body', body],
+                          check=True
+                      )
+                      print(f'Commented on existing issue #{issue_number}: {issue_title}')
+                  else:
+                      body = (
+                          f'## Test suite: `{suite_name}`\n\n'
+                          f'**Run #{run_number}** ({ref_name}) — {summary}.\n\n'
+                          f'[View run]({run_url})\n\n'
+                          f'### Configuration\n\n{make_props_table(props)}\n\n'
+                          f'### Test cases\n\n{make_cases_table(suite)}\n'
+                      )
+                      subprocess.run(
+                          ['gh', 'issue', 'create',
+                           '--title', issue_title,
+                           '--body', body,
+                           '--label', ISSUE_LABEL],
+                          check=True
+                      )
+                      print(f'Created new issue: {issue_title}')
+              else:
+                  if issue_number:
+                      body = (
+                          f'All tests passing as of run #{run_number} ({ref_name})'
+                          f' — {passed}/{total} passed.\n\n'
+                          f'[View run]({run_url})\n\n'
+                          'This issue can be closed if the fix is confirmed.'
+                      )
+                      subprocess.run(
+                          ['gh', 'issue', 'comment', str(issue_number), '--body', body],
+                          check=True
+                      )
+                      print(f'Commented on issue #{issue_number}: suite now passing')
+          EOF
+
       - name: Update runs.json
         if: steps.push_report.outcome == 'success'
         run: |
@@ -241,7 +409,6 @@ jobs:
 
           data["generated_at"] = datetime.utcnow().isoformat() + "Z"
 
-          # Prepend newest run and cap at 50
           data["runs"].insert(0, new_run)
           data["runs"] = data["runs"][:50]
 
