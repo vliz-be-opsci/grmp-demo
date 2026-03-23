@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <testsuites>
-	<testsuite name="resource-availability-external" timestamp="2026-03-23T20:40:32.332398+00:00" tests="6" errors="0" failures="2" skipped="0" time="1.465770959854126">
-		<testcase name="dns_resolution [https://brugge-ldes.geomobility.eu/observations]" classname="resource-availability-external" time="0.16149067878723145">
+	<testsuite name="resource-availability-external" timestamp="2026-03-23T20:53:20.931159+00:00" tests="6" errors="0" failures="2" skipped="0" time="1.6646456718444824">
+		<testcase name="dns_resolution [https://brugge-ldes.geomobility.eu/observations]" classname="resource-availability-external" time="0.15779662132263184">
 			<system-out>Resolving hostname: brugge-ldes.geomobility.eu
 resolved_ip: 40.85.76.196
 </system-out>
@@ -18,50 +18,50 @@ resolved_ip: 40.85.76.196
 			<property name="provenance" value="https://github.com/vliz-be-opsci/grmp-demo/blob/7dc4f6dec3d1e7e64e42cd2ca4cab9e4768d8143/resource-analyses/external_test_resources/grmp_conf.yaml"/>
 			<property name="create-issue" value="false"/>
 		</properties>
-		<testcase name="http_availability [https://brugge-ldes.geomobility.eu/observations]" classname="resource-availability-external" time="0.2019977569580078">
+		<testcase name="http_availability [https://brugge-ldes.geomobility.eu/observations]" classname="resource-availability-external" time="0.30607056617736816">
 			<failure message="HTTP availability check failed">HTTPConnectionPool(host='brugge-ldes.geomobility.eu', port=80): Max retries exceeded with url: /observations (Caused by NewConnectionError(&quot;HTTPConnection(host='brugge-ldes.geomobility.eu', port=80): Failed to establish a new connection: [Errno 111] Connection refused&quot;))</failure>
-			<system-out>response_time_s: 0.202
+			<system-out>response_time_s: 0.306
 Checking HTTP availability for: http://brugge-ldes.geomobility.eu/observations
 Timeout: 10s, Max redirects: 3, Verify SSL: True
 Availability check failed: HTTPConnectionPool(host='brugge-ldes.geomobility.eu', port=80): Max retries exceeded with url: /observations (Caused by NewConnectionError(&quot;HTTPConnection(host='brugge-ldes.geomobility.eu', port=80): Failed to establish a new connection: [Errno 111] Connection refused&quot;))
 </system-out>
 		</testcase>
-		<testcase name="https_availability [https://brugge-ldes.geomobility.eu/observations]" classname="resource-availability-external" time="0.20070886611938477">
+		<testcase name="https_availability [https://brugge-ldes.geomobility.eu/observations]" classname="resource-availability-external" time="0.3049886226654053">
 			<failure message="HTTPS availability check failed">HTTPSConnectionPool(host='brugge-ldes.geomobility.eu', port=443): Max retries exceeded with url: /observations (Caused by NewConnectionError(&quot;HTTPSConnection(host='brugge-ldes.geomobility.eu', port=443): Failed to establish a new connection: [Errno 111] Connection refused&quot;))</failure>
-			<system-out>response_time_s: 0.201
+			<system-out>response_time_s: 0.305
 Checking HTTPS availability for: https://brugge-ldes.geomobility.eu/observations
 Timeout: 10s, Max redirects: 3, Verify SSL: True
 Availability check failed: HTTPSConnectionPool(host='brugge-ldes.geomobility.eu', port=443): Max retries exceeded with url: /observations (Caused by NewConnectionError(&quot;HTTPSConnection(host='brugge-ldes.geomobility.eu', port=443): Failed to establish a new connection: [Errno 111] Connection refused&quot;))
 </system-out>
 		</testcase>
-		<testcase name="dns_resolution [https://ldes.telraam-api.net/locations]" classname="resource-availability-external" time="0.08705902099609375">
+		<testcase name="dns_resolution [https://ldes.telraam-api.net/locations]" classname="resource-availability-external" time="0.022065162658691406">
 			<system-out>Resolving hostname: ldes.telraam-api.net
 resolved_ip: 188.245.154.88
 </system-out>
 		</testcase>
-		<testcase name="http_availability [https://ldes.telraam-api.net/locations]" classname="resource-availability-external" time="0.35529661178588867">
-			<system-out>response_time_s: 0.355
+		<testcase name="http_availability [https://ldes.telraam-api.net/locations]" classname="resource-availability-external" time="0.3317759037017822">
+			<system-out>response_time_s: 0.332
 status_code: 301
 redirects_to: https://ldes.telraam-api.net/locations
 OK: HTTP endpoint reachable (redirects to HTTPS)
 </system-out>
 		</testcase>
-		<testcase name="https_availability [https://ldes.telraam-api.net/locations]" classname="resource-availability-external" time="0.45921802520751953">
-			<system-out>response_time_s: 0.459
+		<testcase name="https_availability [https://ldes.telraam-api.net/locations]" classname="resource-availability-external" time="0.5419487953186035">
+			<system-out>response_time_s: 0.542
 status_code: 200
-OK: HTTPS available, status 200 in 0.459s
+OK: HTTPS available, status 200 in 0.542s
 </system-out>
 		</testcase>
 	</testsuite>
-	<testsuite name="certificates-external" timestamp="2026-03-23T20:40:34.325616+00:00" tests="2" errors="1" failures="0" skipped="0" time="0.5417840480804443">
-		<testcase name="certificate_expiry [https://brugge-ldes.geomobility.eu/observations]" classname="certificates-external" time="0.21493244171142578">
+	<testsuite name="certificates-external" timestamp="2026-03-23T20:53:23.678187+00:00" tests="2" errors="1" failures="0" skipped="0" time="0.6600081920623779">
+		<testcase name="certificate_expiry [https://brugge-ldes.geomobility.eu/observations]" classname="certificates-external" time="0.31802940368652344">
 			<error message="Unexpected error">Could not retrieve certificate: Connection error: [Errno 111] Connection refused</error>
 			<system-out>Checking certificate expiry for: brugge-ldes.geomobility.eu:443
 </system-out>
 			<system-err>Failed to retrieve certificate: Connection error: [Errno 111] Connection refused
 </system-err>
 		</testcase>
-		<testcase name="certificate_expiry [https://ldes.telraam-api.net/locations]" classname="certificates-external" time="0.32685160636901855">
+		<testcase name="certificate_expiry [https://ldes.telraam-api.net/locations]" classname="certificates-external" time="0.3419787883758545">
 			<system-out>Checking certificate expiry for: ldes.telraam-api.net:443
 expiry: 2026-06-18T01:04:33+00:00
 status: ok
@@ -77,24 +77,24 @@ Certificate valid for 86 more day(s) (expiry: 2026-06-18T01:04:33+00:00)
 			<property name="create-issue" value="false"/>
 		</properties>
 	</testsuite>
-	<testsuite name="cors-compliance-external-basic" timestamp="2026-03-23T20:40:38.132438+00:00" tests="4" errors="0" failures="0" skipped="0" time="2.2832794189453125">
-		<testcase name="access_control_allow_origin [http://edan.si.edu/saam/sparql] [lenient]" classname="cors-compliance-external-basic" time="0.2434067726135254">
+	<testsuite name="cors-compliance-external-basic" timestamp="2026-03-23T20:53:29.144108+00:00" tests="4" errors="0" failures="0" skipped="0" time="3.240088939666748">
+		<testcase name="access_control_allow_origin [http://edan.si.edu/saam/sparql] [lenient]" classname="cors-compliance-external-basic" time="0.49509119987487793">
 			<system-out>OPTIONS http://edan.si.edu/saam/sparql with Origin: https://vliz.be
 Followed 1 redirect(s) to https://edan.si.edu/saam/sparql
 access-control-allow-origin: '*'
 </system-out>
 		</testcase>
-		<testcase name="access_control_allow_origin [http://vocab.nerc.ac.uk/sparql/sparql] [lenient]" classname="cors-compliance-external-basic" time="0.5504579544067383">
+		<testcase name="access_control_allow_origin [http://vocab.nerc.ac.uk/sparql/sparql] [lenient]" classname="cors-compliance-external-basic" time="0.7644758224487305">
 			<system-out>OPTIONS http://vocab.nerc.ac.uk/sparql/sparql with Origin: https://vliz.be
 access-control-allow-origin: '*'
 </system-out>
 		</testcase>
-		<testcase name="access_control_allow_origin [https://linked.bodc.ac.uk/sdn/edios/sparql/sparql] [lenient]" classname="cors-compliance-external-basic" time="0.6747090816497803">
+		<testcase name="access_control_allow_origin [https://linked.bodc.ac.uk/sdn/edios/sparql/sparql] [lenient]" classname="cors-compliance-external-basic" time="0.791189432144165">
 			<system-out>OPTIONS https://linked.bodc.ac.uk/sdn/edios/sparql/sparql with Origin: https://vliz.be
 access-control-allow-origin: '*'
 </system-out>
 		</testcase>
-		<testcase name="access_control_allow_origin [https://sparql.ifremer.fr/csr/query] [lenient]" classname="cors-compliance-external-basic" time="0.8147056102752686">
+		<testcase name="access_control_allow_origin [https://sparql.ifremer.fr/csr/query] [lenient]" classname="cors-compliance-external-basic" time="1.1893324851989746">
 			<system-out>OPTIONS https://sparql.ifremer.fr/csr/query with Origin: https://vliz.be
 access-control-allow-origin: 'https://vliz.be'
 </system-out>
@@ -109,47 +109,47 @@ access-control-allow-origin: 'https://vliz.be'
 			<property name="create-issue" value="false"/>
 		</properties>
 	</testsuite>
-	<testsuite name="cors-compliance-external-advanced" timestamp="2026-03-23T20:40:46.018144+00:00" tests="8" errors="0" failures="4" skipped="0" time="7.174708127975464">
-		<testcase name="access_control_allow_origin [https://sparql.ifremer.fr/csr/query] [*]" classname="cors-compliance-external-advanced" time="0.9813168048858643">
+	<testsuite name="cors-compliance-external-advanced" timestamp="2026-03-23T20:53:39.359172+00:00" tests="8" errors="0" failures="4" skipped="0" time="9.307249069213867">
+		<testcase name="access_control_allow_origin [https://sparql.ifremer.fr/csr/query] [*]" classname="cors-compliance-external-advanced" time="1.091240644454956">
 			<failure message="access-control-allow-origin does not allow all origins">Expected '*' but got 'https://vliz.be'</failure>
 			<system-out>OPTIONS https://sparql.ifremer.fr/csr/query with Origin: https://vliz.be
 access-control-allow-origin: 'https://vliz.be'
 </system-out>
 		</testcase>
-		<testcase name="access_control_allow_methods [https://sparql.ifremer.fr/csr/query]" classname="cors-compliance-external-advanced" time="0.9316761493682861">
+		<testcase name="access_control_allow_methods [https://sparql.ifremer.fr/csr/query]" classname="cors-compliance-external-advanced" time="1.0989606380462646">
 			<system-out>OPTIONS https://sparql.ifremer.fr/csr/query (checking allow-methods)
 access-control-allow-methods: 'GET,POST,DELETE,PUT,HEAD,OPTIONS,PATCH'
 </system-out>
 		</testcase>
-		<testcase name="access_control_expose_headers [https://sparql.ifremer.fr/csr/query]" classname="cors-compliance-external-advanced" time="0.8665521144866943">
+		<testcase name="access_control_expose_headers [https://sparql.ifremer.fr/csr/query]" classname="cors-compliance-external-advanced" time="1.2993006706237793">
 			<system-out>GET https://sparql.ifremer.fr/csr/query (checking expose-headers)
 access-control-expose-headers: 'Access-Control-Allow-Origin,Access-Control-Allow-Credentials'
 </system-out>
 		</testcase>
-		<testcase name="https_redirect [https://sparql.ifremer.fr/csr/query]" classname="cors-compliance-external-advanced" time="1.118973970413208">
+		<testcase name="https_redirect [https://sparql.ifremer.fr/csr/query]" classname="cors-compliance-external-advanced" time="1.324470043182373">
 			<failure message="CORS header missing in redirect chain">'access-control-allow-origin' absent from response at http://sparql.ifremer.fr/csr/query</failure>
 			<system-out>GET http://sparql.ifremer.fr/csr/query (checking https redirect)
 HTTP→HTTPS redirect: http://sparql.ifremer.fr/csr/query → https://sparql.ifremer.fr/csr/query (301)
 access-control-allow-origin at http://sparql.ifremer.fr/csr/query: ''
 </system-out>
 		</testcase>
-		<testcase name="access_control_allow_origin [https://sparql.ifremer.fr/sextant_seadatanet/query] [*]" classname="cors-compliance-external-advanced" time="0.6896250247955322">
+		<testcase name="access_control_allow_origin [https://sparql.ifremer.fr/sextant_seadatanet/query] [*]" classname="cors-compliance-external-advanced" time="1.2861309051513672">
 			<failure message="access-control-allow-origin does not allow all origins">Expected '*' but got 'https://vliz.be'</failure>
 			<system-out>OPTIONS https://sparql.ifremer.fr/sextant_seadatanet/query with Origin: https://vliz.be
 access-control-allow-origin: 'https://vliz.be'
 </system-out>
 		</testcase>
-		<testcase name="access_control_allow_methods [https://sparql.ifremer.fr/sextant_seadatanet/query]" classname="cors-compliance-external-advanced" time="0.9880414009094238">
+		<testcase name="access_control_allow_methods [https://sparql.ifremer.fr/sextant_seadatanet/query]" classname="cors-compliance-external-advanced" time="0.97068190574646">
 			<system-out>OPTIONS https://sparql.ifremer.fr/sextant_seadatanet/query (checking allow-methods)
 access-control-allow-methods: 'GET,POST,DELETE,PUT,HEAD,OPTIONS,PATCH'
 </system-out>
 		</testcase>
-		<testcase name="access_control_expose_headers [https://sparql.ifremer.fr/sextant_seadatanet/query]" classname="cors-compliance-external-advanced" time="0.6037211418151855">
+		<testcase name="access_control_expose_headers [https://sparql.ifremer.fr/sextant_seadatanet/query]" classname="cors-compliance-external-advanced" time="1.1170415878295898">
 			<system-out>GET https://sparql.ifremer.fr/sextant_seadatanet/query (checking expose-headers)
 access-control-expose-headers: 'Access-Control-Allow-Origin,Access-Control-Allow-Credentials'
 </system-out>
 		</testcase>
-		<testcase name="https_redirect [https://sparql.ifremer.fr/sextant_seadatanet/query]" classname="cors-compliance-external-advanced" time="0.9948015213012695">
+		<testcase name="https_redirect [https://sparql.ifremer.fr/sextant_seadatanet/query]" classname="cors-compliance-external-advanced" time="1.1194226741790771">
 			<failure message="CORS header missing in redirect chain">'access-control-allow-origin' absent from response at http://sparql.ifremer.fr/sextant_seadatanet/query</failure>
 			<system-out>GET http://sparql.ifremer.fr/sextant_seadatanet/query (checking https redirect)
 HTTP→HTTPS redirect: http://sparql.ifremer.fr/sextant_seadatanet/query → https://sparql.ifremer.fr/sextant_seadatanet/query (301)
@@ -169,7 +169,7 @@ access-control-allow-origin at http://sparql.ifremer.fr/sextant_seadatanet/query
 			<property name="create-issue" value="false"/>
 		</properties>
 	</testsuite>
-	<testsuite name="cors-compliance-external-prevent-masked-errors" timestamp="2026-03-23T20:40:46.692562+00:00" tests="1" errors="0" failures="0" skipped="1" time="0.0">
+	<testsuite name="cors-compliance-external-prevent-masked-errors" timestamp="2026-03-23T20:53:40.241338+00:00" tests="1" errors="0" failures="0" skipped="1" time="0.0">
 		<testcase name="cors_compliance [http://edan.si.edu/saam/sparql]" classname="cors-compliance-external-prevent-masked-errors" time="0.0">
 			<skipped message="probe-origin ('http://edan.si.edu') must not be the same origin as the URL. Set probe-origin to an external origin to avoid masking server misconfigurations."/>
 		</testcase>
@@ -181,8 +181,8 @@ access-control-allow-origin at http://sparql.ifremer.fr/sextant_seadatanet/query
 			<property name="create-issue" value="false"/>
 		</properties>
 	</testsuite>
-	<testsuite name="content-negotiation-internal" timestamp="2026-03-23T20:40:50.556724+00:00" tests="4" errors="0" failures="0" skipped="0" time="2.1606454849243164">
-		<testcase name="content_negotiation [http://marineregions.org/feed] [text/turtle]" classname="content-negotiation-internal" time="1.1038963794708252">
+	<testsuite name="content-negotiation-internal" timestamp="2026-03-23T20:53:45.871939+00:00" tests="4" errors="0" failures="0" skipped="0" time="3.3629841804504395">
+		<testcase name="content_negotiation [http://marineregions.org/feed] [text/turtle]" classname="content-negotiation-internal" time="1.7893214225769043">
 			<system-out>GET http://marineregions.org/feed
 Accept: text/turtle
 Status: 200
@@ -190,12 +190,12 @@ Content-Type: text/turtle; charset=UTF-8;
 Parsed response content-type: 'text/turtle'
 </system-out>
 		</testcase>
-		<testcase name="body_conformity [http://marineregions.org/feed] [text/turtle]" classname="content-negotiation-internal" time="0.0061414241790771484">
+		<testcase name="body_conformity [http://marineregions.org/feed] [text/turtle]" classname="content-negotiation-internal" time="0.006315469741821289">
 			<system-out>Checking body conformity for content-type 'text/turtle'
 Body conforms.
 </system-out>
 		</testcase>
-		<testcase name="content_negotiation [http://marineregions.org/feed] [application/ld+json, application/trig;q=0.98, text/turtle;q=0.95, application/n-quads;q=0.9, application/n-triples;q=0.9, application/rdf+xml;q=0.5, text/html;q=0.3, */*;q=0.1]" classname="content-negotiation-internal" time="1.0399117469787598">
+		<testcase name="content_negotiation [http://marineregions.org/feed] [application/ld+json, application/trig;q=0.98, text/turtle;q=0.95, application/n-quads;q=0.9, application/n-triples;q=0.9, application/rdf+xml;q=0.5, text/html;q=0.3, */*;q=0.1]" classname="content-negotiation-internal" time="1.5563664436340332">
 			<system-out>GET http://marineregions.org/feed
 Accept: application/ld+json, application/trig;q=0.98, text/turtle;q=0.95, application/n-quads;q=0.9, application/n-triples;q=0.9, application/rdf+xml;q=0.5, text/html;q=0.3, */*;q=0.1
 Status: 200
@@ -203,7 +203,7 @@ Content-Type: application/ld+json; charset=UTF-8;
 Parsed response content-type: 'application/ld+json'
 </system-out>
 		</testcase>
-		<testcase name="body_conformity [http://marineregions.org/feed] [application/ld+json, application/trig;q=0.98, text/turtle;q=0.95, application/n-quads;q=0.9, application/n-triples;q=0.9, application/rdf+xml;q=0.5, text/html;q=0.3, */*;q=0.1]" classname="content-negotiation-internal" time="0.010695934295654297">
+		<testcase name="body_conformity [http://marineregions.org/feed] [application/ld+json, application/trig;q=0.98, text/turtle;q=0.95, application/n-quads;q=0.9, application/n-triples;q=0.9, application/rdf+xml;q=0.5, text/html;q=0.3, */*;q=0.1]" classname="content-negotiation-internal" time="0.010980844497680664">
 			<system-out>Checking body conformity for content-type 'application/ld+json'
 Body conforms.
 </system-out>
