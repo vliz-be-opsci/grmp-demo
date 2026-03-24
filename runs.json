@@ -1,6 +1,27 @@
 {
-  "generated_at": "2026-03-24T13:32:44.364019Z",
+  "generated_at": "2026-03-24T13:45:39.536510Z",
   "runs": [
+    {
+      "commit_sha": "8b7c7c28e0fc9057ecc06ab7e9675ae5aaa80df7",
+      "short_sha": "8b7c7c2",
+      "date": "2026-03-24T13:45:37.376169Z",
+      "run_number": 38,
+      "run_attempt": 2,
+      "source_branch": "main",
+      "config_file": "resource-analyses",
+      "triggered_by": "stijndns",
+      "workflow_name": "Run Configured Tests",
+      "run_id": "23492089979",
+      "summary": {
+        "total_tests": 25,
+        "passed": 17,
+        "failed": 6,
+        "errors": 1,
+        "skipped": 1,
+        "pass_rate": 68.0,
+        "duration": 15.5497
+      }
+    },
     {
       "commit_sha": "acdbd09ddd964e5e3fa2bafe1e7b1d2594f33c1f",
       "short_sha": "acdbd09",
