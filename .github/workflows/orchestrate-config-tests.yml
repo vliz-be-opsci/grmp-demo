@@ -26,6 +26,7 @@ jobs:
       contents: write
       packages: read
       issues: write
+      pages: read
     
     steps:
       - uses: actions/checkout@v4
@@ -222,6 +223,8 @@ jobs:
           REF_NAME: ${{ github.ref_name }}
           SERVER_URL: ${{ github.server_url }}
           REPOSITORY: ${{ github.repository }}
+          REPORT_BRANCH: ${{ github.event.inputs.report_branch }}
+          REPORT_COMMIT_SHA: ${{ env.REPORT_COMMIT_SHA }}
         run: |
           python3 << 'EOF'
           import hashlib
@@ -235,13 +238,27 @@ jobs:
           EXCLUDE_FROM_HASH = {'provenance', 'create-issue'}
           ISSUE_LABEL = 'grmp-test-failure'
 
-          run_number = os.environ['RUN_NUMBER']
-          run_attempt = os.environ['RUN_ATTEMPT']
-          run_id     = os.environ['RUN_ID']
-          ref_name   = os.environ['REF_NAME']
-          server_url = os.environ['SERVER_URL']
-          repository = os.environ['REPOSITORY']
-          run_url    = f"{server_url}/{repository}/actions/runs/{run_id}"
+          run_number    = os.environ['RUN_NUMBER']
+          run_attempt   = os.environ['RUN_ATTEMPT']
+          run_id        = os.environ['RUN_ID']
+          ref_name      = os.environ['REF_NAME']
+          server_url    = os.environ['SERVER_URL']
+          repository    = os.environ['REPOSITORY']
+          report_branch      = os.environ['REPORT_BRANCH']
+          report_commit_sha  = os.environ['REPORT_COMMIT_SHA']
+          run_url            = f"{server_url}/{repository}/actions/runs/{run_id}"
+
+          # Fetch the Pages URL from the GitHub API — returns None if Pages is not configured
+          def get_pages_url(repository, token):
+              result = subprocess.run(
+                  ['gh', 'api', f'repos/{repository}/pages', '--jq', '.html_url'],
+                  capture_output=True, text=True
+              )
+              if result.returncode == 0 and result.stdout.strip():
+                  return result.stdout.strip().rstrip('/')
+              return None
+
+          pages_base = get_pages_url(repository, os.environ['GH_TOKEN'])
 
           report_path = Path('reports/combined_report.xml')
           if not report_path.exists():
@@ -347,8 +364,10 @@ jobs:
                       body = (
                           f'Still failing in run #{run_number} attempt {run_attempt} ({ref_name})'
                           f' — {summary}.\n\n'
-                          f'[View run]({run_url})\n\n'
-                          f'### Test cases\n\n{make_cases_table(suite)}\n'
+                          + f'[View run]({run_url})'
+                          + (f' · [View in dashboard]({pages_base}#{"run=" + report_commit_sha})' if pages_base else '')
+                          + '\n\n'
+                          + f'### Test cases\n\n{make_cases_table(suite)}\n'
                       )
                       subprocess.run(
                           ['gh', 'issue', 'comment', str(issue_number), '--body', body],
@@ -359,9 +378,11 @@ jobs:
                       body = (
                           f'## Test suite: `{suite_name}`\n\n'
                           f'**Run #{run_number} attempt {run_attempt}** ({ref_name}) — {summary}.\n\n'
-                          f'[View run]({run_url})\n\n'
-                          f'### Configuration\n\n{make_props_table(props)}\n\n'
-                          f'### Test cases\n\n{make_cases_table(suite)}\n'
+                          f'[View run]({run_url})'
+                          + (f' · [View in dashboard]({pages_base}#{"run=" + report_commit_sha})' if pages_base else '')
+                          + '\n\n'
+                          + f'### Configuration\n\n{make_props_table(props)}\n\n'
+                          + f'### Test cases\n\n{make_cases_table(suite)}\n'
                       )
                       subprocess.run(
                           ['gh', 'issue', 'create',
@@ -376,8 +397,10 @@ jobs:
                       body = (
                           f'All tests passing as of run #{run_number} attempt {run_attempt} ({ref_name})'
                           f' — {passed}/{total} passed.\n\n'
-                          f'[View run]({run_url})\n\n'
-                          'This issue can be closed if the fix is confirmed.'
+                          + f'[View run]({run_url})'
+                          + (f' · [View in dashboard]({pages_base}#{"run=" + report_commit_sha})' if pages_base else '')
+                          + '\n\n'
+                          + 'This issue can be closed if the fix is confirmed.'
                       )
                       subprocess.run(
                           ['gh', 'issue', 'comment', str(issue_number), '--body', body],
