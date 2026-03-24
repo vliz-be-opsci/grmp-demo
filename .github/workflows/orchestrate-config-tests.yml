@@ -224,6 +224,7 @@ jobs:
           SERVER_URL: ${{ github.server_url }}
           REPOSITORY: ${{ github.repository }}
           REPORT_BRANCH: ${{ github.event.inputs.report_branch }}
+          REPORT_COMMIT_SHA: ${{ env.REPORT_COMMIT_SHA }}
         run: |
           python3 << 'EOF'
           import hashlib
@@ -243,8 +244,9 @@ jobs:
           ref_name      = os.environ['REF_NAME']
           server_url    = os.environ['SERVER_URL']
           repository    = os.environ['REPOSITORY']
-          report_branch = os.environ['REPORT_BRANCH']
-          run_url       = f"{server_url}/{repository}/actions/runs/{run_id}"
+          report_branch      = os.environ['REPORT_BRANCH']
+          report_commit_sha  = os.environ['REPORT_COMMIT_SHA']
+          run_url            = f"{server_url}/{repository}/actions/runs/{run_id}"
 
           # Fetch the Pages URL from the GitHub API — returns None if Pages is not configured
           def get_pages_url(repository, token):
