@@ -68,6 +68,7 @@ jobs:
           WORKFLOW: ${{ github.workflow }}
           RUN_ID: ${{ github.run_id }}
           RUN_NUMBER: ${{ github.run_number }}
+          RUN_ATTEMPT: ${{ github.run_attempt }}
           REF_NAME: ${{ github.ref_name }}
         if: always()
         run: |
@@ -104,7 +105,7 @@ jobs:
           git add index.html 2>/dev/null || true
           
           SHORT_SHA=$(echo "$GITHUB_SHA" | cut -c1-7)
-          COMMIT_MSG="Test run #${RUN_NUMBER} (${REF_NAME} @ ${SHORT_SHA})"
+          COMMIT_MSG="Test run #${RUN_NUMBER} attempt ${RUN_ATTEMPT} (${REF_NAME} @ ${SHORT_SHA})"
           COMMIT_BODY="Config: ${config_directory}
           Triggered by: ${ACTOR}
           Workflow: ${WORKFLOW}
@@ -127,6 +128,7 @@ jobs:
         env:
           CONFIG_FILE: ${{ github.event.inputs.config_directory }}
           RUN_NUMBER: ${{ github.run_number }}
+          RUN_ATTEMPT: ${{ github.run_attempt }}
           REF_NAME: ${{ github.ref_name }}
           ACTOR: ${{ github.actor }}
           WORKFLOW_NAME: ${{ github.workflow }}
@@ -141,6 +143,7 @@ jobs:
 
           config_file   = os.environ['CONFIG_FILE']
           run_number    = int(os.environ['RUN_NUMBER'])
+          run_attempt   = int(os.environ['RUN_ATTEMPT'])
           ref_name      = os.environ['REF_NAME']
           commit_sha    = os.environ['REPORT_COMMIT_SHA']
           actor         = os.environ['ACTOR']
@@ -180,6 +183,7 @@ jobs:
               "short_sha":     commit_sha[:7],
               "date":          datetime.utcnow().isoformat() + "Z",
               "run_number":    run_number,
+              "run_attempt":   run_attempt,
               "source_branch": ref_name,
               "config_file":   config_file,
               "triggered_by":  actor,
@@ -213,6 +217,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           RUN_NUMBER: ${{ github.run_number }}
+          RUN_ATTEMPT: ${{ github.run_attempt }}
           RUN_ID: ${{ github.run_id }}
           REF_NAME: ${{ github.ref_name }}
           SERVER_URL: ${{ github.server_url }}
@@ -231,6 +236,7 @@ jobs:
           ISSUE_LABEL = 'grmp-test-failure'
 
           run_number = os.environ['RUN_NUMBER']
+          run_attempt = os.environ['RUN_ATTEMPT']
           run_id     = os.environ['RUN_ID']
           ref_name   = os.environ['REF_NAME']
           server_url = os.environ['SERVER_URL']
@@ -339,7 +345,7 @@ jobs:
               if failures > 0 or errors > 0:
                   if issue_number:
                       body = (
-                          f'Still failing in run #{run_number} ({ref_name})'
+                          f'Still failing in run #{run_number} attempt {run_attempt} ({ref_name})'
                           f' — {summary}.\n\n'
                           f'[View run]({run_url})\n\n'
                           f'### Test cases\n\n{make_cases_table(suite)}\n'
@@ -352,7 +358,7 @@ jobs:
                   else:
                       body = (
                           f'## Test suite: `{suite_name}`\n\n'
-                          f'**Run #{run_number}** ({ref_name}) — {summary}.\n\n'
+                          f'**Run #{run_number} attempt {run_attempt}** ({ref_name}) — {summary}.\n\n'
                           f'[View run]({run_url})\n\n'
                           f'### Configuration\n\n{make_props_table(props)}\n\n'
                           f'### Test cases\n\n{make_cases_table(suite)}\n'
@@ -368,7 +374,7 @@ jobs:
               else:
                   if issue_number:
                       body = (
-                          f'All tests passing as of run #{run_number} ({ref_name})'
+                          f'All tests passing as of run #{run_number} attempt {run_attempt} ({ref_name})'
                           f' — {passed}/{total} passed.\n\n'
                           f'[View run]({run_url})\n\n'
                           'This issue can be closed if the fix is confirmed.'

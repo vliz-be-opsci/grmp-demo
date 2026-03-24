@@ -782,7 +782,8 @@
                 select.innerHTML = runs.map((run, i) => {
                     const date = new Date(run.date).toLocaleString();
                     const s = run.summary;
-                    const label = `Run #${run.run_number} — ${run.source_branch} @ ${run.short_sha} — ${s.pass_rate}% passed — ${date}`;
+                    const attempt = (run.run_attempt && run.run_attempt > 1) ? ` (attempt ${run.run_attempt})` : '';
+                    const label = `Run #${run.run_number}${attempt} — ${run.source_branch} @ ${run.short_sha} — ${s.pass_rate}% passed — ${date}`;
                     return `<option value="${i}">${label}</option>`;
                 }).join('');
 
@@ -815,7 +816,8 @@
                 if (!response.ok) throw new Error(`Failed to fetch report: ${response.status}`);
                 const xmlText = await response.text();
                 parseAndDisplayTestResults(xmlText);
-                showStatus(`Loaded run #${run.run_number}`, 'success');
+                const attemptSuffix = (run.run_attempt && run.run_attempt > 1) ? ` attempt ${run.run_attempt}` : '';
+                showStatus(`Loaded run #${run.run_number}${attemptSuffix}`, 'success');
             } catch (error) {
                 showStatus(`Error: ${error.message}`, 'error');
                 document.getElementById('loadingState').classList.add('hidden');
