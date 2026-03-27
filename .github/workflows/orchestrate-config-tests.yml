@@ -560,7 +560,7 @@ jobs:
           metric('grmp_run_timestamp_seconds',    'Unix timestamp of the workflow run',       'gauge', [(labels_base, timestamp)])
 
           with open('metrics.prom', 'w') as f:
-              f.write(''.join(lines) + '')
+              f.write('\n'.join(lines) + '\n')
 
           print(f"Generated metrics.prom with {len(suites)} suite(s)")
           EOF
