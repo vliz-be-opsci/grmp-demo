@@ -1,6 +1,27 @@
 {
-  "generated_at": "2026-03-24T17:25:42.792120Z",
+  "generated_at": "2026-03-27T16:34:11.035941Z",
   "runs": [
+    {
+      "commit_sha": "6efb26d1bc041be91f00af11b9279e8ce1b6d97d",
+      "short_sha": "6efb26d",
+      "date": "2026-03-27T16:34:08.644788Z",
+      "run_number": 40,
+      "run_attempt": 1,
+      "source_branch": "feat/generate-prometheus-file",
+      "config_file": "resource-analyses",
+      "triggered_by": "stijndns",
+      "workflow_name": "Run Configured Tests",
+      "run_id": "23656834047",
+      "summary": {
+        "total_tests": 25,
+        "passed": 17,
+        "failed": 6,
+        "errors": 1,
+        "skipped": 1,
+        "pass_rate": 68.0,
+        "duration": 17.782
+      }
+    },
     {
       "commit_sha": "95545aa06b2a9958efb9cd6d3dadf7a52f8a483b",
       "short_sha": "95545aa",
