@@ -18,6 +18,11 @@ on:
         required: false
         default: ''
         type: string
+      enable_prometheus:
+        description: 'Generate and push a metrics.prom file for Prometheus textfile collector'
+        required: false
+        default: 'false'
+        type: string
 
 jobs:
   test:
@@ -491,4 +496,82 @@ jobs:
             git commit -m "Update config.json for run #${RUN_NUMBER}"
             git push origin "${REPORT_BRANCH}"
             echo "config.json committed"
+          fi
+
+      - name: Generate and commit metrics.prom for Prometheus
+        if: steps.push_report.outcome == 'success' && github.event.inputs.enable_prometheus == 'true'
+        env:
+          REPORT_BRANCH: ${{ github.event.inputs.report_branch }}
+          RUN_NUMBER: ${{ github.run_number }}
+          RUN_ATTEMPT: ${{ github.run_attempt }}
+          REF_NAME: ${{ github.ref_name }}
+        run: |
+          python3 << 'EOF'
+          import xml.etree.ElementTree as ET
+          import os
+          from datetime import datetime, timezone
+          from pathlib import Path
+
+          def escape_label_value(s):
+              """Escape backslash, newline, and double-quote for Prometheus labels."""
+              return s.replace('\\', '\\\\').replace('\n', '\\n').replace('"', '\\"')
+
+          run_number = os.environ['RUN_NUMBER']
+          run_attempt = os.environ['RUN_ATTEMPT']
+          branch = escape_label_value(os.environ['REF_NAME'])
+
+          report_path = Path('reports/combined_report.xml')
+          if not report_path.exists():
+              print("Report not found, skipping metrics.prom generation")
+              exit(0)
+
+          tree = ET.parse(report_path)
+          root = tree.getroot()
+          suites = root.findall('.//testsuite')
+          if root.tag == 'testsuite' and not suites:
+              suites = [root]
+
+          labels_base = f'run="{run_number}",attempt="{run_attempt}",branch="{branch}"'
+          timestamp = int(datetime.now(timezone.utc).timestamp())
+          lines = []
+
+          def metric(name, help_text, mtype, samples):
+              lines.append(f'# HELP {name} {help_text}')
+              lines.append(f'# TYPE {name} {mtype}')
+              for labelset, value in samples:
+                  lines.append(f'{name}{{{labelset}}} {value}')
+
+          suite_samples = []
+          for suite in suites:
+              suite_name  = escape_label_value(suite.get('name', 'unknown'))
+              total       = int(suite.get('tests') or 0)
+              failures    = int(suite.get('failures') or 0)
+              errors      = int(suite.get('errors') or 0)
+              skipped     = int(suite.get('skipped') or 0)
+              passed      = max(0, total - failures - errors - skipped)
+              duration    = float(suite.get('time') or 0)
+              pass_rate   = round(passed / total, 4) if total > 0 else 0
+              ls = f'testsuite="{suite_name}",{labels_base}'
+              suite_samples.append((suite_name, ls, total, passed, failures, errors, skipped, pass_rate, duration))
+
+          metric('grmp_testsuite_tests_total',    'Total number of test cases in the suite',  'gauge', [(ls, t) for _, ls, t, *_ in suite_samples])
+          metric('grmp_testsuite_passed_total',   'Number of passing test cases',             'gauge', [(ls, p) for _, ls, _, p, *_ in suite_samples])
+          metric('grmp_testsuite_failed_total',   'Number of failing test cases',             'gauge', [(ls, f) for _, ls, _, _, f, *_ in suite_samples])
+          metric('grmp_testsuite_errors_total',   'Number of errored test cases',             'gauge', [(ls, e) for _, ls, _, _, _, e, *_ in suite_samples])
+          metric('grmp_testsuite_skipped_total',  'Number of skipped test cases',             'gauge', [(ls, sk) for _, ls, _, _, _, _, sk, *_ in suite_samples])
+          metric('grmp_testsuite_pass_rate',      'Pass rate as a value between 0 and 1',    'gauge', [(ls, pr) for _, ls, _, _, _, _, _, pr, _ in suite_samples])
+          metric('grmp_testsuite_duration_seconds', 'Suite execution time in seconds',       'gauge', [(ls, d) for _, ls, _, _, _, _, _, _, d in suite_samples])
+          metric('grmp_run_timestamp_seconds',    'Unix timestamp of the workflow run',       'gauge', [(labels_base, timestamp)])
+
+          with open('metrics.prom', 'w') as f:
+              f.write('\n'.join(lines) + '\n')
+
+          print(f"Generated metrics.prom with {len(suites)} suite(s)")
+          EOF
+
+          git add metrics.prom
+          if ! git diff --staged --quiet; then
+            git commit -m "Update metrics.prom for run #${RUN_NUMBER}"
+            git push origin "${REPORT_BRANCH}"
+            echo "metrics.prom committed to ${REPORT_BRANCH}"
           fi
