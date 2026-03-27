@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <testsuites>
-	<testsuite name="resource-availability-external" timestamp="2026-03-24T17:25:16.054142+00:00" tests="6" errors="0" failures="2" skipped="0" time="1.7077200412750244">
-		<testcase name="dns_resolution [https://brugge-ldes.geomobility.eu/observations]" classname="resource-availability-external" time="0.1500873565673828">
+	<testsuite name="resource-availability-external" timestamp="2026-03-27T16:33:40.288072+00:00" tests="6" errors="0" failures="2" skipped="0" time="1.6408472061157227">
+		<testcase name="dns_resolution [https://brugge-ldes.geomobility.eu/observations]" classname="resource-availability-external" time="0.16598820686340332">
 			<system-out>Resolving hostname: brugge-ldes.geomobility.eu
 resolved_ip: 40.85.76.196
 </system-out>
@@ -15,57 +15,57 @@ resolved_ip: 40.85.76.196
 			<property name="check-http-availability" value="true"/>
 			<property name="check-https-availability" value="true"/>
 			<property name="verify-ssl" value="true"/>
-			<property name="provenance" value="https://github.com/vliz-be-opsci/grmp-demo/blob/0204b84b0c022793b180618e83eaf0c3c68c2f65/resource-analyses/external_test_resources/grmp_conf.yaml"/>
+			<property name="provenance" value="https://github.com/vliz-be-opsci/grmp-demo/blob/c28f447fd39d0f34f5be2eab6151cc11338e6da1/resource-analyses/external_test_resources/grmp_conf.yaml"/>
 			<property name="create-issue" value="true"/>
 		</properties>
-		<testcase name="http_availability [https://brugge-ldes.geomobility.eu/observations]" classname="resource-availability-external" time="0.29468297958374023">
+		<testcase name="http_availability [https://brugge-ldes.geomobility.eu/observations]" classname="resource-availability-external" time="0.2858555316925049">
 			<failure message="HTTP availability check failed">HTTPConnectionPool(host='brugge-ldes.geomobility.eu', port=80): Max retries exceeded with url: /observations (Caused by NewConnectionError(&quot;HTTPConnection(host='brugge-ldes.geomobility.eu', port=80): Failed to establish a new connection: [Errno 111] Connection refused&quot;))</failure>
-			<system-out>response_time_s: 0.295
+			<system-out>response_time_s: 0.286
 Checking HTTP availability for: http://brugge-ldes.geomobility.eu/observations
 Timeout: 10s, Max redirects: 3, Verify SSL: True
 Availability check failed: HTTPConnectionPool(host='brugge-ldes.geomobility.eu', port=80): Max retries exceeded with url: /observations (Caused by NewConnectionError(&quot;HTTPConnection(host='brugge-ldes.geomobility.eu', port=80): Failed to establish a new connection: [Errno 111] Connection refused&quot;))
 </system-out>
 		</testcase>
-		<testcase name="https_availability [https://brugge-ldes.geomobility.eu/observations]" classname="resource-availability-external" time="0.37580132484436035">
+		<testcase name="https_availability [https://brugge-ldes.geomobility.eu/observations]" classname="resource-availability-external" time="0.2981245517730713">
 			<failure message="HTTPS availability check failed">HTTPSConnectionPool(host='brugge-ldes.geomobility.eu', port=443): Max retries exceeded with url: /observations (Caused by NewConnectionError(&quot;HTTPSConnection(host='brugge-ldes.geomobility.eu', port=443): Failed to establish a new connection: [Errno 111] Connection refused&quot;))</failure>
-			<system-out>response_time_s: 0.376
+			<system-out>response_time_s: 0.298
 Checking HTTPS availability for: https://brugge-ldes.geomobility.eu/observations
 Timeout: 10s, Max redirects: 3, Verify SSL: True
 Availability check failed: HTTPSConnectionPool(host='brugge-ldes.geomobility.eu', port=443): Max retries exceeded with url: /observations (Caused by NewConnectionError(&quot;HTTPSConnection(host='brugge-ldes.geomobility.eu', port=443): Failed to establish a new connection: [Errno 111] Connection refused&quot;))
 </system-out>
 		</testcase>
-		<testcase name="dns_resolution [https://ldes.telraam-api.net/locations]" classname="resource-availability-external" time="0.0854940414428711">
+		<testcase name="dns_resolution [https://ldes.telraam-api.net/locations]" classname="resource-availability-external" time="0.013725519180297852">
 			<system-out>Resolving hostname: ldes.telraam-api.net
 resolved_ip: 188.245.154.88
 </system-out>
 		</testcase>
-		<testcase name="http_availability [https://ldes.telraam-api.net/locations]" classname="resource-availability-external" time="0.34743261337280273">
-			<system-out>response_time_s: 0.347
+		<testcase name="http_availability [https://ldes.telraam-api.net/locations]" classname="resource-availability-external" time="0.3288133144378662">
+			<system-out>response_time_s: 0.329
 status_code: 301
 redirects_to: https://ldes.telraam-api.net/locations
 OK: HTTP endpoint reachable (redirects to HTTPS)
 </system-out>
 		</testcase>
-		<testcase name="https_availability [https://ldes.telraam-api.net/locations]" classname="resource-availability-external" time="0.4542217254638672">
-			<system-out>response_time_s: 0.454
+		<testcase name="https_availability [https://ldes.telraam-api.net/locations]" classname="resource-availability-external" time="0.5483400821685791">
+			<system-out>response_time_s: 0.548
 status_code: 200
-OK: HTTPS available, status 200 in 0.454s
+OK: HTTPS available, status 200 in 0.548s
 </system-out>
 		</testcase>
 	</testsuite>
-	<testsuite name="certificates-external" timestamp="2026-03-24T17:25:18.392031+00:00" tests="2" errors="1" failures="0" skipped="0" time="0.5550734996795654">
-		<testcase name="certificate_expiry [https://brugge-ldes.geomobility.eu/observations]" classname="certificates-external" time="0.2691771984100342">
+	<testsuite name="certificates-external" timestamp="2026-03-27T16:33:43.408576+00:00" tests="2" errors="1" failures="0" skipped="0" time="0.8153026103973389">
+		<testcase name="certificate_expiry [https://brugge-ldes.geomobility.eu/observations]" classname="certificates-external" time="0.4575326442718506">
 			<error message="Unexpected error">Could not retrieve certificate: Connection error: [Errno 111] Connection refused</error>
 			<system-out>Checking certificate expiry for: brugge-ldes.geomobility.eu:443
 </system-out>
 			<system-err>Failed to retrieve certificate: Connection error: [Errno 111] Connection refused
 </system-err>
 		</testcase>
-		<testcase name="certificate_expiry [https://ldes.telraam-api.net/locations]" classname="certificates-external" time="0.28589630126953125">
+		<testcase name="certificate_expiry [https://ldes.telraam-api.net/locations]" classname="certificates-external" time="0.3577699661254883">
 			<system-out>Checking certificate expiry for: ldes.telraam-api.net:443
 expiry: 2026-06-18T01:04:33+00:00
 status: ok
-Certificate valid for 85 more day(s) (expiry: 2026-06-18T01:04:33+00:00)
+Certificate valid for 82 more day(s) (expiry: 2026-06-18T01:04:33+00:00)
 </system-out>
 		</testcase>
 		<properties>
@@ -73,28 +73,28 @@ Certificate valid for 85 more day(s) (expiry: 2026-06-18T01:04:33+00:00)
 			<property name="hostnames" value="brugge-ldes.geomobility.eu, ldes.telraam-api.net"/>
 			<property name="timeout" value="10"/>
 			<property name="certificate-expiry-days" value="30"/>
-			<property name="provenance" value="https://github.com/vliz-be-opsci/grmp-demo/blob/0204b84b0c022793b180618e83eaf0c3c68c2f65/resource-analyses/external_test_resources/grmp_conf.yaml"/>
+			<property name="provenance" value="https://github.com/vliz-be-opsci/grmp-demo/blob/c28f447fd39d0f34f5be2eab6151cc11338e6da1/resource-analyses/external_test_resources/grmp_conf.yaml"/>
 			<property name="create-issue" value="false"/>
 		</properties>
 	</testsuite>
-	<testsuite name="cors-compliance-external-basic" timestamp="2026-03-24T17:25:22.868002+00:00" tests="4" errors="0" failures="0" skipped="0" time="2.658342123031616">
-		<testcase name="access_control_allow_origin [http://edan.si.edu/saam/sparql] [lenient]" classname="cors-compliance-external-basic" time="0.23704814910888672">
+	<testsuite name="cors-compliance-external-basic" timestamp="2026-03-27T16:33:49.145316+00:00" tests="4" errors="0" failures="0" skipped="0" time="3.600224256515503">
+		<testcase name="access_control_allow_origin [http://edan.si.edu/saam/sparql] [lenient]" classname="cors-compliance-external-basic" time="0.5859143733978271">
 			<system-out>OPTIONS http://edan.si.edu/saam/sparql with Origin: https://vliz.be
 Followed 1 redirect(s) to https://edan.si.edu/saam/sparql
 access-control-allow-origin: '*'
 </system-out>
 		</testcase>
-		<testcase name="access_control_allow_origin [http://vocab.nerc.ac.uk/sparql/sparql] [lenient]" classname="cors-compliance-external-basic" time="0.7252264022827148">
+		<testcase name="access_control_allow_origin [http://vocab.nerc.ac.uk/sparql/sparql] [lenient]" classname="cors-compliance-external-basic" time="0.7634541988372803">
 			<system-out>OPTIONS http://vocab.nerc.ac.uk/sparql/sparql with Origin: https://vliz.be
 access-control-allow-origin: '*'
 </system-out>
 		</testcase>
-		<testcase name="access_control_allow_origin [https://linked.bodc.ac.uk/sdn/edios/sparql/sparql] [lenient]" classname="cors-compliance-external-basic" time="0.8829493522644043">
+		<testcase name="access_control_allow_origin [https://linked.bodc.ac.uk/sdn/edios/sparql/sparql] [lenient]" classname="cors-compliance-external-basic" time="1.0691745281219482">
 			<system-out>OPTIONS https://linked.bodc.ac.uk/sdn/edios/sparql/sparql with Origin: https://vliz.be
 access-control-allow-origin: '*'
 </system-out>
 		</testcase>
-		<testcase name="access_control_allow_origin [https://sparql.ifremer.fr/csr/query] [lenient]" classname="cors-compliance-external-basic" time="0.8131182193756104">
+		<testcase name="access_control_allow_origin [https://sparql.ifremer.fr/csr/query] [lenient]" classname="cors-compliance-external-basic" time="1.1816811561584473">
 			<system-out>OPTIONS https://sparql.ifremer.fr/csr/query with Origin: https://vliz.be
 access-control-allow-origin: 'https://vliz.be'
 </system-out>
@@ -105,51 +105,51 @@ access-control-allow-origin: 'https://vliz.be'
 			<property name="timeout" value="30"/>
 			<property name="https-redirect" value="false"/>
 			<property name="probe-origin" value="https://vliz.be"/>
-			<property name="provenance" value="https://github.com/vliz-be-opsci/grmp-demo/blob/0204b84b0c022793b180618e83eaf0c3c68c2f65/resource-analyses/external_test_resources/grmp_conf.yaml"/>
+			<property name="provenance" value="https://github.com/vliz-be-opsci/grmp-demo/blob/c28f447fd39d0f34f5be2eab6151cc11338e6da1/resource-analyses/external_test_resources/grmp_conf.yaml"/>
 			<property name="create-issue" value="false"/>
 		</properties>
 	</testsuite>
-	<testsuite name="cors-compliance-external-advanced" timestamp="2026-03-24T17:25:31.340446+00:00" tests="8" errors="0" failures="4" skipped="0" time="7.659888982772827">
-		<testcase name="access_control_allow_origin [https://sparql.ifremer.fr/csr/query] [*]" classname="cors-compliance-external-advanced" time="0.8343460559844971">
+	<testsuite name="cors-compliance-external-advanced" timestamp="2026-03-27T16:33:58.610369+00:00" tests="8" errors="0" failures="4" skipped="0" time="8.458012104034424">
+		<testcase name="access_control_allow_origin [https://sparql.ifremer.fr/csr/query] [*]" classname="cors-compliance-external-advanced" time="1.2350351810455322">
 			<failure message="access-control-allow-origin does not allow all origins">Expected '*' but got 'https://vliz.be'</failure>
 			<system-out>OPTIONS https://sparql.ifremer.fr/csr/query with Origin: https://vliz.be
 access-control-allow-origin: 'https://vliz.be'
 </system-out>
 		</testcase>
-		<testcase name="access_control_allow_methods [https://sparql.ifremer.fr/csr/query]" classname="cors-compliance-external-advanced" time="0.8069031238555908">
+		<testcase name="access_control_allow_methods [https://sparql.ifremer.fr/csr/query]" classname="cors-compliance-external-advanced" time="0.9909889698028564">
 			<system-out>OPTIONS https://sparql.ifremer.fr/csr/query (checking allow-methods)
 access-control-allow-methods: 'GET,POST,DELETE,PUT,HEAD,OPTIONS,PATCH'
 </system-out>
 		</testcase>
-		<testcase name="access_control_expose_headers [https://sparql.ifremer.fr/csr/query]" classname="cors-compliance-external-advanced" time="0.663867712020874">
+		<testcase name="access_control_expose_headers [https://sparql.ifremer.fr/csr/query]" classname="cors-compliance-external-advanced" time="0.8540551662445068">
 			<system-out>GET https://sparql.ifremer.fr/csr/query (checking expose-headers)
 access-control-expose-headers: 'Access-Control-Allow-Origin,Access-Control-Allow-Credentials'
 </system-out>
 		</testcase>
-		<testcase name="https_redirect [https://sparql.ifremer.fr/csr/query]" classname="cors-compliance-external-advanced" time="1.3025202751159668">
+		<testcase name="https_redirect [https://sparql.ifremer.fr/csr/query]" classname="cors-compliance-external-advanced" time="1.7001044750213623">
 			<failure message="CORS header missing in redirect chain">'access-control-allow-origin' absent from response at http://sparql.ifremer.fr/csr/query</failure>
 			<system-out>GET http://sparql.ifremer.fr/csr/query (checking https redirect)
 HTTP→HTTPS redirect: http://sparql.ifremer.fr/csr/query → https://sparql.ifremer.fr/csr/query (301)
 access-control-allow-origin at http://sparql.ifremer.fr/csr/query: ''
 </system-out>
 		</testcase>
-		<testcase name="access_control_allow_origin [https://sparql.ifremer.fr/sextant_seadatanet/query] [*]" classname="cors-compliance-external-advanced" time="0.8988199234008789">
+		<testcase name="access_control_allow_origin [https://sparql.ifremer.fr/sextant_seadatanet/query] [*]" classname="cors-compliance-external-advanced" time="0.675408124923706">
 			<failure message="access-control-allow-origin does not allow all origins">Expected '*' but got 'https://vliz.be'</failure>
 			<system-out>OPTIONS https://sparql.ifremer.fr/sextant_seadatanet/query with Origin: https://vliz.be
 access-control-allow-origin: 'https://vliz.be'
 </system-out>
 		</testcase>
-		<testcase name="access_control_allow_methods [https://sparql.ifremer.fr/sextant_seadatanet/query]" classname="cors-compliance-external-advanced" time="0.9142234325408936">
+		<testcase name="access_control_allow_methods [https://sparql.ifremer.fr/sextant_seadatanet/query]" classname="cors-compliance-external-advanced" time="1.018484354019165">
 			<system-out>OPTIONS https://sparql.ifremer.fr/sextant_seadatanet/query (checking allow-methods)
 access-control-allow-methods: 'GET,POST,DELETE,PUT,HEAD,OPTIONS,PATCH'
 </system-out>
 		</testcase>
-		<testcase name="access_control_expose_headers [https://sparql.ifremer.fr/sextant_seadatanet/query]" classname="cors-compliance-external-advanced" time="1.0122325420379639">
+		<testcase name="access_control_expose_headers [https://sparql.ifremer.fr/sextant_seadatanet/query]" classname="cors-compliance-external-advanced" time="0.9357264041900635">
 			<system-out>GET https://sparql.ifremer.fr/sextant_seadatanet/query (checking expose-headers)
 access-control-expose-headers: 'Access-Control-Allow-Origin,Access-Control-Allow-Credentials'
 </system-out>
 		</testcase>
-		<testcase name="https_redirect [https://sparql.ifremer.fr/sextant_seadatanet/query]" classname="cors-compliance-external-advanced" time="1.226975917816162">
+		<testcase name="https_redirect [https://sparql.ifremer.fr/sextant_seadatanet/query]" classname="cors-compliance-external-advanced" time="1.0482094287872314">
 			<failure message="CORS header missing in redirect chain">'access-control-allow-origin' absent from response at http://sparql.ifremer.fr/sextant_seadatanet/query</failure>
 			<system-out>GET http://sparql.ifremer.fr/sextant_seadatanet/query (checking https redirect)
 HTTP→HTTPS redirect: http://sparql.ifremer.fr/sextant_seadatanet/query → https://sparql.ifremer.fr/sextant_seadatanet/query (301)
@@ -165,11 +165,11 @@ access-control-allow-origin at http://sparql.ifremer.fr/sextant_seadatanet/query
 			<property name="access-control-expose-headers" value="access-control-allow-credentials, access-control-allow-origin"/>
 			<property name="https-redirect" value="true"/>
 			<property name="probe-origin" value="https://vliz.be"/>
-			<property name="provenance" value="https://github.com/vliz-be-opsci/grmp-demo/blob/0204b84b0c022793b180618e83eaf0c3c68c2f65/resource-analyses/external_test_resources/grmp_conf.yaml"/>
+			<property name="provenance" value="https://github.com/vliz-be-opsci/grmp-demo/blob/c28f447fd39d0f34f5be2eab6151cc11338e6da1/resource-analyses/external_test_resources/grmp_conf.yaml"/>
 			<property name="create-issue" value="false"/>
 		</properties>
 	</testsuite>
-	<testsuite name="cors-compliance-external-prevent-masked-errors" timestamp="2026-03-24T17:25:32.111681+00:00" tests="1" errors="0" failures="0" skipped="1" time="0.0">
+	<testsuite name="cors-compliance-external-prevent-masked-errors" timestamp="2026-03-27T16:33:59.537327+00:00" tests="1" errors="0" failures="0" skipped="1" time="0.0">
 		<testcase name="cors_compliance [http://edan.si.edu/saam/sparql]" classname="cors-compliance-external-prevent-masked-errors" time="0.0">
 			<skipped message="probe-origin ('http://edan.si.edu') must not be the same origin as the URL. Set probe-origin to an external origin to avoid masking server misconfigurations."/>
 		</testcase>
@@ -177,12 +177,12 @@ access-control-allow-origin at http://sparql.ifremer.fr/sextant_seadatanet/query
 			<property name="timeout" value="30"/>
 			<property name="https-redirect" value="false"/>
 			<property name="probe-origin" value="http://edan.si.edu"/>
-			<property name="provenance" value="https://github.com/vliz-be-opsci/grmp-demo/blob/0204b84b0c022793b180618e83eaf0c3c68c2f65/resource-analyses/external_test_resources/grmp_conf.yaml"/>
+			<property name="provenance" value="https://github.com/vliz-be-opsci/grmp-demo/blob/c28f447fd39d0f34f5be2eab6151cc11338e6da1/resource-analyses/external_test_resources/grmp_conf.yaml"/>
 			<property name="create-issue" value="false"/>
 		</properties>
 	</testsuite>
-	<testsuite name="content-negotiation-internal" timestamp="2026-03-24T17:25:36.860268+00:00" tests="4" errors="0" failures="0" skipped="0" time="2.8011364936828613">
-		<testcase name="content_negotiation [http://marineregions.org/feed] [text/turtle]" classname="content-negotiation-internal" time="1.3951070308685303">
+	<testsuite name="content-negotiation-internal" timestamp="2026-03-27T16:34:05.041862+00:00" tests="4" errors="0" failures="0" skipped="0" time="3.267608404159546">
+		<testcase name="content_negotiation [http://marineregions.org/feed] [text/turtle]" classname="content-negotiation-internal" time="1.6926095485687256">
 			<system-out>GET http://marineregions.org/feed
 Accept: text/turtle
 Status: 200
@@ -190,12 +190,12 @@ Content-Type: text/turtle; charset=UTF-8;
 Parsed response content-type: 'text/turtle'
 </system-out>
 		</testcase>
-		<testcase name="body_conformity [http://marineregions.org/feed] [text/turtle]" classname="content-negotiation-internal" time="0.0059967041015625">
+		<testcase name="body_conformity [http://marineregions.org/feed] [text/turtle]" classname="content-negotiation-internal" time="0.006171464920043945">
 			<system-out>Checking body conformity for content-type 'text/turtle'
 Body conforms.
 </system-out>
 		</testcase>
-		<testcase name="content_negotiation [http://marineregions.org/feed] [application/ld+json, application/trig;q=0.98, text/turtle;q=0.95, application/n-quads;q=0.9, application/n-triples;q=0.9, application/rdf+xml;q=0.5, text/html;q=0.3, */*;q=0.1]" classname="content-negotiation-internal" time="1.3893101215362549">
+		<testcase name="content_negotiation [http://marineregions.org/feed] [application/ld+json, application/trig;q=0.98, text/turtle;q=0.95, application/n-quads;q=0.9, application/n-triples;q=0.9, application/rdf+xml;q=0.5, text/html;q=0.3, */*;q=0.1]" classname="content-negotiation-internal" time="1.5581905841827393">
 			<system-out>GET http://marineregions.org/feed
 Accept: application/ld+json, application/trig;q=0.98, text/turtle;q=0.95, application/n-quads;q=0.9, application/n-triples;q=0.9, application/rdf+xml;q=0.5, text/html;q=0.3, */*;q=0.1
 Status: 200
@@ -203,7 +203,7 @@ Content-Type: application/ld+json; charset=UTF-8;
 Parsed response content-type: 'application/ld+json'
 </system-out>
 		</testcase>
-		<testcase name="body_conformity [http://marineregions.org/feed] [application/ld+json, application/trig;q=0.98, text/turtle;q=0.95, application/n-quads;q=0.9, application/n-triples;q=0.9, application/rdf+xml;q=0.5, text/html;q=0.3, */*;q=0.1]" classname="content-negotiation-internal" time="0.010722637176513672">
+		<testcase name="body_conformity [http://marineregions.org/feed] [application/ld+json, application/trig;q=0.98, text/turtle;q=0.95, application/n-quads;q=0.9, application/n-triples;q=0.9, application/rdf+xml;q=0.5, text/html;q=0.3, */*;q=0.1]" classname="content-negotiation-internal" time="0.01063680648803711">
 			<system-out>Checking body conformity for content-type 'application/ld+json'
 Body conforms.
 </system-out>
@@ -215,7 +215,7 @@ Body conforms.
 			<property name="accept-header" value="text/turtle"/>
 			<property name="accept-header" value="application/ld+json, application/trig;q=0.98, text/turtle;q=0.95, application/n-quads;q=0.9, application/n-triples;q=0.9, application/rdf+xml;q=0.5, text/html;q=0.3, */*;q=0.1"/>
 			<property name="check-response-body-conformity" value="true"/>
-			<property name="provenance" value="https://github.com/vliz-be-opsci/grmp-demo/blob/0204b84b0c022793b180618e83eaf0c3c68c2f65/resource-analyses/internal_test_resources/content-negotiations.yaml"/>
+			<property name="provenance" value="https://github.com/vliz-be-opsci/grmp-demo/blob/c28f447fd39d0f34f5be2eab6151cc11338e6da1/resource-analyses/internal_test_resources/content-negotiations.yaml"/>
 			<property name="create-issue" value="false"/>
 		</properties>
 	</testsuite>
