@@ -512,9 +512,13 @@ jobs:
           from datetime import datetime, timezone
           from pathlib import Path
 
+          def escape_label_value(s):
+              """Escape backslash, newline, and double-quote for Prometheus labels."""
+              return s.replace('\\', '\\\\').replace('\n', '\\n').replace('"', '\\"')
+
           run_number = os.environ['RUN_NUMBER']
           run_attempt = os.environ['RUN_ATTEMPT']
-          branch = os.environ['REF_NAME']
+          branch = escape_label_value(os.environ['REF_NAME'])
 
           report_path = Path('reports/combined_report.xml')
           if not report_path.exists():
@@ -539,7 +543,7 @@ jobs:
 
           suite_samples = []
           for suite in suites:
-              suite_name  = suite.get('name', 'unknown').replace('"', '\"')
+              suite_name  = escape_label_value(suite.get('name', 'unknown'))
               total       = int(suite.get('tests') or 0)
               failures    = int(suite.get('failures') or 0)
               errors      = int(suite.get('errors') or 0)
