@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <testsuites>
-	<testsuite name="ldes_validation" timestamp="2026-04-01T05:54:07.310886+00:00" tests="6" errors="0" failures="1" skipped="0" time="0.9511713981628418">
-		<testcase name="ldes_harvest [https://marineregions.org/feed.ttl]" classname="ldes_validation" time="0.9506347179412842">
+	<testsuite name="marine_regions" timestamp="2026-04-01T07:33:19.307934+00:00" tests="6" errors="0" failures="1" skipped="0" time="0.9240982532501221">
+		<testcase name="ldes_harvest [https://marineregions.org/feed.ttl]" classname="marine_regions" time="0.9235560894012451">
 			<system-out>Fetching RDF graph from: https://marineregions.org/feed.ttl
 HTTP 200, Content-Type: 'text/turtle; charset=UTF-8;', format: turtle
 Successfully parsed 120 triple(s)
 </system-out>
 		</testcase>
-		<testcase name="ldes_event_stream [https://marineregions.org/feed.ttl]" classname="ldes_validation" time="7.128715515136719e-05">
+		<testcase name="ldes_event_stream [https://marineregions.org/feed.ttl]" classname="marine_regions" time="7.510185241699219e-05">
 			<system-out>Found 1 ldes:EventStream declaration(s)
   EventStream: https://www.marineregions.org/feed
 </system-out>
 		</testcase>
-		<testcase name="ldes_tree_view [https://marineregions.org/feed.ttl]" classname="ldes_validation" time="2.193450927734375e-05">
+		<testcase name="ldes_tree_view [https://marineregions.org/feed.ttl]" classname="marine_regions" time="2.2172927856445312e-05">
 			<system-out>Found 1 tree:view relation(s)
   tree:view: https://www.marineregions.org/feed.ttl?page=2026-03-07T20%3A00%3A00Z%2F2026-03-07T21%3A00%3A00Z
 </system-out>
 		</testcase>
-		<testcase name="ldes_min_members [https://marineregions.org/feed.ttl]" classname="ldes_validation" time="7.176399230957031e-05">
+		<testcase name="ldes_min_members [https://marineregions.org/feed.ttl]" classname="marine_regions" time="7.534027099609375e-05">
 			<system-out>Traversing LDES feed from: https://marineregions.org/feed.ttl
 Fetching LDES fragment: https://www.marineregions.org/feed.ttl?page=2026-03-07T20%3A00%3A00Z%2F2026-03-07T21%3A00%3A00Z
 HTTP 200, Content-Type: 'text/turtle; charset=UTF-8;', format: turtle
@@ -33,7 +33,7 @@ Traversal complete: 6 fragment(s) fetched, 884 total triple(s)
 Found 23 tree:member(s) across 6 traversed fragment(s); required minimum: 20
 </system-out>
 		</testcase>
-		<testcase name="ldes_min_fragments [https://marineregions.org/feed.ttl]" classname="ldes_validation" time="2.4318695068359375e-05">
+		<testcase name="ldes_min_fragments [https://marineregions.org/feed.ttl]" classname="marine_regions" time="2.4318695068359375e-05">
 			<system-out>Traversing LDES feed from: https://marineregions.org/feed.ttl
 Fetching LDES fragment: https://www.marineregions.org/feed.ttl?page=2026-03-07T20%3A00%3A00Z%2F2026-03-07T21%3A00%3A00Z
 HTTP 200, Content-Type: 'text/turtle; charset=UTF-8;', format: turtle
@@ -55,8 +55,8 @@ Traversed 6 LDES fragment(s) (following tree:Relation → tree:node links); requ
   fragment: https://www.marineregions.org/feed.ttl?page=2026-03-07T20%3A00%3A00Z%2F2026-03-07T21%3A00%3A00Z
 </system-out>
 		</testcase>
-		<testcase name="ldes_max_age_youngest_member [https://marineregions.org/feed.ttl]" classname="ldes_validation" time="0.00034737586975097656">
-			<failure message="Youngest member is 585.60h old, exceeds maximum 24h">The youngest member of the LDES feed at https://marineregions.org/feed.ttl has timestamp 2026-03-07T20:18:09+00:00, which is 585.60 hour(s) old. The maximum allowed age is 24 hour(s).</failure>
+		<testcase name="ldes_max_age_youngest_member [https://marineregions.org/feed.ttl]" classname="marine_regions" time="0.0003452301025390625">
+			<failure message="Youngest member is 587.25h old, exceeds maximum 24h">The youngest member of the LDES feed at https://marineregions.org/feed.ttl has timestamp 2026-03-07T20:18:09+00:00, which is 587.25 hour(s) old. The maximum allowed age is 24 hour(s).</failure>
 			<system-out>Traversing LDES feed from: https://marineregions.org/feed.ttl
 Fetching LDES fragment: https://www.marineregions.org/feed.ttl?page=2026-03-07T20%3A00%3A00Z%2F2026-03-07T21%3A00%3A00Z
 HTTP 200, Content-Type: 'text/turtle; charset=UTF-8;', format: turtle
@@ -70,16 +70,158 @@ Fetching LDES fragment: https://www.marineregions.org/feed.ttl?page=2026-03-07T1
 HTTP 200, Content-Type: 'text/turtle; charset=UTF-8;', format: turtle
 Traversal complete: 6 fragment(s) fetched, 884 total triple(s)
 Checking age of youngest tree:member across 6 traversed fragment(s) of: https://marineregions.org/feed.ttl
-Youngest member timestamp: 2026-03-07T20:18:09+00:00; age: 585.60 hour(s); maximum allowed: 24 hour(s)
+Youngest member timestamp: 2026-03-07T20:18:09+00:00; age: 587.25 hour(s); maximum allowed: 24 hour(s)
 </system-out>
-			<system-err>Youngest member is too old: 585.60h &gt; 24h
+			<system-err>Youngest member is too old: 587.25h &gt; 24h
 </system-err>
 		</testcase>
 		<properties>
 			<property name="urls" value="https://marineregions.org/feed.ttl"/>
-			<property name="provenance" value="https://github.com/vliz-be-opsci/grmp-demo/blob/fdb5f66ea667756b7f30ed08dd630d04a3b5f290/ldes-validation/tests.yaml"/>
+			<property name="provenance" value="https://github.com/vliz-be-opsci/grmp-demo/blob/29f0d5a9be83c7a9bed89abf48e8b35043be509f/ldes-validation/tests.yaml"/>
 			<property name="min_members" value="20"/>
 			<property name="min_fragments" value="6"/>
+			<property name="max_age_youngest_member" value="24"/>
+			<property name="create-issue" value="false"/>
+		</properties>
+	</testsuite>
+	<testsuite name="marineinfo" timestamp="2026-04-01T07:33:27.531368+00:00" tests="36" errors="0" failures="6" skipped="30" time="5.973474025726318">
+		<testcase name="ldes_harvest [https://marineinfo.org/id/dataset/feed]" classname="marineinfo" time="1.004523515701294">
+			<failure message="Could not fetch or parse RDF from https://marineinfo.org/id/dataset/feed">404 Client Error: Not Found for url: https://marineinfo.org/id/dataset/feed</failure>
+			<system-out>Fetching RDF graph from: https://marineinfo.org/id/dataset/feed
+</system-out>
+			<system-err>Failed to fetch/parse RDF: 404 Client Error: Not Found for url: https://marineinfo.org/id/dataset/feed
+</system-err>
+		</testcase>
+		<testcase name="ldes_event_stream [https://marineinfo.org/id/dataset/feed]" classname="marineinfo" time="0.0">
+			<skipped message="RDF harvest failed"/>
+		</testcase>
+		<testcase name="ldes_tree_view [https://marineinfo.org/id/dataset/feed]" classname="marineinfo" time="0.0">
+			<skipped message="RDF harvest failed"/>
+		</testcase>
+		<testcase name="ldes_min_members [https://marineinfo.org/id/dataset/feed]" classname="marineinfo" time="0.0">
+			<skipped message="RDF harvest failed"/>
+		</testcase>
+		<testcase name="ldes_min_fragments [https://marineinfo.org/id/dataset/feed]" classname="marineinfo" time="0.0">
+			<skipped message="RDF harvest failed"/>
+		</testcase>
+		<testcase name="ldes_max_age_youngest_member [https://marineinfo.org/id/dataset/feed]" classname="marineinfo" time="0.0">
+			<skipped message="RDF harvest failed"/>
+		</testcase>
+		<testcase name="ldes_harvest [https://marineinfo.org/id/publication/feed]" classname="marineinfo" time="0.9762239456176758">
+			<failure message="Could not fetch or parse RDF from https://marineinfo.org/id/publication/feed">404 Client Error: Not Found for url: https://marineinfo.org/id/publication/feed</failure>
+			<system-out>Fetching RDF graph from: https://marineinfo.org/id/publication/feed
+</system-out>
+			<system-err>Failed to fetch/parse RDF: 404 Client Error: Not Found for url: https://marineinfo.org/id/publication/feed
+</system-err>
+		</testcase>
+		<testcase name="ldes_event_stream [https://marineinfo.org/id/publication/feed]" classname="marineinfo" time="0.0">
+			<skipped message="RDF harvest failed"/>
+		</testcase>
+		<testcase name="ldes_tree_view [https://marineinfo.org/id/publication/feed]" classname="marineinfo" time="0.0">
+			<skipped message="RDF harvest failed"/>
+		</testcase>
+		<testcase name="ldes_min_members [https://marineinfo.org/id/publication/feed]" classname="marineinfo" time="0.0">
+			<skipped message="RDF harvest failed"/>
+		</testcase>
+		<testcase name="ldes_min_fragments [https://marineinfo.org/id/publication/feed]" classname="marineinfo" time="0.0">
+			<skipped message="RDF harvest failed"/>
+		</testcase>
+		<testcase name="ldes_max_age_youngest_member [https://marineinfo.org/id/publication/feed]" classname="marineinfo" time="0.0">
+			<skipped message="RDF harvest failed"/>
+		</testcase>
+		<testcase name="ldes_harvest [https://marineinfo.org/id/institute/feed]" classname="marineinfo" time="1.05611252784729">
+			<failure message="Could not fetch or parse RDF from https://marineinfo.org/id/institute/feed">404 Client Error: Not Found for url: https://marineinfo.org/id/institute/feed</failure>
+			<system-out>Fetching RDF graph from: https://marineinfo.org/id/institute/feed
+</system-out>
+			<system-err>Failed to fetch/parse RDF: 404 Client Error: Not Found for url: https://marineinfo.org/id/institute/feed
+</system-err>
+		</testcase>
+		<testcase name="ldes_event_stream [https://marineinfo.org/id/institute/feed]" classname="marineinfo" time="0.0">
+			<skipped message="RDF harvest failed"/>
+		</testcase>
+		<testcase name="ldes_tree_view [https://marineinfo.org/id/institute/feed]" classname="marineinfo" time="0.0">
+			<skipped message="RDF harvest failed"/>
+		</testcase>
+		<testcase name="ldes_min_members [https://marineinfo.org/id/institute/feed]" classname="marineinfo" time="0.0">
+			<skipped message="RDF harvest failed"/>
+		</testcase>
+		<testcase name="ldes_min_fragments [https://marineinfo.org/id/institute/feed]" classname="marineinfo" time="0.0">
+			<skipped message="RDF harvest failed"/>
+		</testcase>
+		<testcase name="ldes_max_age_youngest_member [https://marineinfo.org/id/institute/feed]" classname="marineinfo" time="0.0">
+			<skipped message="RDF harvest failed"/>
+		</testcase>
+		<testcase name="ldes_harvest [https://marineinfo.org/id/person/feed]" classname="marineinfo" time="1.0263619422912598">
+			<failure message="Could not fetch or parse RDF from https://marineinfo.org/id/person/feed">404 Client Error: Not Found for url: https://marineinfo.org/id/person/feed</failure>
+			<system-out>Fetching RDF graph from: https://marineinfo.org/id/person/feed
+</system-out>
+			<system-err>Failed to fetch/parse RDF: 404 Client Error: Not Found for url: https://marineinfo.org/id/person/feed
+</system-err>
+		</testcase>
+		<testcase name="ldes_event_stream [https://marineinfo.org/id/person/feed]" classname="marineinfo" time="0.0">
+			<skipped message="RDF harvest failed"/>
+		</testcase>
+		<testcase name="ldes_tree_view [https://marineinfo.org/id/person/feed]" classname="marineinfo" time="0.0">
+			<skipped message="RDF harvest failed"/>
+		</testcase>
+		<testcase name="ldes_min_members [https://marineinfo.org/id/person/feed]" classname="marineinfo" time="0.0">
+			<skipped message="RDF harvest failed"/>
+		</testcase>
+		<testcase name="ldes_min_fragments [https://marineinfo.org/id/person/feed]" classname="marineinfo" time="0.0">
+			<skipped message="RDF harvest failed"/>
+		</testcase>
+		<testcase name="ldes_max_age_youngest_member [https://marineinfo.org/id/person/feed]" classname="marineinfo" time="0.0">
+			<skipped message="RDF harvest failed"/>
+		</testcase>
+		<testcase name="ldes_harvest [https://marineinfo.org/id/project/feed]" classname="marineinfo" time="0.9309089183807373">
+			<failure message="Could not fetch or parse RDF from https://marineinfo.org/id/project/feed">404 Client Error: Not Found for url: https://marineinfo.org/id/project/feed</failure>
+			<system-out>Fetching RDF graph from: https://marineinfo.org/id/project/feed
+</system-out>
+			<system-err>Failed to fetch/parse RDF: 404 Client Error: Not Found for url: https://marineinfo.org/id/project/feed
+</system-err>
+		</testcase>
+		<testcase name="ldes_event_stream [https://marineinfo.org/id/project/feed]" classname="marineinfo" time="0.0">
+			<skipped message="RDF harvest failed"/>
+		</testcase>
+		<testcase name="ldes_tree_view [https://marineinfo.org/id/project/feed]" classname="marineinfo" time="0.0">
+			<skipped message="RDF harvest failed"/>
+		</testcase>
+		<testcase name="ldes_min_members [https://marineinfo.org/id/project/feed]" classname="marineinfo" time="0.0">
+			<skipped message="RDF harvest failed"/>
+		</testcase>
+		<testcase name="ldes_min_fragments [https://marineinfo.org/id/project/feed]" classname="marineinfo" time="0.0">
+			<skipped message="RDF harvest failed"/>
+		</testcase>
+		<testcase name="ldes_max_age_youngest_member [https://marineinfo.org/id/project/feed]" classname="marineinfo" time="0.0">
+			<skipped message="RDF harvest failed"/>
+		</testcase>
+		<testcase name="ldes_harvest [https://marineinfo.org/id/event/feed]" classname="marineinfo" time="0.9793431758880615">
+			<failure message="Could not fetch or parse RDF from https://marineinfo.org/id/event/feed">404 Client Error: Not Found for url: https://marineinfo.org/id/event/feed</failure>
+			<system-out>Fetching RDF graph from: https://marineinfo.org/id/event/feed
+</system-out>
+			<system-err>Failed to fetch/parse RDF: 404 Client Error: Not Found for url: https://marineinfo.org/id/event/feed
+</system-err>
+		</testcase>
+		<testcase name="ldes_event_stream [https://marineinfo.org/id/event/feed]" classname="marineinfo" time="0.0">
+			<skipped message="RDF harvest failed"/>
+		</testcase>
+		<testcase name="ldes_tree_view [https://marineinfo.org/id/event/feed]" classname="marineinfo" time="0.0">
+			<skipped message="RDF harvest failed"/>
+		</testcase>
+		<testcase name="ldes_min_members [https://marineinfo.org/id/event/feed]" classname="marineinfo" time="0.0">
+			<skipped message="RDF harvest failed"/>
+		</testcase>
+		<testcase name="ldes_min_fragments [https://marineinfo.org/id/event/feed]" classname="marineinfo" time="0.0">
+			<skipped message="RDF harvest failed"/>
+		</testcase>
+		<testcase name="ldes_max_age_youngest_member [https://marineinfo.org/id/event/feed]" classname="marineinfo" time="0.0">
+			<skipped message="RDF harvest failed"/>
+		</testcase>
+		<properties>
+			<property name="urls" value="https://marineinfo.org/id/dataset/feed, https://marineinfo.org/id/publication/feed, https://marineinfo.org/id/institute/feed, https://marineinfo.org/id/person/feed, https://marineinfo.org/id/project/feed, https://marineinfo.org/id/event/feed"/>
+			<property name="provenance" value="https://github.com/vliz-be-opsci/grmp-demo/blob/29f0d5a9be83c7a9bed89abf48e8b35043be509f/ldes-validation/tests.yaml"/>
+			<property name="min_members" value="20"/>
+			<property name="min_fragments" value="10"/>
 			<property name="max_age_youngest_member" value="24"/>
 			<property name="create-issue" value="false"/>
 		</properties>
