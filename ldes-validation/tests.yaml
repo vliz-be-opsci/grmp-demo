@@ -12,7 +12,7 @@ tests:
     image: ghcr.io/vliz-be-opsci/grmp-test-implementations-ldes-validation:main
     config:
       TIMEOUT: 60  # Optional: timeout in seconds
-      URLS: ['https://marineinfo.org/id/dataset/feed', 'https://marineinfo.org/id/publication/feed', 'https://marineinfo.org/id/institute/feed', 'https://marineinfo.org/id/person/feed', 'https://marineinfo.org/id/project/feed', 'https://marineinfo.org/id/event/feed']
+      URLS: ['https://marineinfo.org/feed/dataset', 'https://marineinfo.org/feed/publication', 'https://marineinfo.org/feed/institute', 'https://marineinfo.org/feed/person', 'https://marineinfo.org/feed/project', 'https://marineinfo.org/feed/event']
       MIN-MEMBERS: 20
       MIN-FRAGMENTS: 10
       CREATE-ISSUE: false
