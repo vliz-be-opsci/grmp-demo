@@ -1,6 +1,27 @@
 {
-  "generated_at": "2026-03-27T16:56:58.010884Z",
+  "generated_at": "2026-04-01T05:54:12.262170Z",
   "runs": [
+    {
+      "commit_sha": "fe9f4818f946082369950a058ab5d97173132c9a",
+      "short_sha": "fe9f481",
+      "date": "2026-04-01T05:54:11.179187Z",
+      "run_number": 43,
+      "run_attempt": 1,
+      "source_branch": "feature/ldes-validation",
+      "config_file": "ldes-validation",
+      "triggered_by": "cedricdcc",
+      "workflow_name": "Run Configured Tests",
+      "run_id": "23834194721",
+      "summary": {
+        "total_tests": 6,
+        "passed": 5,
+        "failed": 1,
+        "errors": 0,
+        "skipped": 0,
+        "pass_rate": 83.33,
+        "duration": 0.9512
+      }
+    },
     {
       "commit_sha": "0690a0173e6dc014d8cc5b49d35d21a7170dfd73",
       "short_sha": "0690a01",
