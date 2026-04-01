@@ -1,14 +1,21 @@
 tests:
-  ldes_validation:
+  marine_regions:
     image: ghcr.io/vliz-be-opsci/grmp-test-implementations-ldes-validation:main
     config:
-      SHAPES_URL: "https://raw.githubusercontent.com/SEMICeu/dcat-ap_shacl/master/shacl/dcat-ap.shapes.ttl"
-      DATA_URLS:
-        - "https://data.emobon.embrc.eu/metadata.ttl"  # Example RDF data; replace with your own TTL/RDF URL(s)
       TIMEOUT: 60  # Optional: timeout in seconds
       URLS: ['https://marineregions.org/feed.ttl']
       TIMEOUT: 60
       MIN-MEMBERS: 20
       MIN-FRAGMENTS: 6
+      CREATE-ISSUE: true
+      MAX-AGE-YOUNGEST-MEMBER: 24
+  marineinfo:
+    image: ghcr.io/vliz-be-opsci/grmp-test-implementations-ldes-validation:main
+    config:
+      TIMEOUT: 60  # Optional: timeout in seconds
+      URLS: ['https://marineinfo.org/id/dataset/feed', 'https://marineinfo.org/id/publication/feed', 'https://marineinfo.org/id/institute/feed', 'https://marineinfo.org/id/person/feed', 'https://marineinfo.org/id/project/feed', 'https://marineinfo.org/id/event/feed']
+      TIMEOUT: 60
+      MIN-MEMBERS: 20
+      MIN-FRAGMENTS: 10
       CREATE-ISSUE: true
       MAX-AGE-YOUNGEST-MEMBER: 24
