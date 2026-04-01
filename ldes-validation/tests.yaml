@@ -4,18 +4,16 @@ tests:
     config:
       TIMEOUT: 60  # Optional: timeout in seconds
       URLS: ['https://marineregions.org/feed.ttl']
-      TIMEOUT: 60
       MIN-MEMBERS: 20
       MIN-FRAGMENTS: 6
-      CREATE-ISSUE: true
+      CREATE-ISSUE: false
       MAX-AGE-YOUNGEST-MEMBER: 24
   marineinfo:
     image: ghcr.io/vliz-be-opsci/grmp-test-implementations-ldes-validation:main
     config:
       TIMEOUT: 60  # Optional: timeout in seconds
       URLS: ['https://marineinfo.org/id/dataset/feed', 'https://marineinfo.org/id/publication/feed', 'https://marineinfo.org/id/institute/feed', 'https://marineinfo.org/id/person/feed', 'https://marineinfo.org/id/project/feed', 'https://marineinfo.org/id/event/feed']
-      TIMEOUT: 60
       MIN-MEMBERS: 20
       MIN-FRAGMENTS: 10
-      CREATE-ISSUE: true
+      CREATE-ISSUE: false
       MAX-AGE-YOUNGEST-MEMBER: 24
