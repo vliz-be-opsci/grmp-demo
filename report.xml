@@ -1,221 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
 <testsuites>
-	<testsuite name="resource-availability-external" timestamp="2026-03-27T16:56:28.184982+00:00" tests="6" errors="0" failures="2" skipped="0" time="1.7305443286895752">
-		<testcase name="dns_resolution [https://brugge-ldes.geomobility.eu/observations]" classname="resource-availability-external" time="0.20370149612426758">
-			<system-out>Resolving hostname: brugge-ldes.geomobility.eu
-resolved_ip: 40.85.76.196
+	<testsuite name="ldes_validation" timestamp="2026-04-01T05:54:07.310886+00:00" tests="6" errors="0" failures="1" skipped="0" time="0.9511713981628418">
+		<testcase name="ldes_harvest [https://marineregions.org/feed.ttl]" classname="ldes_validation" time="0.9506347179412842">
+			<system-out>Fetching RDF graph from: https://marineregions.org/feed.ttl
+HTTP 200, Content-Type: 'text/turtle; charset=UTF-8;', format: turtle
+Successfully parsed 120 triple(s)
 </system-out>
 		</testcase>
-		<properties>
-			<property name="verify_ssl" value="True"/>
-			<property name="urls" value="https://brugge-ldes.geomobility.eu/observations, https://ldes.telraam-api.net/locations"/>
-			<property name="hostnames" value="brugge-ldes.geomobility.eu, ldes.telraam-api.net"/>
-			<property name="timeout" value="10"/>
-			<property name="max-redirects" value="3"/>
-			<property name="check-http-availability" value="true"/>
-			<property name="check-https-availability" value="true"/>
-			<property name="verify-ssl" value="true"/>
-			<property name="provenance" value="https://github.com/vliz-be-opsci/grmp-demo/blob/5a17e20d4af2090b1741cde891990af338f29e7f/resource-analyses/external_test_resources/grmp_conf.yaml"/>
-			<property name="create-issue" value="true"/>
-		</properties>
-		<testcase name="http_availability [https://brugge-ldes.geomobility.eu/observations]" classname="resource-availability-external" time="0.29357028007507324">
-			<failure message="HTTP availability check failed">HTTPConnectionPool(host='brugge-ldes.geomobility.eu', port=80): Max retries exceeded with url: /observations (Caused by NewConnectionError(&quot;HTTPConnection(host='brugge-ldes.geomobility.eu', port=80): Failed to establish a new connection: [Errno 111] Connection refused&quot;))</failure>
-			<system-out>response_time_s: 0.294
-Checking HTTP availability for: http://brugge-ldes.geomobility.eu/observations
-Timeout: 10s, Max redirects: 3, Verify SSL: True
-Availability check failed: HTTPConnectionPool(host='brugge-ldes.geomobility.eu', port=80): Max retries exceeded with url: /observations (Caused by NewConnectionError(&quot;HTTPConnection(host='brugge-ldes.geomobility.eu', port=80): Failed to establish a new connection: [Errno 111] Connection refused&quot;))
+		<testcase name="ldes_event_stream [https://marineregions.org/feed.ttl]" classname="ldes_validation" time="7.128715515136719e-05">
+			<system-out>Found 1 ldes:EventStream declaration(s)
+  EventStream: https://www.marineregions.org/feed
 </system-out>
 		</testcase>
-		<testcase name="https_availability [https://brugge-ldes.geomobility.eu/observations]" classname="resource-availability-external" time="0.24456143379211426">
-			<failure message="HTTPS availability check failed">HTTPSConnectionPool(host='brugge-ldes.geomobility.eu', port=443): Max retries exceeded with url: /observations (Caused by NewConnectionError(&quot;HTTPSConnection(host='brugge-ldes.geomobility.eu', port=443): Failed to establish a new connection: [Errno 111] Connection refused&quot;))</failure>
-			<system-out>response_time_s: 0.245
-Checking HTTPS availability for: https://brugge-ldes.geomobility.eu/observations
-Timeout: 10s, Max redirects: 3, Verify SSL: True
-Availability check failed: HTTPSConnectionPool(host='brugge-ldes.geomobility.eu', port=443): Max retries exceeded with url: /observations (Caused by NewConnectionError(&quot;HTTPSConnection(host='brugge-ldes.geomobility.eu', port=443): Failed to establish a new connection: [Errno 111] Connection refused&quot;))
+		<testcase name="ldes_tree_view [https://marineregions.org/feed.ttl]" classname="ldes_validation" time="2.193450927734375e-05">
+			<system-out>Found 1 tree:view relation(s)
+  tree:view: https://www.marineregions.org/feed.ttl?page=2026-03-07T20%3A00%3A00Z%2F2026-03-07T21%3A00%3A00Z
 </system-out>
 		</testcase>
-		<testcase name="dns_resolution [https://ldes.telraam-api.net/locations]" classname="resource-availability-external" time="0.05226731300354004">
-			<system-out>Resolving hostname: ldes.telraam-api.net
-resolved_ip: 188.245.154.88
+		<testcase name="ldes_min_members [https://marineregions.org/feed.ttl]" classname="ldes_validation" time="7.176399230957031e-05">
+			<system-out>Traversing LDES feed from: https://marineregions.org/feed.ttl
+Fetching LDES fragment: https://www.marineregions.org/feed.ttl?page=2026-03-07T20%3A00%3A00Z%2F2026-03-07T21%3A00%3A00Z
+HTTP 200, Content-Type: 'text/turtle; charset=UTF-8;', format: turtle
+Fetching LDES fragment: https://www.marineregions.org/feed.ttl?page=2026-03-07T19%3A00%3A00Z%2F2026-03-07T20%3A00%3A00Z
+HTTP 200, Content-Type: 'text/turtle; charset=UTF-8;', format: turtle
+Fetching LDES fragment: https://www.marineregions.org/feed.ttl?page=2026-03-07T18%3A00%3A00Z%2F2026-03-07T19%3A00%3A00Z
+HTTP 200, Content-Type: 'text/turtle; charset=UTF-8;', format: turtle
+Fetching LDES fragment: https://www.marineregions.org/feed.ttl?page=2026-03-07T16%3A00%3A00Z%2F2026-03-07T17%3A00%3A00Z
+HTTP 200, Content-Type: 'text/turtle; charset=UTF-8;', format: turtle
+Fetching LDES fragment: https://www.marineregions.org/feed.ttl?page=2026-03-07T15%3A00%3A00Z%2F2026-03-07T16%3A00%3A00Z
+HTTP 200, Content-Type: 'text/turtle; charset=UTF-8;', format: turtle
+Traversal complete: 6 fragment(s) fetched, 884 total triple(s)
+Found 23 tree:member(s) across 6 traversed fragment(s); required minimum: 20
 </system-out>
 		</testcase>
-		<testcase name="http_availability [https://ldes.telraam-api.net/locations]" classname="resource-availability-external" time="0.445096492767334">
-			<system-out>response_time_s: 0.445
-status_code: 301
-redirects_to: https://ldes.telraam-api.net/locations
-OK: HTTP endpoint reachable (redirects to HTTPS)
+		<testcase name="ldes_min_fragments [https://marineregions.org/feed.ttl]" classname="ldes_validation" time="2.4318695068359375e-05">
+			<system-out>Traversing LDES feed from: https://marineregions.org/feed.ttl
+Fetching LDES fragment: https://www.marineregions.org/feed.ttl?page=2026-03-07T20%3A00%3A00Z%2F2026-03-07T21%3A00%3A00Z
+HTTP 200, Content-Type: 'text/turtle; charset=UTF-8;', format: turtle
+Fetching LDES fragment: https://www.marineregions.org/feed.ttl?page=2026-03-07T19%3A00%3A00Z%2F2026-03-07T20%3A00%3A00Z
+HTTP 200, Content-Type: 'text/turtle; charset=UTF-8;', format: turtle
+Fetching LDES fragment: https://www.marineregions.org/feed.ttl?page=2026-03-07T18%3A00%3A00Z%2F2026-03-07T19%3A00%3A00Z
+HTTP 200, Content-Type: 'text/turtle; charset=UTF-8;', format: turtle
+Fetching LDES fragment: https://www.marineregions.org/feed.ttl?page=2026-03-07T16%3A00%3A00Z%2F2026-03-07T17%3A00%3A00Z
+HTTP 200, Content-Type: 'text/turtle; charset=UTF-8;', format: turtle
+Fetching LDES fragment: https://www.marineregions.org/feed.ttl?page=2026-03-07T15%3A00%3A00Z%2F2026-03-07T16%3A00%3A00Z
+HTTP 200, Content-Type: 'text/turtle; charset=UTF-8;', format: turtle
+Traversal complete: 6 fragment(s) fetched, 884 total triple(s)
+Traversed 6 LDES fragment(s) (following tree:Relation → tree:node links); required minimum: 6
+  fragment: https://marineregions.org/feed.ttl
+  fragment: https://www.marineregions.org/feed.ttl?page=2026-03-07T15%3A00%3A00Z%2F2026-03-07T16%3A00%3A00Z
+  fragment: https://www.marineregions.org/feed.ttl?page=2026-03-07T16%3A00%3A00Z%2F2026-03-07T17%3A00%3A00Z
+  fragment: https://www.marineregions.org/feed.ttl?page=2026-03-07T18%3A00%3A00Z%2F2026-03-07T19%3A00%3A00Z
+  fragment: https://www.marineregions.org/feed.ttl?page=2026-03-07T19%3A00%3A00Z%2F2026-03-07T20%3A00%3A00Z
+  fragment: https://www.marineregions.org/feed.ttl?page=2026-03-07T20%3A00%3A00Z%2F2026-03-07T21%3A00%3A00Z
 </system-out>
 		</testcase>
-		<testcase name="https_availability [https://ldes.telraam-api.net/locations]" classname="resource-availability-external" time="0.4913473129272461">
-			<system-out>response_time_s: 0.491
-status_code: 200
-OK: HTTPS available, status 200 in 0.491s
+		<testcase name="ldes_max_age_youngest_member [https://marineregions.org/feed.ttl]" classname="ldes_validation" time="0.00034737586975097656">
+			<failure message="Youngest member is 585.60h old, exceeds maximum 24h">The youngest member of the LDES feed at https://marineregions.org/feed.ttl has timestamp 2026-03-07T20:18:09+00:00, which is 585.60 hour(s) old. The maximum allowed age is 24 hour(s).</failure>
+			<system-out>Traversing LDES feed from: https://marineregions.org/feed.ttl
+Fetching LDES fragment: https://www.marineregions.org/feed.ttl?page=2026-03-07T20%3A00%3A00Z%2F2026-03-07T21%3A00%3A00Z
+HTTP 200, Content-Type: 'text/turtle; charset=UTF-8;', format: turtle
+Fetching LDES fragment: https://www.marineregions.org/feed.ttl?page=2026-03-07T19%3A00%3A00Z%2F2026-03-07T20%3A00%3A00Z
+HTTP 200, Content-Type: 'text/turtle; charset=UTF-8;', format: turtle
+Fetching LDES fragment: https://www.marineregions.org/feed.ttl?page=2026-03-07T18%3A00%3A00Z%2F2026-03-07T19%3A00%3A00Z
+HTTP 200, Content-Type: 'text/turtle; charset=UTF-8;', format: turtle
+Fetching LDES fragment: https://www.marineregions.org/feed.ttl?page=2026-03-07T16%3A00%3A00Z%2F2026-03-07T17%3A00%3A00Z
+HTTP 200, Content-Type: 'text/turtle; charset=UTF-8;', format: turtle
+Fetching LDES fragment: https://www.marineregions.org/feed.ttl?page=2026-03-07T15%3A00%3A00Z%2F2026-03-07T16%3A00%3A00Z
+HTTP 200, Content-Type: 'text/turtle; charset=UTF-8;', format: turtle
+Traversal complete: 6 fragment(s) fetched, 884 total triple(s)
+Checking age of youngest tree:member across 6 traversed fragment(s) of: https://marineregions.org/feed.ttl
+Youngest member timestamp: 2026-03-07T20:18:09+00:00; age: 585.60 hour(s); maximum allowed: 24 hour(s)
 </system-out>
-		</testcase>
-	</testsuite>
-	<testsuite name="certificates-external" timestamp="2026-03-27T16:56:31.196366+00:00" tests="2" errors="1" failures="0" skipped="0" time="0.7551755905151367">
-		<testcase name="certificate_expiry [https://brugge-ldes.geomobility.eu/observations]" classname="certificates-external" time="0.43209362030029297">
-			<error message="Unexpected error">Could not retrieve certificate: Connection error: [Errno 111] Connection refused</error>
-			<system-out>Checking certificate expiry for: brugge-ldes.geomobility.eu:443
-</system-out>
-			<system-err>Failed to retrieve certificate: Connection error: [Errno 111] Connection refused
+			<system-err>Youngest member is too old: 585.60h &gt; 24h
 </system-err>
 		</testcase>
-		<testcase name="certificate_expiry [https://ldes.telraam-api.net/locations]" classname="certificates-external" time="0.32308197021484375">
-			<system-out>Checking certificate expiry for: ldes.telraam-api.net:443
-expiry: 2026-06-18T01:04:33+00:00
-status: ok
-Certificate valid for 82 more day(s) (expiry: 2026-06-18T01:04:33+00:00)
-</system-out>
-		</testcase>
 		<properties>
-			<property name="urls" value="https://brugge-ldes.geomobility.eu/observations, https://ldes.telraam-api.net/locations"/>
-			<property name="hostnames" value="brugge-ldes.geomobility.eu, ldes.telraam-api.net"/>
-			<property name="timeout" value="10"/>
-			<property name="certificate-expiry-days" value="30"/>
-			<property name="provenance" value="https://github.com/vliz-be-opsci/grmp-demo/blob/5a17e20d4af2090b1741cde891990af338f29e7f/resource-analyses/external_test_resources/grmp_conf.yaml"/>
-			<property name="create-issue" value="false"/>
-		</properties>
-	</testsuite>
-	<testsuite name="cors-compliance-external-basic" timestamp="2026-03-27T16:56:36.199823+00:00" tests="4" errors="0" failures="0" skipped="0" time="2.742295265197754">
-		<testcase name="access_control_allow_origin [http://edan.si.edu/saam/sparql] [lenient]" classname="cors-compliance-external-basic" time="0.35579967498779297">
-			<system-out>OPTIONS http://edan.si.edu/saam/sparql with Origin: https://vliz.be
-Followed 1 redirect(s) to https://edan.si.edu/saam/sparql
-access-control-allow-origin: '*'
-</system-out>
-		</testcase>
-		<testcase name="access_control_allow_origin [http://vocab.nerc.ac.uk/sparql/sparql] [lenient]" classname="cors-compliance-external-basic" time="0.7795350551605225">
-			<system-out>OPTIONS http://vocab.nerc.ac.uk/sparql/sparql with Origin: https://vliz.be
-access-control-allow-origin: '*'
-</system-out>
-		</testcase>
-		<testcase name="access_control_allow_origin [https://linked.bodc.ac.uk/sdn/edios/sparql/sparql] [lenient]" classname="cors-compliance-external-basic" time="0.6864936351776123">
-			<system-out>OPTIONS https://linked.bodc.ac.uk/sdn/edios/sparql/sparql with Origin: https://vliz.be
-access-control-allow-origin: '*'
-</system-out>
-		</testcase>
-		<testcase name="access_control_allow_origin [https://sparql.ifremer.fr/csr/query] [lenient]" classname="cors-compliance-external-basic" time="0.9204668998718262">
-			<system-out>OPTIONS https://sparql.ifremer.fr/csr/query with Origin: https://vliz.be
-access-control-allow-origin: 'https://vliz.be'
-</system-out>
-		</testcase>
-		<properties>
-			<property name="urls" value="http://edan.si.edu/saam/sparql, http://vocab.nerc.ac.uk/sparql/sparql, https://linked.bodc.ac.uk/sdn/edios/sparql/sparql, https://sparql.ifremer.fr/csr/query"/>
-			<property name="hostnames" value="edan.si.edu, vocab.nerc.ac.uk, linked.bodc.ac.uk, sparql.ifremer.fr"/>
-			<property name="timeout" value="30"/>
-			<property name="https-redirect" value="false"/>
-			<property name="probe-origin" value="https://vliz.be"/>
-			<property name="provenance" value="https://github.com/vliz-be-opsci/grmp-demo/blob/5a17e20d4af2090b1741cde891990af338f29e7f/resource-analyses/external_test_resources/grmp_conf.yaml"/>
-			<property name="create-issue" value="false"/>
-		</properties>
-	</testsuite>
-	<testsuite name="cors-compliance-external-advanced" timestamp="2026-03-27T16:56:45.089742+00:00" tests="8" errors="0" failures="4" skipped="0" time="7.891818046569824">
-		<testcase name="access_control_allow_origin [https://sparql.ifremer.fr/csr/query] [*]" classname="cors-compliance-external-advanced" time="0.7558887004852295">
-			<failure message="access-control-allow-origin does not allow all origins">Expected '*' but got 'https://vliz.be'</failure>
-			<system-out>OPTIONS https://sparql.ifremer.fr/csr/query with Origin: https://vliz.be
-access-control-allow-origin: 'https://vliz.be'
-</system-out>
-		</testcase>
-		<testcase name="access_control_allow_methods [https://sparql.ifremer.fr/csr/query]" classname="cors-compliance-external-advanced" time="0.594012975692749">
-			<system-out>OPTIONS https://sparql.ifremer.fr/csr/query (checking allow-methods)
-access-control-allow-methods: 'GET,POST,DELETE,PUT,HEAD,OPTIONS,PATCH'
-</system-out>
-		</testcase>
-		<testcase name="access_control_expose_headers [https://sparql.ifremer.fr/csr/query]" classname="cors-compliance-external-advanced" time="1.1389193534851074">
-			<system-out>GET https://sparql.ifremer.fr/csr/query (checking expose-headers)
-access-control-expose-headers: 'Access-Control-Allow-Origin,Access-Control-Allow-Credentials'
-</system-out>
-		</testcase>
-		<testcase name="https_redirect [https://sparql.ifremer.fr/csr/query]" classname="cors-compliance-external-advanced" time="1.3720676898956299">
-			<failure message="CORS header missing in redirect chain">'access-control-allow-origin' absent from response at http://sparql.ifremer.fr/csr/query</failure>
-			<system-out>GET http://sparql.ifremer.fr/csr/query (checking https redirect)
-HTTP→HTTPS redirect: http://sparql.ifremer.fr/csr/query → https://sparql.ifremer.fr/csr/query (301)
-access-control-allow-origin at http://sparql.ifremer.fr/csr/query: ''
-</system-out>
-		</testcase>
-		<testcase name="access_control_allow_origin [https://sparql.ifremer.fr/sextant_seadatanet/query] [*]" classname="cors-compliance-external-advanced" time="0.7384037971496582">
-			<failure message="access-control-allow-origin does not allow all origins">Expected '*' but got 'https://vliz.be'</failure>
-			<system-out>OPTIONS https://sparql.ifremer.fr/sextant_seadatanet/query with Origin: https://vliz.be
-access-control-allow-origin: 'https://vliz.be'
-</system-out>
-		</testcase>
-		<testcase name="access_control_allow_methods [https://sparql.ifremer.fr/sextant_seadatanet/query]" classname="cors-compliance-external-advanced" time="0.7525808811187744">
-			<system-out>OPTIONS https://sparql.ifremer.fr/sextant_seadatanet/query (checking allow-methods)
-access-control-allow-methods: 'GET,POST,DELETE,PUT,HEAD,OPTIONS,PATCH'
-</system-out>
-		</testcase>
-		<testcase name="access_control_expose_headers [https://sparql.ifremer.fr/sextant_seadatanet/query]" classname="cors-compliance-external-advanced" time="1.0897083282470703">
-			<system-out>GET https://sparql.ifremer.fr/sextant_seadatanet/query (checking expose-headers)
-access-control-expose-headers: 'Access-Control-Allow-Origin,Access-Control-Allow-Credentials'
-</system-out>
-		</testcase>
-		<testcase name="https_redirect [https://sparql.ifremer.fr/sextant_seadatanet/query]" classname="cors-compliance-external-advanced" time="1.4502363204956055">
-			<failure message="CORS header missing in redirect chain">'access-control-allow-origin' absent from response at http://sparql.ifremer.fr/sextant_seadatanet/query</failure>
-			<system-out>GET http://sparql.ifremer.fr/sextant_seadatanet/query (checking https redirect)
-HTTP→HTTPS redirect: http://sparql.ifremer.fr/sextant_seadatanet/query → https://sparql.ifremer.fr/sextant_seadatanet/query (301)
-access-control-allow-origin at http://sparql.ifremer.fr/sextant_seadatanet/query: ''
-</system-out>
-		</testcase>
-		<properties>
-			<property name="urls" value="https://sparql.ifremer.fr/csr/query, https://sparql.ifremer.fr/sextant_seadatanet/query"/>
-			<property name="hostnames" value="sparql.ifremer.fr"/>
-			<property name="timeout" value="10"/>
-			<property name="access-control-allow-origin" value="*"/>
-			<property name="access-control-allow-methods" value="GET, HEAD, OPTIONS"/>
-			<property name="access-control-expose-headers" value="access-control-allow-credentials, access-control-allow-origin"/>
-			<property name="https-redirect" value="true"/>
-			<property name="probe-origin" value="https://vliz.be"/>
-			<property name="provenance" value="https://github.com/vliz-be-opsci/grmp-demo/blob/5a17e20d4af2090b1741cde891990af338f29e7f/resource-analyses/external_test_resources/grmp_conf.yaml"/>
-			<property name="create-issue" value="false"/>
-		</properties>
-	</testsuite>
-	<testsuite name="cors-compliance-external-prevent-masked-errors" timestamp="2026-03-27T16:56:46.064866+00:00" tests="1" errors="0" failures="0" skipped="1" time="0.0">
-		<testcase name="cors_compliance [http://edan.si.edu/saam/sparql]" classname="cors-compliance-external-prevent-masked-errors" time="0.0">
-			<skipped message="probe-origin ('http://edan.si.edu') must not be the same origin as the URL. Set probe-origin to an external origin to avoid masking server misconfigurations."/>
-		</testcase>
-		<properties>
-			<property name="timeout" value="30"/>
-			<property name="https-redirect" value="false"/>
-			<property name="probe-origin" value="http://edan.si.edu"/>
-			<property name="provenance" value="https://github.com/vliz-be-opsci/grmp-demo/blob/5a17e20d4af2090b1741cde891990af338f29e7f/resource-analyses/external_test_resources/grmp_conf.yaml"/>
-			<property name="create-issue" value="false"/>
-		</properties>
-	</testsuite>
-	<testsuite name="content-negotiation-internal" timestamp="2026-03-27T16:56:52.605908+00:00" tests="4" errors="0" failures="0" skipped="0" time="3.878572702407837">
-		<testcase name="content_negotiation [http://marineregions.org/feed] [text/turtle]" classname="content-negotiation-internal" time="2.186203718185425">
-			<system-out>GET http://marineregions.org/feed
-Accept: text/turtle
-Status: 200
-Content-Type: text/turtle; charset=UTF-8;
-Parsed response content-type: 'text/turtle'
-</system-out>
-		</testcase>
-		<testcase name="body_conformity [http://marineregions.org/feed] [text/turtle]" classname="content-negotiation-internal" time="0.0060596466064453125">
-			<system-out>Checking body conformity for content-type 'text/turtle'
-Body conforms.
-</system-out>
-		</testcase>
-		<testcase name="content_negotiation [http://marineregions.org/feed] [application/ld+json, application/trig;q=0.98, text/turtle;q=0.95, application/n-quads;q=0.9, application/n-triples;q=0.9, application/rdf+xml;q=0.5, text/html;q=0.3, */*;q=0.1]" classname="content-negotiation-internal" time="1.675863265991211">
-			<system-out>GET http://marineregions.org/feed
-Accept: application/ld+json, application/trig;q=0.98, text/turtle;q=0.95, application/n-quads;q=0.9, application/n-triples;q=0.9, application/rdf+xml;q=0.5, text/html;q=0.3, */*;q=0.1
-Status: 200
-Content-Type: application/ld+json; charset=UTF-8;
-Parsed response content-type: 'application/ld+json'
-</system-out>
-		</testcase>
-		<testcase name="body_conformity [http://marineregions.org/feed] [application/ld+json, application/trig;q=0.98, text/turtle;q=0.95, application/n-quads;q=0.9, application/n-triples;q=0.9, application/rdf+xml;q=0.5, text/html;q=0.3, */*;q=0.1]" classname="content-negotiation-internal" time="0.01044607162475586">
-			<system-out>Checking body conformity for content-type 'application/ld+json'
-Body conforms.
-</system-out>
-		</testcase>
-		<properties>
-			<property name="urls" value="http://marineregions.org/feed"/>
-			<property name="hostnames" value="marineregions.org"/>
-			<property name="timeout" value="30"/>
-			<property name="accept-header" value="text/turtle"/>
-			<property name="accept-header" value="application/ld+json, application/trig;q=0.98, text/turtle;q=0.95, application/n-quads;q=0.9, application/n-triples;q=0.9, application/rdf+xml;q=0.5, text/html;q=0.3, */*;q=0.1"/>
-			<property name="check-response-body-conformity" value="true"/>
-			<property name="provenance" value="https://github.com/vliz-be-opsci/grmp-demo/blob/5a17e20d4af2090b1741cde891990af338f29e7f/resource-analyses/internal_test_resources/content-negotiations.yaml"/>
+			<property name="urls" value="https://marineregions.org/feed.ttl"/>
+			<property name="provenance" value="https://github.com/vliz-be-opsci/grmp-demo/blob/fdb5f66ea667756b7f30ed08dd630d04a3b5f290/ldes-validation/tests.yaml"/>
+			<property name="min_members" value="20"/>
+			<property name="min_fragments" value="6"/>
+			<property name="max_age_youngest_member" value="24"/>
 			<property name="create-issue" value="false"/>
 		</properties>
 	</testsuite>
