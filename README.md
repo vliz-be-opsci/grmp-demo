@@ -119,19 +119,44 @@ To ingest these metrics into Prometheus, use the Node Exporter textfile collecto
 
 ## Dashboard
 
-The dashboard (`dashboard/index.html`) is a self-contained static page that is pushed to the report branch on every workflow run. It reads `report.xml` and `runs.json` directly from the report branch via `raw.githubusercontent.com` and requires no server-side infrastructure.
+The dashboard (`dashboard/index.html`) is a self-contained static page that requires no server-side infrastructure. It operates in one of two modes depending on whether a `config.json` file is present alongside it.
 
-Features:
-- View the current report or any of the last 50 historical runs via a dropdown
+### Remote mode
+
+When the dashboard is served from the report branch (via GitHub Pages or directly from `raw.githubusercontent.com`), it finds a `config.json` in the same directory containing:
+
+```json
+{
+  "reportUrl": "https://raw.githubusercontent.com/{org}/{repo}/{report_branch}/report.xml",
+  "runsUrl":   "https://raw.githubusercontent.com/{org}/{repo}/{report_branch}/runs.json",
+  "label":     "My Dashboard"
+}
+```
+
+On load, the dashboard fetches `config.json`, then fetches `runs.json` to populate the run selector dropdown with the history of the last 50 runs. Selecting a run fetches the corresponding `report.xml` at the specific commit SHA for that run. If `runs.json` is unavailable it falls back to fetching the latest `report.xml` directly from `reportUrl`.
+
+This mode is indicated by a **Remote** badge in the dashboard header.
+
+### Browse mode
+
+When the dashboard is opened locally (e.g. by double-clicking `index.html`) or served without a `config.json`, it falls back to browse mode. A file picker is shown allowing the user to select a local `combined_report.xml` file directly from disk. This is useful for quickly inspecting a report without any GitHub infrastructure.
+
+This mode is indicated by a **Browse** badge in the dashboard header.
+
+### Features
+
+- **Remote mode:** view the current report or any of the last 50 historical runs via a dropdown
+- **Remote mode:** deep-link to a specific run via the `#run=<commit_sha>` URL fragment — used by issue comments to link directly to the relevant run
 - Run selector shows the run number, attempt (if a rerun), source branch, short SHA, pass rate, and date
-- Deep-link to a specific run via the `#run=<commit_sha>` URL fragment — used by issue comments to link directly to the relevant run
 - Filter test suites by status (passed, failed, errored, skipped)
 - Filter test cases by status
 - Search test suites by name
 - Filter by suite property and value
-- Clickable provenance links when running via GitHub Actions
+- Provenance values that are GitHub blob URLs are rendered as clickable links showing only the file path (e.g. `ldes-validation/tests.yaml`)
 
-If GitHub Pages is enabled for the repository, the dashboard is served at `https://{owner}.github.io/{repo}` (or a custom domain if configured).
+### Serving the dashboard
+
+If GitHub Pages is enabled for the repository, the dashboard is served automatically at `https://{owner}.github.io/{repo}` (or a custom domain if configured) from the report branch. The workflow keeps `index.html` up to date on the report branch on every run, so no manual deployment is needed.
 
 ---
 
