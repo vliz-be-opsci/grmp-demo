@@ -1,0 +1,5 @@
+{
+  "reportUrl": "https://raw.githubusercontent.com/vliz-be-opsci/grmp-demo/grmp-demo-reports/report.xml",
+  "runsUrl": "https://raw.githubusercontent.com/vliz-be-opsci/grmp-demo/grmp-demo-reports/runs.json",
+  "label": "VLIZ GRMP"
+}
