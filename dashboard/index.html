@@ -1031,9 +1031,16 @@
             if (Object.keys(properties).length === 0) return '';
             return `<div class="properties"><div class="properties-title">Properties</div><div class="properties-grid">
                 ${Object.entries(properties).map(([k, v]) => {
-                    const displayValue = (k === 'provenance' && v.startsWith('https://'))
-                        ? `<a href="${escapeHtml(v)}" target="_blank" rel="noopener noreferrer">${escapeHtml(v)}</a>`
-                        : escapeHtml(v);
+                    let displayValue;
+                    if (k === 'provenance' && v.startsWith('https://')) {
+                        // For GitHub blob URLs, show only the path after the commit SHA
+                        // e.g. https://github.com/.../blob/<sha>/dir/file.yaml -> dir/file.yaml
+                        const blobMatch = v.match(/^https:\/\/github\.com\/[^/]+\/[^/]+\/blob\/[0-9a-f]+\/(.+)$/);
+                        const label = blobMatch ? blobMatch[1] : v;
+                        displayValue = `<a href="${escapeHtml(v)}" target="_blank" rel="noopener noreferrer">${escapeHtml(label)}</a>`;
+                    } else {
+                        displayValue = escapeHtml(v);
+                    }
                     return `<div class="property"><span class="property-key">${escapeHtml(k)}:</span><span class="property-value">${displayValue}</span></div>`;
                 }).join('')}
             </div></div>`;
