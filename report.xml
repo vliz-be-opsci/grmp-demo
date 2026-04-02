@@ -1,221 +1,254 @@
 <?xml version="1.0" encoding="utf-8"?>
 <testsuites>
-	<testsuite name="resource-availability-external" timestamp="2026-04-02T16:37:15.235303+00:00" tests="6" errors="0" failures="2" skipped="0" time="1.3075127601623535">
-		<testcase name="dns_resolution [https://brugge-ldes.geomobility.eu/observations]" classname="resource-availability-external" time="0.09918212890625">
-			<system-out>Resolving hostname: brugge-ldes.geomobility.eu
-resolved_ip: 40.85.76.196
-</system-out>
-		</testcase>
+	<testsuite name="input-echo-1" timestamp="2026-04-02T20:04:56.054607+00:00" tests="3" errors="0" failures="1" skipped="0" time="5.364418029785156e-05">
 		<properties>
-			<property name="verify_ssl" value="True"/>
-			<property name="urls" value="https://brugge-ldes.geomobility.eu/observations, https://ldes.telraam-api.net/locations"/>
-			<property name="hostnames" value="brugge-ldes.geomobility.eu, ldes.telraam-api.net"/>
-			<property name="timeout" value="10"/>
+			<property name="url" value="https://brugge-ldes.geomobility.eu/observations"/>
 			<property name="max-redirects" value="3"/>
-			<property name="check-http-availability" value="true"/>
-			<property name="check-https-availability" value="true"/>
-			<property name="verify-ssl" value="true"/>
-			<property name="provenance" value="https://github.com/vliz-be-opsci/grmp-demo/blob/69f25ee366e1096e814d56b3bf5aaa0df8397f0b/resource-analyses/external_test_resources/grmp_conf.yaml"/>
-			<property name="create-issue" value="true"/>
-		</properties>
-		<testcase name="http_availability [https://brugge-ldes.geomobility.eu/observations]" classname="resource-availability-external" time="0.17531991004943848">
-			<failure message="HTTP availability check failed">HTTPConnectionPool(host='brugge-ldes.geomobility.eu', port=80): Max retries exceeded with url: /observations (Caused by NewConnectionError(&quot;HTTPConnection(host='brugge-ldes.geomobility.eu', port=80): Failed to establish a new connection: [Errno 111] Connection refused&quot;))</failure>
-			<system-out>response_time_s: 0.175
-Checking HTTP availability for: http://brugge-ldes.geomobility.eu/observations
-Timeout: 10s, Max redirects: 3, Verify SSL: True
-Availability check failed: HTTPConnectionPool(host='brugge-ldes.geomobility.eu', port=80): Max retries exceeded with url: /observations (Caused by NewConnectionError(&quot;HTTPConnection(host='brugge-ldes.geomobility.eu', port=80): Failed to establish a new connection: [Errno 111] Connection refused&quot;))
-</system-out>
-		</testcase>
-		<testcase name="https_availability [https://brugge-ldes.geomobility.eu/observations]" classname="resource-availability-external" time="0.2628169059753418">
-			<failure message="HTTPS availability check failed">HTTPSConnectionPool(host='brugge-ldes.geomobility.eu', port=443): Max retries exceeded with url: /observations (Caused by NewConnectionError(&quot;HTTPSConnection(host='brugge-ldes.geomobility.eu', port=443): Failed to establish a new connection: [Errno 111] Connection refused&quot;))</failure>
-			<system-out>response_time_s: 0.263
-Checking HTTPS availability for: https://brugge-ldes.geomobility.eu/observations
-Timeout: 10s, Max redirects: 3, Verify SSL: True
-Availability check failed: HTTPSConnectionPool(host='brugge-ldes.geomobility.eu', port=443): Max retries exceeded with url: /observations (Caused by NewConnectionError(&quot;HTTPSConnection(host='brugge-ldes.geomobility.eu', port=443): Failed to establish a new connection: [Errno 111] Connection refused&quot;))
-</system-out>
-		</testcase>
-		<testcase name="dns_resolution [https://ldes.telraam-api.net/locations]" classname="resource-availability-external" time="0.10050344467163086">
-			<system-out>Resolving hostname: ldes.telraam-api.net
-resolved_ip: 188.245.154.88
-</system-out>
-		</testcase>
-		<testcase name="http_availability [https://ldes.telraam-api.net/locations]" classname="resource-availability-external" time="0.22436881065368652">
-			<system-out>response_time_s: 0.224
-status_code: 301
-redirects_to: https://ldes.telraam-api.net/locations
-OK: HTTP endpoint reachable (redirects to HTTPS)
-</system-out>
-		</testcase>
-		<testcase name="https_availability [https://ldes.telraam-api.net/locations]" classname="resource-availability-external" time="0.44532155990600586">
-			<system-out>response_time_s: 0.445
-status_code: 200
-OK: HTTPS available, status 200 in 0.445s
-</system-out>
-		</testcase>
-	</testsuite>
-	<testsuite name="certificates-external" timestamp="2026-04-02T16:37:16.998197+00:00" tests="2" errors="1" failures="0" skipped="0" time="0.4790375232696533">
-		<testcase name="certificate_expiry [https://brugge-ldes.geomobility.eu/observations]" classname="certificates-external" time="0.1866457462310791">
-			<error message="Unexpected error">Could not retrieve certificate: Connection error: [Errno 111] Connection refused</error>
-			<system-out>Checking certificate expiry for: brugge-ldes.geomobility.eu:443
-</system-out>
-			<system-err>Failed to retrieve certificate: Connection error: [Errno 111] Connection refused
-</system-err>
-		</testcase>
-		<testcase name="certificate_expiry [https://ldes.telraam-api.net/locations]" classname="certificates-external" time="0.2923917770385742">
-			<system-out>Checking certificate expiry for: ldes.telraam-api.net:443
-expiry: 2026-06-18T01:04:33+00:00
-status: ok
-Certificate valid for 76 more day(s) (expiry: 2026-06-18T01:04:33+00:00)
-</system-out>
-		</testcase>
-		<properties>
-			<property name="urls" value="https://brugge-ldes.geomobility.eu/observations, https://ldes.telraam-api.net/locations"/>
-			<property name="hostnames" value="brugge-ldes.geomobility.eu, ldes.telraam-api.net"/>
 			<property name="timeout" value="10"/>
-			<property name="certificate-expiry-days" value="30"/>
-			<property name="provenance" value="https://github.com/vliz-be-opsci/grmp-demo/blob/69f25ee366e1096e814d56b3bf5aaa0df8397f0b/resource-analyses/external_test_resources/grmp_conf.yaml"/>
+			<property name="check-http-availability" value="False"/>
+			<property name="check-https-availability" value="True"/>
+			<property name="provenance" value="https://github.com/vliz-be-opsci/grmp-demo/blob/0642921e2717796a1bc6fd7002c5c313f52b12b6/input-echo-demo/tests.yaml"/>
 			<property name="create-issue" value="false"/>
 		</properties>
+		<testcase name="get_env_test" classname="input-echo-1" time="2.0742416381835938e-05">
+			<system-out>Found: TEST_URL = https://brugge-ldes.geomobility.eu/observations
+Found: TEST_MAX-REDIRECTS = 3
+Found: TEST_TIMEOUT = 10
+Found: TEST_CHECK-HTTP-AVAILABILITY = False
+Found: TEST_CHECK-HTTPS-AVAILABILITY = True
+test_parameter_count: 5
+</system-out>
+		</testcase>
+		<testcase name="check_emptiness_test" classname="input-echo-1" time="9.298324584960938e-06">
+			<system-out>empty_test_parameter_count: 0
+</system-out>
+		</testcase>
+		<testcase name="check_secrets_test" classname="input-echo-1" time="2.3603439331054688e-05">
+			<failure message="No secrets found">No non-empty SECRET_* environment variables are configured.</failure>
+			<system-out>secret_count: 0
+</system-out>
+		</testcase>
 	</testsuite>
-	<testsuite name="cors-compliance-external-basic" timestamp="2026-04-02T16:37:20.620351+00:00" tests="4" errors="0" failures="0" skipped="0" time="2.434180974960327">
-		<testcase name="access_control_allow_origin [http://edan.si.edu/saam/sparql] [lenient]" classname="cors-compliance-external-basic" time="0.28801417350769043">
-			<system-out>OPTIONS http://edan.si.edu/saam/sparql with Origin: https://vliz.be
-Followed 1 redirect(s) to https://edan.si.edu/saam/sparql
-access-control-allow-origin: '*'
+	<testsuite name="input-echo-2" timestamp="2026-04-02T20:04:57.505391+00:00" tests="3" errors="0" failures="1" skipped="0" time="5.555152893066406e-05">
+		<properties>
+			<property name="url" value="https://brugge-ldes.geomobility.eu/observations"/>
+			<property name="supports-content-types" value="['text/turtle', 'application/trig']"/>
+			<property name="check-response-body-conformity" value="True"/>
+			<property name="provenance" value="https://github.com/vliz-be-opsci/grmp-demo/blob/0642921e2717796a1bc6fd7002c5c313f52b12b6/input-echo-demo/tests.yaml"/>
+			<property name="create-issue" value="false"/>
+		</properties>
+		<testcase name="get_env_test" classname="input-echo-2" time="2.4318695068359375e-05">
+			<system-out>Found: TEST_URL = https://brugge-ldes.geomobility.eu/observations
+Found: TEST_SUPPORTS-CONTENT-TYPES = ['text/turtle', 'application/trig']
+Found: TEST_CHECK-RESPONSE-BODY-CONFORMITY = True
+test_parameter_count: 3
 </system-out>
 		</testcase>
-		<testcase name="access_control_allow_origin [http://vocab.nerc.ac.uk/sparql/sparql] [lenient]" classname="cors-compliance-external-basic" time="0.5159814357757568">
-			<system-out>OPTIONS http://vocab.nerc.ac.uk/sparql/sparql with Origin: https://vliz.be
-access-control-allow-origin: '*'
+		<testcase name="check_emptiness_test" classname="input-echo-2" time="9.059906005859375e-06">
+			<system-out>empty_test_parameter_count: 0
 </system-out>
 		</testcase>
-		<testcase name="access_control_allow_origin [https://linked.bodc.ac.uk/sdn/edios/sparql/sparql] [lenient]" classname="cors-compliance-external-basic" time="0.6503415107727051">
-			<system-out>OPTIONS https://linked.bodc.ac.uk/sdn/edios/sparql/sparql with Origin: https://vliz.be
-access-control-allow-origin: '*'
+		<testcase name="check_secrets_test" classname="input-echo-2" time="2.2172927856445312e-05">
+			<failure message="No secrets found">No non-empty SECRET_* environment variables are configured.</failure>
+			<system-out>secret_count: 0
 </system-out>
 		</testcase>
-		<testcase name="access_control_allow_origin [https://sparql.ifremer.fr/csr/query] [lenient]" classname="cors-compliance-external-basic" time="0.9798438549041748">
-			<system-out>OPTIONS https://sparql.ifremer.fr/csr/query with Origin: https://vliz.be
-access-control-allow-origin: 'https://vliz.be'
+	</testsuite>
+	<testsuite name="input-echo-3" timestamp="2026-04-02T20:04:57.846381+00:00" tests="3" errors="0" failures="2" skipped="0" time="5.5789947509765625e-05">
+		<properties>
+			<property name="url" value="None"/>
+			<property name="supports-content-types" value="['text/turtle', 'application/trig']"/>
+			<property name="check-response-body-conformity" value="True"/>
+			<property name="provenance" value="https://github.com/vliz-be-opsci/grmp-demo/blob/0642921e2717796a1bc6fd7002c5c313f52b12b6/input-echo-demo/tests.yaml"/>
+			<property name="create-issue" value="false"/>
+		</properties>
+		<testcase name="get_env_test" classname="input-echo-3" time="2.2172927856445312e-05">
+			<system-out>Found: TEST_URL = None
+Found: TEST_SUPPORTS-CONTENT-TYPES = ['text/turtle', 'application/trig']
+Found: TEST_CHECK-RESPONSE-BODY-CONFORMITY = True
+test_parameter_count: 3
+</system-out>
+		</testcase>
+		<testcase name="check_emptiness_test" classname="input-echo-3" time="1.1205673217773438e-05">
+			<failure message="Empty test parameters found">url</failure>
+			<system-out>Found empty value: TEST_URL = 'None'
+empty_test_parameter_count: 1
+</system-out>
+		</testcase>
+		<testcase name="check_secrets_test" classname="input-echo-3" time="2.2411346435546875e-05">
+			<failure message="No secrets found">No non-empty SECRET_* environment variables are configured.</failure>
+			<system-out>secret_count: 0
+</system-out>
+		</testcase>
+	</testsuite>
+	<testsuite name="input-echo-4" timestamp="2026-04-02T20:04:58.178867+00:00" tests="3" errors="0" failures="2" skipped="1" time="4.38690185546875e-05">
+		<testcase name="get_env_test" classname="input-echo-4" time="2.1457672119140625e-05">
+			<failure message="No test parameters found">No TEST_* environment variables are configured.</failure>
+			<system-out>test_parameter_count: 0
+</system-out>
+		</testcase>
+		<testcase name="check_emptiness_test" classname="input-echo-4" time="0.0">
+			<skipped message="Skipped because get_env_test did not pass."/>
+		</testcase>
+		<testcase name="check_secrets_test" classname="input-echo-4" time="2.2411346435546875e-05">
+			<failure message="No secrets found">No non-empty SECRET_* environment variables are configured.</failure>
+			<system-out>secret_count: 0
 </system-out>
 		</testcase>
 		<properties>
-			<property name="urls" value="http://edan.si.edu/saam/sparql, http://vocab.nerc.ac.uk/sparql/sparql, https://linked.bodc.ac.uk/sdn/edios/sparql/sparql, https://sparql.ifremer.fr/csr/query"/>
-			<property name="hostnames" value="edan.si.edu, vocab.nerc.ac.uk, linked.bodc.ac.uk, sparql.ifremer.fr"/>
-			<property name="timeout" value="30"/>
-			<property name="https-redirect" value="false"/>
-			<property name="probe-origin" value="https://vliz.be"/>
-			<property name="provenance" value="https://github.com/vliz-be-opsci/grmp-demo/blob/69f25ee366e1096e814d56b3bf5aaa0df8397f0b/resource-analyses/external_test_resources/grmp_conf.yaml"/>
+			<property name="provenance" value="https://github.com/vliz-be-opsci/grmp-demo/blob/0642921e2717796a1bc6fd7002c5c313f52b12b6/input-echo-demo/tests.yaml"/>
 			<property name="create-issue" value="false"/>
 		</properties>
 	</testsuite>
-	<testsuite name="cors-compliance-external-advanced" timestamp="2026-04-02T16:37:28.248782+00:00" tests="8" errors="0" failures="4" skipped="0" time="7.0932862758636475">
-		<testcase name="access_control_allow_origin [https://sparql.ifremer.fr/csr/query] [*]" classname="cors-compliance-external-advanced" time="0.7058360576629639">
-			<failure message="access-control-allow-origin does not allow all origins">Expected '*' but got 'https://vliz.be'</failure>
-			<system-out>OPTIONS https://sparql.ifremer.fr/csr/query with Origin: https://vliz.be
-access-control-allow-origin: 'https://vliz.be'
-</system-out>
-		</testcase>
-		<testcase name="access_control_allow_methods [https://sparql.ifremer.fr/csr/query]" classname="cors-compliance-external-advanced" time="0.7965366840362549">
-			<system-out>OPTIONS https://sparql.ifremer.fr/csr/query (checking allow-methods)
-access-control-allow-methods: 'GET,POST,DELETE,PUT,HEAD,OPTIONS,PATCH'
-</system-out>
-		</testcase>
-		<testcase name="access_control_expose_headers [https://sparql.ifremer.fr/csr/query]" classname="cors-compliance-external-advanced" time="0.8059792518615723">
-			<system-out>GET https://sparql.ifremer.fr/csr/query (checking expose-headers)
-access-control-expose-headers: 'Access-Control-Allow-Origin,Access-Control-Allow-Credentials'
-</system-out>
-		</testcase>
-		<testcase name="https_redirect [https://sparql.ifremer.fr/csr/query]" classname="cors-compliance-external-advanced" time="1.3722562789916992">
-			<failure message="CORS header missing in redirect chain">'access-control-allow-origin' absent from response at http://sparql.ifremer.fr/csr/query</failure>
-			<system-out>GET http://sparql.ifremer.fr/csr/query (checking https redirect)
-HTTP→HTTPS redirect: http://sparql.ifremer.fr/csr/query → https://sparql.ifremer.fr/csr/query (301)
-access-control-allow-origin at http://sparql.ifremer.fr/csr/query: ''
-</system-out>
-		</testcase>
-		<testcase name="access_control_allow_origin [https://sparql.ifremer.fr/sextant_seadatanet/query] [*]" classname="cors-compliance-external-advanced" time="0.6274411678314209">
-			<failure message="access-control-allow-origin does not allow all origins">Expected '*' but got 'https://vliz.be'</failure>
-			<system-out>OPTIONS https://sparql.ifremer.fr/sextant_seadatanet/query with Origin: https://vliz.be
-access-control-allow-origin: 'https://vliz.be'
-</system-out>
-		</testcase>
-		<testcase name="access_control_allow_methods [https://sparql.ifremer.fr/sextant_seadatanet/query]" classname="cors-compliance-external-advanced" time="0.8050622940063477">
-			<system-out>OPTIONS https://sparql.ifremer.fr/sextant_seadatanet/query (checking allow-methods)
-access-control-allow-methods: 'GET,POST,DELETE,PUT,HEAD,OPTIONS,PATCH'
-</system-out>
-		</testcase>
-		<testcase name="access_control_expose_headers [https://sparql.ifremer.fr/sextant_seadatanet/query]" classname="cors-compliance-external-advanced" time="0.7145259380340576">
-			<system-out>GET https://sparql.ifremer.fr/sextant_seadatanet/query (checking expose-headers)
-access-control-expose-headers: 'Access-Control-Allow-Origin,Access-Control-Allow-Credentials'
-</system-out>
-		</testcase>
-		<testcase name="https_redirect [https://sparql.ifremer.fr/sextant_seadatanet/query]" classname="cors-compliance-external-advanced" time="1.265648603439331">
-			<failure message="CORS header missing in redirect chain">'access-control-allow-origin' absent from response at http://sparql.ifremer.fr/sextant_seadatanet/query</failure>
-			<system-out>GET http://sparql.ifremer.fr/sextant_seadatanet/query (checking https redirect)
-HTTP→HTTPS redirect: http://sparql.ifremer.fr/sextant_seadatanet/query → https://sparql.ifremer.fr/sextant_seadatanet/query (301)
-access-control-allow-origin at http://sparql.ifremer.fr/sextant_seadatanet/query: ''
-</system-out>
-		</testcase>
+	<testsuite name="input-echo-standard" timestamp="2026-04-02T20:04:59.410036+00:00" tests="3" errors="0" failures="0" skipped="0" time="5.507469177246094e-05">
 		<properties>
-			<property name="urls" value="https://sparql.ifremer.fr/csr/query, https://sparql.ifremer.fr/sextant_seadatanet/query"/>
-			<property name="hostnames" value="sparql.ifremer.fr"/>
+			<property name="url" value="https://brugge-ldes.geomobility.eu/observations"/>
+			<property name="max-redirects" value="3"/>
 			<property name="timeout" value="10"/>
-			<property name="access-control-allow-origin" value="*"/>
-			<property name="access-control-allow-methods" value="GET, HEAD, OPTIONS"/>
-			<property name="access-control-expose-headers" value="access-control-allow-credentials, access-control-allow-origin"/>
-			<property name="https-redirect" value="true"/>
-			<property name="probe-origin" value="https://vliz.be"/>
-			<property name="provenance" value="https://github.com/vliz-be-opsci/grmp-demo/blob/69f25ee366e1096e814d56b3bf5aaa0df8397f0b/resource-analyses/external_test_resources/grmp_conf.yaml"/>
+			<property name="check-http-availability" value="False"/>
+			<property name="check-https-availability" value="True"/>
+			<property name="provenance" value="https://github.com/vliz-be-opsci/grmp-demo/blob/0642921e2717796a1bc6fd7002c5c313f52b12b6/input-echo-demo/tests_alice/grmp_config.yaml"/>
 			<property name="create-issue" value="false"/>
 		</properties>
-	</testsuite>
-	<testsuite name="cors-compliance-external-prevent-masked-errors" timestamp="2026-04-02T16:37:28.786798+00:00" tests="1" errors="0" failures="0" skipped="1" time="0.0">
-		<testcase name="cors_compliance [http://edan.si.edu/saam/sparql]" classname="cors-compliance-external-prevent-masked-errors" time="0.0">
-			<skipped message="probe-origin ('http://edan.si.edu') must not be the same origin as the URL. Set probe-origin to an external origin to avoid masking server misconfigurations."/>
+		<testcase name="get_env_test" classname="input-echo-standard" time="1.9550323486328125e-05">
+			<system-out>Found: TEST_URL = https://brugge-ldes.geomobility.eu/observations
+Found: TEST_MAX-REDIRECTS = 3
+Found: TEST_TIMEOUT = 10
+Found: TEST_CHECK-HTTP-AVAILABILITY = False
+Found: TEST_CHECK-HTTPS-AVAILABILITY = True
+test_parameter_count: 5
+</system-out>
 		</testcase>
+		<testcase name="check_emptiness_test" classname="input-echo-standard" time="9.059906005859375e-06">
+			<system-out>empty_test_parameter_count: 0
+</system-out>
+		</testcase>
+		<testcase name="check_secrets_test" classname="input-echo-standard" time="2.6464462280273438e-05">
+			<system-out>Found secret: SECRET_MY_API_KEY
+secret_count: 1
+</system-out>
+		</testcase>
+	</testsuite>
+	<testsuite name="input-echo-alice" timestamp="2026-04-02T20:05:00.546013+00:00" tests="3" errors="0" failures="1" skipped="0" time="5.9604644775390625e-05">
 		<properties>
-			<property name="timeout" value="30"/>
-			<property name="https-redirect" value="false"/>
-			<property name="probe-origin" value="http://edan.si.edu"/>
-			<property name="provenance" value="https://github.com/vliz-be-opsci/grmp-demo/blob/69f25ee366e1096e814d56b3bf5aaa0df8397f0b/resource-analyses/external_test_resources/grmp_conf.yaml"/>
+			<property name="supports-content-types" value="['application/trig']"/>
+			<property name="check-response-body-conformity" value="True"/>
+			<property name="provenance" value="https://github.com/vliz-be-opsci/grmp-demo/blob/0642921e2717796a1bc6fd7002c5c313f52b12b6/input-echo-demo/tests_alice/grmp_config.yaml"/>
 			<property name="create-issue" value="false"/>
 		</properties>
+		<testcase name="get_env_test" classname="input-echo-alice" time="2.8133392333984375e-05">
+			<system-out>Found: TEST_SUPPORTS-CONTENT-TYPES = ['application/trig']
+Found: TEST_CHECK-RESPONSE-BODY-CONFORMITY = True
+test_parameter_count: 2
+</system-out>
+		</testcase>
+		<testcase name="check_emptiness_test" classname="input-echo-alice" time="9.059906005859375e-06">
+			<system-out>empty_test_parameter_count: 0
+</system-out>
+		</testcase>
+		<testcase name="check_secrets_test" classname="input-echo-alice" time="2.2411346435546875e-05">
+			<failure message="No secrets found">No non-empty SECRET_* environment variables are configured.</failure>
+			<system-out>secret_count: 0
+</system-out>
+		</testcase>
 	</testsuite>
-	<testsuite name="content-negotiation-internal" timestamp="2026-04-02T16:37:32.356152+00:00" tests="4" errors="0" failures="0" skipped="0" time="2.273259162902832">
-		<testcase name="content_negotiation [http://marineregions.org/feed] [text/turtle]" classname="content-negotiation-internal" time="1.1091313362121582">
-			<system-out>GET http://marineregions.org/feed
-Accept: text/turtle
-Status: 200
-Content-Type: text/turtle; charset=UTF-8;
-Parsed response content-type: 'text/turtle'
+	<testsuite name="input-echo-standard(2)" timestamp="2026-04-02T20:05:00.914741+00:00" tests="3" errors="0" failures="1" skipped="0" time="5.888938903808594e-05">
+		<properties>
+			<property name="url" value="https://brugge-ldes.geomobility.eu/observations"/>
+			<property name="max-redirects" value="3"/>
+			<property name="timeout" value="10"/>
+			<property name="check-http-availability" value="False"/>
+			<property name="check-https-availability" value="True"/>
+			<property name="provenance" value="https://github.com/vliz-be-opsci/grmp-demo/blob/0642921e2717796a1bc6fd7002c5c313f52b12b6/input-echo-demo/tests_bob/grmp_conf.yaml"/>
+			<property name="create-issue" value="false"/>
+		</properties>
+		<testcase name="get_env_test" classname="input-echo-standard(2)" time="2.5272369384765625e-05">
+			<system-out>Found: TEST_URL = https://brugge-ldes.geomobility.eu/observations
+Found: TEST_MAX-REDIRECTS = 3
+Found: TEST_TIMEOUT = 10
+Found: TEST_CHECK-HTTP-AVAILABILITY = False
+Found: TEST_CHECK-HTTPS-AVAILABILITY = True
+test_parameter_count: 5
 </system-out>
 		</testcase>
-		<testcase name="body_conformity [http://marineregions.org/feed] [text/turtle]" classname="content-negotiation-internal" time="0.006035566329956055">
-			<system-out>Checking body conformity for content-type 'text/turtle'
-Body conforms.
+		<testcase name="check_emptiness_test" classname="input-echo-standard(2)" time="9.298324584960938e-06">
+			<system-out>empty_test_parameter_count: 0
 </system-out>
 		</testcase>
-		<testcase name="content_negotiation [http://marineregions.org/feed] [application/ld+json, application/trig;q=0.98, text/turtle;q=0.95, application/n-quads;q=0.9, application/n-triples;q=0.9, application/rdf+xml;q=0.5, text/html;q=0.3, */*;q=0.1]" classname="content-negotiation-internal" time="1.1463963985443115">
-			<system-out>GET http://marineregions.org/feed
-Accept: application/ld+json, application/trig;q=0.98, text/turtle;q=0.95, application/n-quads;q=0.9, application/n-triples;q=0.9, application/rdf+xml;q=0.5, text/html;q=0.3, */*;q=0.1
-Status: 200
-Content-Type: application/ld+json; charset=UTF-8;
-Parsed response content-type: 'application/ld+json'
+		<testcase name="check_secrets_test" classname="input-echo-standard(2)" time="2.4318695068359375e-05">
+			<failure message="No secrets found">No non-empty SECRET_* environment variables are configured.</failure>
+			<system-out>secret_count: 0
 </system-out>
 		</testcase>
-		<testcase name="body_conformity [http://marineregions.org/feed] [application/ld+json, application/trig;q=0.98, text/turtle;q=0.95, application/n-quads;q=0.9, application/n-triples;q=0.9, application/rdf+xml;q=0.5, text/html;q=0.3, */*;q=0.1]" classname="content-negotiation-internal" time="0.01169586181640625">
-			<system-out>Checking body conformity for content-type 'application/ld+json'
-Body conforms.
+	</testsuite>
+	<testsuite name="input-echo-standard-2" timestamp="2026-04-02T20:05:01.341903+00:00" tests="3" errors="0" failures="1" skipped="0" time="5.8650970458984375e-05">
+		<properties>
+			<property name="url" value="https://brugge-ldes.geomobility.eu/observations"/>
+			<property name="supports-content-types" value="['text/turtle', 'application/trig']"/>
+			<property name="check-response-body-conformity" value="True"/>
+			<property name="provenance" value="https://github.com/vliz-be-opsci/grmp-demo/blob/0642921e2717796a1bc6fd7002c5c313f52b12b6/input-echo-demo/tests_bob/grmp_conf.yaml"/>
+			<property name="create-issue" value="false"/>
+		</properties>
+		<testcase name="get_env_test" classname="input-echo-standard-2" time="2.5987625122070312e-05">
+			<system-out>Found: TEST_URL = https://brugge-ldes.geomobility.eu/observations
+Found: TEST_SUPPORTS-CONTENT-TYPES = ['text/turtle', 'application/trig']
+Found: TEST_CHECK-RESPONSE-BODY-CONFORMITY = True
+test_parameter_count: 3
+</system-out>
+		</testcase>
+		<testcase name="check_emptiness_test" classname="input-echo-standard-2" time="9.298324584960938e-06">
+			<system-out>empty_test_parameter_count: 0
+</system-out>
+		</testcase>
+		<testcase name="check_secrets_test" classname="input-echo-standard-2" time="2.3365020751953125e-05">
+			<failure message="No secrets found">No non-empty SECRET_* environment variables are configured.</failure>
+			<system-out>secret_count: 0
+</system-out>
+		</testcase>
+	</testsuite>
+	<testsuite name="input-echo-fail" timestamp="2026-04-02T20:05:03.722124+00:00" tests="3" errors="0" failures="2" skipped="0" time="6.151199340820312e-05">
+		<properties>
+			<property name="url" value="None"/>
+			<property name="supports-content-types" value="['text/turtle', 'application/trig']"/>
+			<property name="check-response-body-conformity" value="True"/>
+			<property name="provenance" value="https://github.com/vliz-be-opsci/grmp-demo/blob/0642921e2717796a1bc6fd7002c5c313f52b12b6/input-echo-demo/tests_bob/grmp_conf.yaml"/>
+			<property name="create-issue" value="false"/>
+		</properties>
+		<testcase name="get_env_test" classname="input-echo-fail" time="2.7418136596679688e-05">
+			<system-out>Found: TEST_URL = None
+Found: TEST_SUPPORTS-CONTENT-TYPES = ['text/turtle', 'application/trig']
+Found: TEST_CHECK-RESPONSE-BODY-CONFORMITY = True
+test_parameter_count: 3
+</system-out>
+		</testcase>
+		<testcase name="check_emptiness_test" classname="input-echo-fail" time="1.1205673217773438e-05">
+			<failure message="Empty test parameters found">url</failure>
+			<system-out>Found empty value: TEST_URL = 'None'
+empty_test_parameter_count: 1
+</system-out>
+		</testcase>
+		<testcase name="check_secrets_test" classname="input-echo-fail" time="2.288818359375e-05">
+			<failure message="No secrets found">No non-empty SECRET_* environment variables are configured.</failure>
+			<system-out>secret_count: 0
+</system-out>
+		</testcase>
+	</testsuite>
+	<testsuite name="input-echo-skip" timestamp="2026-04-02T20:05:04.077763+00:00" tests="3" errors="0" failures="2" skipped="1" time="4.649162292480469e-05">
+		<testcase name="get_env_test" classname="input-echo-skip" time="2.3603439331054688e-05">
+			<failure message="No test parameters found">No TEST_* environment variables are configured.</failure>
+			<system-out>test_parameter_count: 0
+</system-out>
+		</testcase>
+		<testcase name="check_emptiness_test" classname="input-echo-skip" time="0.0">
+			<skipped message="Skipped because get_env_test did not pass."/>
+		</testcase>
+		<testcase name="check_secrets_test" classname="input-echo-skip" time="2.288818359375e-05">
+			<failure message="No secrets found">No non-empty SECRET_* environment variables are configured.</failure>
+			<system-out>secret_count: 0
 </system-out>
 		</testcase>
 		<properties>
-			<property name="urls" value="http://marineregions.org/feed"/>
-			<property name="hostnames" value="marineregions.org"/>
-			<property name="timeout" value="30"/>
-			<property name="accept-header" value="text/turtle"/>
-			<property name="accept-header" value="application/ld+json, application/trig;q=0.98, text/turtle;q=0.95, application/n-quads;q=0.9, application/n-triples;q=0.9, application/rdf+xml;q=0.5, text/html;q=0.3, */*;q=0.1"/>
-			<property name="check-response-body-conformity" value="true"/>
-			<property name="provenance" value="https://github.com/vliz-be-opsci/grmp-demo/blob/69f25ee366e1096e814d56b3bf5aaa0df8397f0b/resource-analyses/internal_test_resources/content-negotiations.yaml"/>
+			<property name="provenance" value="https://github.com/vliz-be-opsci/grmp-demo/blob/0642921e2717796a1bc6fd7002c5c313f52b12b6/input-echo-demo/tests_bob/grmp_conf.yaml"/>
 			<property name="create-issue" value="false"/>
 		</properties>
 	</testsuite>
